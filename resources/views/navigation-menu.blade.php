@@ -13,8 +13,13 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('Inicio') }}
                     </x-nav-link>
+                    <!-- Probando otros elementos menú -->
+                    <x-nav-link href="{{ route('admin.breeds.index') }}" :active="request()->routeIs('dashboard')">
+                        {{ __('Razas') }}
+                    </x-nav-link>
+                    <!-- Al agregar otros elementos a este menú también es necesario agregarlos al menu responsive más abajo. -->
                 </div>
             </div>
 
@@ -141,6 +146,9 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                {{ __('Ver mis mascotas') }}
             </x-responsive-nav-link>
         </div>
 

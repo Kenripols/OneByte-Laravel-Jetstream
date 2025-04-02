@@ -1,0 +1,2 @@
+Crear un controlador en base a un model:
+php artisan make:controller Admin/BreedController --model=Breed
