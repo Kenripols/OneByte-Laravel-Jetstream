@@ -5,12 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Breed;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreBreedRequest;
 
 class BreedController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    
     public function index()
     {
         //Devuelve la vista del index de breeds
@@ -20,51 +19,50 @@ class BreedController extends Controller
     return view('admin.breeds.index', compact('breeds'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    
     public function create()
     {
-        //
+        return view('admin.breeds.create');
+    // Devuelve la vista del formulario de creación de razas
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+  
+    public function store(StoreBreedRequest $request)
     {
-        //
+    Breed::create($request->validated());
+
+    return redirect()->route('admin.breeds.index')
+        ->with('success', 'Raza creada correctamente');
     }
 
-    /**
-     * Display the specified resource.
-     */
+    
     public function show(Breed $breed)
     {
-        //
+        return view('admin.breeds.show', compact('breed'));
+        // Devuelve la vista de detalles de una raza específica
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    
     public function edit(Breed $breed)
     {
-        //
+        return view('admin.breeds.edit', compact('breed'));
+        // Devuelve la vista del formulario de edición de una raza específica
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Breed $breed)
     {
-        //
+        $breed->update($request->validated());
+        return redirect()->route('admin.breeds.index')
+        ->with('success', 'Raza actualizada correctamente');
+        // Actualiza la raza específica en la base de datos
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+   
     public function destroy(Breed $breed)
     {
-        //
+        $breed->delete();
+        return redirect()->route('admin.breeds.index')
+        ->with('success', 'Raza eliminada correctamente');
+        // Elimina la raza específica de la base de datos
     }
 }

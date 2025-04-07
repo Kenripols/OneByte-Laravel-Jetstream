@@ -10,6 +10,6 @@ class Breed extends Model
     use HasFactory;
 
     protected $fillable = [
-        'size', 'breedName'
+        'animalType', 'size', 'breedName'
     ];
 }

@@ -8,8 +8,11 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="block mb-8">
+                <a href="{{ route('admin.breeds.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Agregar raza</a>
+            </div>
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <h1>Lista de Razas</h1>
+                
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead>
                         <tr>
@@ -19,19 +22,21 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
+                        <!-- Para cada raza crear una fila donde las columnas sean los atributos ID y nombre de la raza -->
                         @foreach ($breeds as $breed)
                             <tr>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $breed->id }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $breed->breedName }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <!-- Aquí puedes agregar botones para editar o eliminar la raza -->
+                                    <!-- Agrego botones para editar o eliminar la raza -->
                                     <a href="{{ route('admin.breeds.edit', $breed) }}" class="text-blue-600 hover:text-blue-900">Editar</a>
-                                    |
+                                    <!--  
                                     <form action="{{ route('admin.breeds.destroy', $breed) }}" method="POST" style="display:inline;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="text-red-600 hover:text-red-900">Eliminar</button>
                                     </form>
+                                    -->
                                 </td>
                             </tr>
                         @endforeach
