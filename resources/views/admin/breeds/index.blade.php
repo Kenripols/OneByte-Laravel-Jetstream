@@ -16,19 +16,24 @@
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead>
                         <tr>
+                            <!-- Nombre de columnas -->
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipo de animal</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Raza</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tamaño</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        <!-- Para cada raza crear una fila donde las columnas sean los atributos ID y nombre de la raza -->
+                        <!-- Para cada raza crear una fila donde las columnas sean los atributos ID , Tipo de Animal y nombre de la raza -->
                         @foreach ($breeds as $breed)
                             <tr>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $breed->id }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $breed->animalType }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $breed->breedName }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $breed->size }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <!-- Agrego botones para editar o eliminar la raza -->
+                                    <!-- Agrego botones para editar la raza -->
                                     <a href="{{ route('admin.breeds.edit', $breed) }}" class="text-blue-600 hover:text-blue-900">Editar</a>
                                     <!--  
                                     <form action="{{ route('admin.breeds.destroy', $breed) }}" method="POST" style="display:inline;">

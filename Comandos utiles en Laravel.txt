@@ -1,2 +1,7 @@
+Al bajar el repositorio es necesario instalar composer en este directorio y correr el comando 
+npm install
+y luego npm run build 
+en powershell
 Crear un controlador en base a un model:
 php artisan make:controller Admin/BreedController --model=Breed
+

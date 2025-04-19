@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('breeds', function (Blueprint $table) {
+            // Deberia haber un atributo que indique el estado activo o inactivo de la raza
             $table->id();
             $table->string('animalType');
             $table->string('breedName');

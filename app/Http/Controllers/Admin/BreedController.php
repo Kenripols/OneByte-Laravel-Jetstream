@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Breed;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreBreedRequest;
+use App\Http\Requests\UpdateBreedRequest;
 
 class BreedController extends Controller
 {
@@ -49,7 +50,7 @@ class BreedController extends Controller
         // Devuelve la vista del formulario de edición de una raza específica
     }
 
-    public function update(Request $request, Breed $breed)
+    public function update(UpdateBreedRequest $request, Breed $breed)
     {
         $breed->update($request->validated());
         return redirect()->route('admin.breeds.index')
