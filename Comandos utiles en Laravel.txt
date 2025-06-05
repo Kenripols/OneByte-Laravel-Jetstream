@@ -2,6 +2,16 @@ Al bajar el repositorio es necesario instalar composer en este directorio y corr
 npm install
 y luego npm run build 
 en powershell
+
+Instalar Laravel Permissions (Spatie)
+
+composer require spatie/laravel-permission
+
+
 Crear un controlador en base a un model:
 php artisan make:controller Admin/BreedController --model=Breed
+
+Crear un request (Se almacenan en Controllers/Requests)
+
+php artisan make:request UpdateBreedRequest
 
