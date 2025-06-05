@@ -15,10 +15,13 @@
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Inicio') }}
                     </x-nav-link>
-                    <!-- Probando otros elementos menú -->
+                    <!-- Acceso Menú a funciones Dueño -->
+
+                    <!-- Acceso Menú a funciones administrador -->
                     <x-nav-link href="{{ route('admin.breeds.index') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Razas') }}
                     </x-nav-link>
+                    
                     <!-- Al agregar otros elementos a este menú también es necesario agregarlos al menu responsive más abajo. -->
                 </div>
             </div>

@@ -9,6 +9,8 @@ use App\Models\Pet;
 use App\Models\Reading;
 use App\Models\QRPlate;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,15 +19,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Crear owners asociados a un usuario (Detallado en el ownerfactory )
+        // Creo los roles necesarios administrador, dueño e invitado
+        $roleAdmin = Role::create(['name' => 'admin']);
+        $roleOwner = Role::create(['name' => 'owner']);
+        $roleGuest = Role::create(['name' => 'guest']);
+        // Creo owners asociados a un usuario (Detallado en el ownerfactory )
         //Owner::factory(10)->create();
         User::factory(10)->create()->each(function ($user) {
+            $user->assignRole('owner'); // Asigno el rol de owner a cada usuario creado
             Owner::factory()->create([
-                'user_id' => $user->id, // Asigna el mismo ID que el usuario
+                'user_id' => $user->id, // Asigno el mismo ID al dueño que el usuario
             ]);
         });
 
-        // Crear razas de perros precargadas
+
+
+        // Creo razas de perros precargadas
         $breeds = Breed::factory()->createMany([
             ['animalType' => 'Perro','breedName' => 'Pitbull', 'size' => 'Grande'],
             ['animalType' => 'Perro','breedName' => 'Chihuahua', 'size' => 'Pequeño'],
@@ -36,7 +45,7 @@ class DatabaseSeeder extends Seeder
             ['animalType' => 'Gato','breedName' => 'Maine Coon', 'size' => 'Grande'],
         ]);
        
-        // Crear 10 propietarios, cada uno con 3 mascotas
+        // Creo 10 propietarios, cada uno con 3 mascotas
         Owner::all()->each(function ($owner) use ($breeds) {
             // Cada propietario tendrá 3 mascotas
             Pet::factory(3)->create([
