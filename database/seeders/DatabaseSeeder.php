@@ -19,10 +19,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Creo los roles necesarios administrador, dueño e invitado
+        // Creo los roles necesarios administrador y dueño
         $roleAdmin = Role::create(['name' => 'admin']);
         $roleOwner = Role::create(['name' => 'owner']);
-        $roleGuest = Role::create(['name' => 'guest']);
+        // Creo usuario Admin precargado
+        $adminUser = User::factory()->create([
+            'name' => 'Admin',
+            'email' => 'ken.rip2@gmail.com',
+            'password' => bcrypt('12345678'), // Contraseña por defecto
+        ]);
+        $adminUser->assignRole($roleAdmin); // Asigno el rol de admin al usuario creado
         // Creo owners asociados a un usuario (Detallado en el ownerfactory )
         //Owner::factory(10)->create();
         User::factory(10)->create()->each(function ($user) {

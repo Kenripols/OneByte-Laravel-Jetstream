@@ -15,7 +15,7 @@ class BreedController extends Controller
     {
         //Devuelve la vista del index de breeds
         // Paginamos los resultados
-    $breeds = Breed::paginate(10); // Cambia el número 10 por la cantidad de elementos por página que desees
+    $breeds = Breed::paginate(10); //  10 por página
 
     return view('admin.breeds.index', compact('breeds'));
     }

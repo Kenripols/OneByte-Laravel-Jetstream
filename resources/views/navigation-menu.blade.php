@@ -16,12 +16,19 @@
                         {{ __('Inicio') }}
                     </x-nav-link>
                     <!-- Acceso Menú a funciones Dueño -->
+                    @role('owner')
 
+                    @endrole
                     <!-- Acceso Menú a funciones administrador -->
+                    @role('admin')
                     <x-nav-link href="{{ route('admin.breeds.index') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Razas') }}
                     </x-nav-link>
+                    <x-nav-link href="{{ route('admin.pets.index') }}" :active="request()->routeIs('dashboard')">
+                        {{ __('Mascotas') }}
+                    </x-nav-link>
                     
+                    @endrole
                     <!-- Al agregar otros elementos a este menú también es necesario agregarlos al menu responsive más abajo. -->
                 </div>
             </div>
@@ -150,9 +157,11 @@
             <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Inicio') }}
             </x-responsive-nav-link>
+            @role('admin')
             <x-responsive-nav-link href="{{ route('admin.breeds.index') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Razas') }}
             </x-responsive-nav-link>
+            @endrole
                <!-- Agregar aca los elementos de la barra menu para que aparezcan responsive -->
             
         </div>
@@ -193,7 +202,7 @@
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
                 </form>
-
+                <!-- Funcion de equipos NO UTILIZADAS -->
                 <!-- Team Management -->
                 @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
                     <div class="border-t border-gray-200"></div>
