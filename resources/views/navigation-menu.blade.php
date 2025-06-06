@@ -24,9 +24,7 @@
                     <x-nav-link href="{{ route('admin.breeds.index') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Razas') }}
                     </x-nav-link>
-                    <x-nav-link href="{{ route('admin.pets.index') }}" :active="request()->routeIs('dashboard')">
-                        {{ __('Mascotas') }}
-                    </x-nav-link>
+                    
                     
                     @endrole
                     <!-- Al agregar otros elementos a este menú también es necesario agregarlos al menu responsive más abajo. -->
