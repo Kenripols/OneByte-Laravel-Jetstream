@@ -3,17 +3,21 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Pet;
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class PetController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        //Devuelve la vista del index de usuarios
+        // Paginamos los resultados
+    $users = User::paginate(10); //  10 por página
+
+    return view('admin.users.index', compact('users'));
     }
 
     /**
@@ -35,17 +39,22 @@ class PetController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Pet $pet)
+    public function show(User $user)
     {
-        $pet = Pet::with(['breed', 'owner'])->findOrFail($pet->id);
-
-    return view('admin.pets.show', compact('pet'));
+        
+        $user = User::with('owner')->findOrFail($user->id);
+        $user = User::with('owner.pets.breed')->findOrFail($user->id);
+        $user = User::with('owner.pets.breed')->find($user->id);
+        return view('admin.users.show', compact('user'));
+        // Devuelve la vista de detalles de un usuario y datos de dueño en específico
     }
+
+
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Pet $pet)
+    public function edit(User $user)
     {
         //
     }
@@ -53,7 +62,7 @@ class PetController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Pet $pet)
+    public function update(Request $request, User $user)
     {
         //
     }
@@ -61,7 +70,7 @@ class PetController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Pet $pet)
+    public function destroy(User $user)
     {
         //
     }

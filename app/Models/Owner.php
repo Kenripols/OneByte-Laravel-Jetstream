@@ -11,35 +11,26 @@ class Owner extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'user_id'; // Defino la clave primaria
     
     /*
     Asignar que tabla va a manejar
     */
     protected $table ='owners';
-//Convertir Mayusculas a minusculas del campo nombre1 y Convertir la primer letra a Mayuscula
-    protected function nombre1(): Attribute {
-        return Attribute::make(
-            set: function($value){
-                return strtolower($value);           
-            },
-            get: function($value) {
-                return ucfirst($value);
-            }
-        );
-
-        
-        
-    }
     //Asignación masiva
     protected $fillable = [
         'docType', 'docNum', 'fname1', 'fname2', 'sname1', 'sname2'
                 ];
 
-                //Especifico la relacion de uno a N
+    //Especifico la relacion de uno a N con mascotas
     public function pets()
+{
+    return $this->hasMany(Pet::class, 'owner_id', 'user_id');
+}
+
+    //Especifico la relacion de un usuario a un owner
+    public function user(): BelongsTo
     {
-        return $this->hasMany(Pet::class);
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     

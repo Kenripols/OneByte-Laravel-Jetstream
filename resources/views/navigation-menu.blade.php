@@ -24,6 +24,9 @@
                     <x-nav-link href="{{ route('admin.breeds.index') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Razas') }}
                     </x-nav-link>
+                    <x-nav-link href="{{ route('admin.users.index') }}" :active="request()->routeIs('dashboard')">
+                        {{ __('Usuarios') }}
+                    </x-nav-link>
                     
                     
                     @endrole

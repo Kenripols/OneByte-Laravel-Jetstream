@@ -66,4 +66,16 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Obtener el owner asociado a la id de usuario.
+     */
+    public function owner()
+{
+    return $this->hasOne(Owner::class, 'user_id', 'id');
+}
+    /**
+     * Obtener las mascotas asociadas al usuario.
+     */
+    
 }
