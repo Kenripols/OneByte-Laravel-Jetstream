@@ -35,13 +35,6 @@
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <!-- Agrego botones para editar la raza -->
                                     <a href="{{ route('admin.breeds.edit', $breed) }}" class="text-blue-600 hover:text-blue-900">Editar</a>
-                                    <!--  
-                                    <form action="{{ route('admin.breeds.destroy', $breed) }}" method="POST" style="display:inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="text-red-600 hover:text-red-900">Eliminar</button>
-                                    </form>
-                                    -->
                                 </td>
                             </tr>
                         @endforeach

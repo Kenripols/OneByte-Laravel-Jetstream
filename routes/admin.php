@@ -8,19 +8,21 @@ use App\Models\User;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 
+//Rutas de administracion con autenticacion y verificacion de rol admin
 
-Route::resource('breeds', BreedController::class)
-    ->parameters(['breeds' => 'breed'])
-    ->names('admin.breeds');
+    Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('breeds', BreedController::class)
+        ->parameters(['breeds' => 'breed'])
+        ->names('breeds');
 
-Route::resource('users', UserController::class)
+        Route::resource('users', UserController::class)
     ->parameters(['users' => 'user'])
-    ->names('admin.users');
+    ->names('users');
 
-Route::resource('pets', PetController::class)
+        Route::resource('pets', PetController::class)
     ->parameters(['pets' => 'pet'])
-    ->names('admin.pets');
-      
+    ->names('pets');
+    });
 
 Route::get('/', function () {
    return view('dashboard');

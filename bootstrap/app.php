@@ -14,13 +14,17 @@ return Application::configure(basePath: dirname(__DIR__))
         //Agrego nuevas rutas con prequisito de token y autenticacion
         then: function() {
             Route::middleware('web', 'auth:sanctum', config('jetstream.auth_session'))
-            //Prefijo admin para las rutas
-            ->prefix('admin')    
+            //Aclaro que archivo almacena las rutas de administracion    
             ->group(__DIR__.'/../routes/admin.php');
         }
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        // Agrego alias para los middlewares de Spatie Permission
+        $middleware->alias([
+            'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
+            'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
+            'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
