@@ -22,10 +22,12 @@ use Illuminate\Support\Facades\Route;
         Route::resource('pets', PetController::class)
     ->parameters(['pets' => 'pet'])
     ->names('pets');
+
+    Route::get('/', function () {
+   return view('dashboard');
+})->name('dashboard');
     });
 
-Route::get('/', function () {
-   return view('dashboard');
-})->name('admin.dashboard');
+
 
 

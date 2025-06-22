@@ -17,7 +17,9 @@
                     </x-nav-link>
                     <!-- Acceso Menú a funciones Dueño -->
                     @role('owner')
-
+                    <x-nav-link href="{{ route('owner.pets.index') }}" :active="request()->routeIs('dashboard')">
+                        {{ __('Mis Mascotas') }}
+                    </x-nav-link>
                     @endrole
                     <!-- Acceso Menú a funciones administrador -->
                     @role('admin')
@@ -26,6 +28,10 @@
                     </x-nav-link>
                     <x-nav-link href="{{ route('admin.users.index') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Usuarios') }}
+                    </x-nav-link>
+
+                    <x-nav-link href="{{ route('admin.pets.index') }}" :active="request()->routeIs('dashboard')">
+                        {{ __('Mascotas') }}
                     </x-nav-link>
                     
                     

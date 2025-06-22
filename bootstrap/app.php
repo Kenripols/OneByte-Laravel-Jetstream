@@ -16,6 +16,10 @@ return Application::configure(basePath: dirname(__DIR__))
             Route::middleware('web', 'auth:sanctum', config('jetstream.auth_session'))
             //Aclaro que archivo almacena las rutas de administracion    
             ->group(__DIR__.'/../routes/admin.php');
+            //Aclaro que archivo almacena las rutas de owner/dueño
+            Route::middleware('web', 'auth:sanctum', config('jetstream.auth_session'))
+            ->group(__DIR__.'/../routes/owner.php');
+            
         }
     )
     ->withMiddleware(function (Middleware $middleware) {

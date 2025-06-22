@@ -26,7 +26,7 @@
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <!-- Agrego botones para editar los datos de usuario -->
                                     <a href="{{ route('admin.users.show', $user) }}" class="text-blue-600 hover:text-blue-900">Ver Datos</a>
-                                <a href="{{ route('admin.users.edit', $user) }}" class="text-blue-600 hover:text-blue-900">Editar</a>
+                                <!--  <a href="{{ route('admin.users.edit', $user) }}" class="text-blue-600 hover:text-blue-900">Editar</a> -->
                                 </td>
                             </tr>
                         @endforeach
