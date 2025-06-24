@@ -105,6 +105,65 @@
 
     </header>
 
+    <footer class="bebas-neue-regular ">
+        <div class="container">
+            <div class="row d-sm-none">
+                
+                <div class="col-4">
+                    <img class="logo-footer" src="{{ asset('images/dog.png') }}" alt="Logo Dogchows">
+                </div>
+                <div class="col-4">
+                    <img class="logo-footer" src="{{ asset('images/pd.png') }}" alt="Logo Pedigree">
+                </div>
+                <div class="col-4">    
+                    <img class="logo-footer" src="{{ asset('images/whis.png') }}" alt="Logo Whiskas">
+                </div>
+            
+            </div>
+
+            <div class="row d-sm-none">
+
+                <div class="col-2"></div>
+                <div class="col-4">   
+                    <img class="logo-footer" src="{{ asset('images/puri.png') }}" alt="Logo Purina">
+                </div> 
+                <div class="col-4">   
+                    <img class="logo-footer" src="{{ asset('images/adv.png') }}" alt="Logo Advantix">
+                </div>
+                <div class="col-2"></div>  
+            </div>
+            <hr class="d-sm-none">
+            <div class="row d-sm-none">  
+                <h5 class="texto-footer"><small>Todos los derechos reservados</small> © 2024 Onebyte</h5>
+            </div>
+
+            <div class="row">
+                <div class="col d-none d-sm-block">
+                    <img class="logo-footer" src="{{ asset('images/dog.png') }}" alt="Logo Dogchows">
+                </div>
+                <div class="col d-none d-sm-block">
+                    <img class="logo-footer" src="{{ asset('images/pd.png') }}" alt="Logo Pedigree">
+                </div>
+                <div class="col d-none d-sm-block">
+                    <img class="logo-footer" src="{{ asset('images/whis.png') }}" alt="Logo Whiskas">
+                </div>
+                <div class="col d-none d-sm-block">
+                    <img class="logo-footer" src="{{ asset('images/puri.png') }}" alt="Logo Purina">
+                </div>
+                <div class="col d-none d-sm-block">
+                    <img class="logo-footer" src="{{ asset('images/adv.png') }}" alt="Logo Advantix">
+                </div>
+            </div>
+            <hr class="d-none d-sm-block">
+            <div class="row d-none d-sm-block">  
+                <h5 class="texto-footer"><small>Todos los derechos reservados</small> © 2024 Onebyte</h5>
+            </div>
+         
+        </div>
+
+        
+    </footer>
+
 
 
     @if (Route::has('login'))
