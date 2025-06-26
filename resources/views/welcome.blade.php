@@ -4,9 +4,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Laravel</title>
-
+    
+    <link rel="icon" href="{{ asset('images/paw.png') }}">
+    <title>Bienvenido</title>
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
@@ -35,21 +35,27 @@
             <div class="row">
                 <div class="">
                     @if (Route::has('login'))
-                        <div class="dropdown float-end ">
-                            <img src="{{ asset('images/user.png') }}" alt="Icono Usuario" class="dropdown"
-                                style="width: 25px; padding-top: 7px; padding-bottom: 7px; 
+                        @auth
+                            <a href="{{ url('/dashboard') }}"
+                                class="inline-block px-5 py-1.5 border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] rounded-sm text-sm leading-normal">
+                                Dashboard
+                            </a>
+                        @else
+                            <div class="dropdown float-end ">
+                                <img src="{{ asset('images/user.png') }}" alt="Icono Usuario" class="dropdown"
+                                    style="width: 25px; padding-top: 7px; padding-bottom: 7px; 
                             margin-left: 20px;margin-right: 15px;">
-                            <div class="dropdown-options">
-                                <a href="{{ route('login') }}">
-                                    <button type="button" class="btn btn-danger boton-ini-se">Iniciar Sesión</button>
-                                </a>
-                                @if (Route::has('register'))
-                                    <a href="{{ route('register') }}">
-                                        <button type="button" class="btn btn-primary boton-reg">Registrar
-                                            Usuario</button>
+                                <div class="dropdown-options">
+                                    <a href="{{ route('login') }}">
+                                        <button type="button" class="btn btn-danger boton-ini-se">Iniciar Sesión</button>
                                     </a>
-                                @endif
-
+                                    @if (Route::has('register'))
+                                        <a href="{{ route('register') }}">
+                                            <button type="button" class="btn btn-primary boton-reg">Registrar
+                                                Usuario</button>
+                                        </a>
+                                    @endif
+                                @endauth
                             </div>
                         </div>
                     @endif
@@ -108,32 +114,32 @@
     <footer class="bebas-neue-regular ">
         <div class="container">
             <div class="row d-sm-none">
-                
+
                 <div class="col-4">
                     <img class="logo-footer" src="{{ asset('images/dog.png') }}" alt="Logo Dogchows">
                 </div>
                 <div class="col-4">
                     <img class="logo-footer" src="{{ asset('images/pd.png') }}" alt="Logo Pedigree">
                 </div>
-                <div class="col-4">    
+                <div class="col-4">
                     <img class="logo-footer" src="{{ asset('images/whis.png') }}" alt="Logo Whiskas">
                 </div>
-            
+
             </div>
 
             <div class="row d-sm-none">
 
                 <div class="col-2"></div>
-                <div class="col-4">   
+                <div class="col-4">
                     <img class="logo-footer" src="{{ asset('images/puri.png') }}" alt="Logo Purina">
-                </div> 
-                <div class="col-4">   
+                </div>
+                <div class="col-4">
                     <img class="logo-footer" src="{{ asset('images/adv.png') }}" alt="Logo Advantix">
                 </div>
-                <div class="col-2"></div>  
+                <div class="col-2"></div>
             </div>
             <hr class="d-sm-none">
-            <div class="row d-sm-none">  
+            <div class="row d-sm-none">
                 <h5 class="texto-footer"><small>Todos los derechos reservados</small> © 2024 Onebyte</h5>
             </div>
 
@@ -155,13 +161,13 @@
                 </div>
             </div>
             <hr class="d-none d-sm-block">
-            <div class="row d-none d-sm-block">  
+            <div class="row d-none d-sm-block">
                 <h5 class="texto-footer"><small>Todos los derechos reservados</small> © 2024 Onebyte</h5>
             </div>
-         
+
         </div>
 
-        
+
     </footer>
 
 
