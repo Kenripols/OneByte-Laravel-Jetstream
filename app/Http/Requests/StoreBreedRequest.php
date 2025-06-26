@@ -7,15 +7,15 @@ use Illuminate\Foundation\Http\FormRequest;
 class StoreBreedRequest extends FormRequest
 {
     /**
-     * Determina si el usuario está autorizado para realizar esta solicitud.
+     * Determina si el usuario está autorizado para realizar el request
      */
     public function authorize(): bool
     {
-        return true; // Cambia esto si necesitas lógica de autorización
+        return true;
     }
 
     /**
-     * Reglas de validación para la solicitud.
+     * Reglas de validación para el request
      */
     public function rules(): array
     {

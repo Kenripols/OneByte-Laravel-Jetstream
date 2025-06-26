@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StorePetRequest;
 use App\Models\Pet;
+use App\Models\Breed;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Traits\HasRoles;
@@ -15,7 +17,7 @@ class PetController extends Controller
      */
     public function index()
     {
-       //Segun el rol de usuario autenticado, muestra las mascotas
+       //Segun el rol de usuario autenticado, muestra las mascotas (Funciona a pesar de que el ID da error)
         if (Auth::user()->hasRole('admin')) {
             // Si es admin, muestra todas las mascotas
             $pets = Pet::with(['breed', 'owner'])->paginate(10);
@@ -36,15 +38,35 @@ class PetController extends Controller
      */
     public function create()
     {
-        //
+        if (Auth::user()->hasRole('owner')) {
+            $breeds = Breed::all();
+            return view('admin.pets.create', compact('breeds'));
+        } else {
+            return redirect()->route('admin.pets.index')
+                ->with('error', 'No tienes permiso para crear mascotas.');
+        }
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StorePetRequest $request)
     {
-        //
+    // Asigno a la mascota el ID del usuario autenticado
+    $request->merge(['owner_id' => Auth::id()]);
+    // Si sube una foto, la guardo en el sistema de archivos
+    if ($request->hasFile('photo')) {
+        $path = $request->file('photo')->store('pets', 'public');
+        $request->merge(['photo' => $path]);
+    } else {
+        $request->merge(['photo' => null]);
+    }
+    $owner = Auth::user()->owner;
+$request->merge(['owner_id' => $owner->user_id]);
+        Pet::create($request->validated());
+
+    return redirect()->route(Auth::user()->hasRole('admin') ? 'admin.pets.index' : 'owner.pets.index')
+    ->with('success', 'Mascota creada correctamente');
     }
 
     /**

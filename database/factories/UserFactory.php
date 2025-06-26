@@ -30,7 +30,8 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
+            // Se usa contraseña por defecto para testing, para hacer que sea random en lugar de 12345678 poner password
+            'password' => static::$password ??= Hash::make('12345678'),
             'two_factor_secret' => null,
             'two_factor_recovery_codes' => null,
             'remember_token' => Str::random(10),
