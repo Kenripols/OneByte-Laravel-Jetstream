@@ -5,6 +5,9 @@ npm install
 y luego npm run build 
 en powershell
 
+Ejecutar un php artisan migrate:fresh --seed
+
+(No es necesario ejecutarlo si ya tienen composer con el json)
 Instalar Laravel Permissions (Spatie)
 
 composer require spatie/laravel-permission
