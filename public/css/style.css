@@ -1,0 +1,264 @@
+body{
+    margin: 0;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    background-color: #e7e7e7;
+
+}
+
+main {
+    display: block;
+    flex: 1 0 auto;
+
+}
+
+footer{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #fff;
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-bottom: 5px;
+    text-align: center;
+    font-size: 20px;
+
+}
+
+.texto-footer {
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+*{
+
+    box-sizing: border-box;
+}
+
+header{
+    background-color: white
+}
+/*Dos columnas q flotan una dentro de la otra*/
+nav {
+    float: left;
+    width: 30%;
+    height: 300px;
+
+}
+/*Estilo de la lista dentro del menu (ul lista)*/
+nav ul{
+
+    list-style: none;
+    padding: 0;
+}
+
+article{
+    float: left;
+    width: 70%;
+
+    height: 300px;
+
+}   
+section::after{
+    content: "";
+    display: table;
+    clear: both;
+
+
+
+}
+
+/* Margenes */
+.mt-5 {margin-top: 5px !important;}
+.mr-5 {margin-right: 5px !important;}
+.mb-5 {margin-bottom: 5px !important;}
+.mb-4 {margin-bottom: 4px !important;}
+.ml-5 {margin-left: 5px !important;}
+/* Fin de Margenes */
+
+
+@media (max-width: 600px){
+    nav,article{
+        width: 100%;
+        height: auto;
+    }
+    
+}
+
+.dropdown{
+    display: inline-block;
+    position: relative;
+
+}
+
+.dropdown-options {
+    display: none;
+    position: fixed;
+    overflow: auto;
+    background-color:#928D8D;
+    border-radius:5px;
+    box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.4);
+    right: 0px;
+    padding: 4px;
+    margin-top: 0px;
+    margin-right: 2px;
+  }
+
+  .dropdown:hover .dropdown-options {
+    display: block;
+  }
+  
+  .dropdown-options a {
+    display: block;
+    color: white;
+    padding-left: 3px;
+    padding-right: 3px;
+    text-decoration: none;
+ 
+  }
+  
+  .dropdown-options a:hover {
+    color: #000000;
+    border-radius:5px;
+  }
+
+  .boton-ini-se {
+    margin-bottom: 5px;
+    padding-right: 40px !important;
+  }
+
+  .boton-perfil {
+    margin-top: 4px;
+    margin-bottom: 5px;
+    padding-right: 65px !important;
+  }
+
+  .boton-mod-perf {
+    margin-bottom: 5px;
+    padding-right: 31px !important;
+  }
+
+  .boton-cerrar-ses {
+    margin-bottom: 5px;
+    padding-right: 44px !important;
+  }
+
+  .boton-perfiles {
+    margin-bottom: 5px;
+    padding-right: 25px !important;
+  }
+
+  .boton-perfiles-adm {
+    margin-top: 4px;
+    margin-bottom: 5px;
+    padding-right: 39px !important;
+  }
+
+  .boton-mascota-adm {
+    margin-bottom: 5px;
+    padding-right: 26px !important;
+  }
+
+  .boton-mascotas-logeado {
+    margin-bottom: 5px;
+    padding-right: 36px !important;
+  }
+
+  .boton-reg-masc {
+    margin-bottom: 5px;
+    padding-right: 11px !important;
+  }
+
+  .boton-alta-masc {
+    margin-bottom: 5px;
+    padding-right: 28px !important;
+  }
+
+  .boton-listar-masc {
+    margin-bottom: 5px;
+    padding-right: 29px !important;
+  }
+
+  .boton-listar-masc-adm {
+    margin-bottom: 5px;
+    padding-right: 18px !important;
+  }
+
+  .boton-alta-us {
+    margin-bottom: 5px;
+    padding-right: 34px !important;
+  }
+
+  .boton-listar-us {
+    margin-bottom: 5px;
+    padding-right: 24px !important;
+  }
+
+  .bi-person-circle {
+    margin-bottom: 4px !important;
+  }
+
+  .icono-mascotas {
+    width: 18px;
+    position: fixed;
+    margin-top: 2px;
+  }
+
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #928d8d;
+    background-clip: border-box;
+    /* border: 1px solid rgba(0, 0, 0, .125); */
+    border-radius: .25rem;
+}
+
+.card-body {
+  padding-top: 2px !important;
+  padding-bottom: 0px !important;
+  padding-left: 2px !important;
+  padding-right: 2px !important;
+  background-color: #928d8d !important;
+  border: 0px !important;
+}
+
+  .titulo-menu {
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    margin-top: 5px;
+   
+  }
+
+  .titulo-menu-gr {
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    margin-top: 15px;
+   
+  }
+
+  .logo {
+    width: 70px;
+    position: fixed;
+    margin-top: -10px;
+  }
+
+  .logogrande {
+    width: 100px;
+    position: fixed;
+    margin-top: -10px;
+  }
+
+  .logo-footer {
+    height: 40px;
+  }
+
+  .fondo {
+    background-color: #e7e7e7;
+  }
