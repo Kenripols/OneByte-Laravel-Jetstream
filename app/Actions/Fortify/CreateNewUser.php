@@ -36,6 +36,8 @@ class CreateNewUser implements CreatesNewUsers
         ])->validate();
 // Creo el usuario y lo guardo en una variable
         $user = User::create([
+// Creo el usuario y lo guardo en una variable
+        $user = User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
