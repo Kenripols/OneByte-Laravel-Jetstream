@@ -14,7 +14,12 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-       
+        @role('owner')
+       <!-- Boton de agregar mascota para owner -->
+       <div class="block mb-8">
+                <a href="{{ route('owner.pets.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Agregar nueva mascota</a>
+            </div>
+            @endrole
 
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 
@@ -35,8 +40,13 @@
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $pet->name }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $pet->bDate }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-
-                                    <a href="{{ route('admin.pets.show', $pet) }}" class="text-blue-600 hover:text-blue-900">Ver Detalles</a>
+                                    <!-- Distingo entre rol admin y rol owner para mostrar botón -->
+                                    @role('admin')
+                                    <a href="{{ route('admin.pets.show', $pet) }}" class="text-blue-600 hover:text-blue-900">Ver Detalles</a> 
+                                    @endrole
+                                    @role('owner')
+                                    <a href="{{ route('owner.pets.show', $pet) }}" class="text-blue-600 hover:text-blue-900">Ver Detalles</a>
+                                    @endrole
                                 </td>
                             </tr>
                         @endforeach

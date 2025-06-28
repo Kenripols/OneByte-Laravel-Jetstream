@@ -22,6 +22,7 @@ class PetController extends Controller
         if (Auth::user()->hasRole('admin')) {
             // Si es admin, muestra todas las mascotas
             $pets = Pet::with(['breed', 'owner'])->paginate(10);
+            return view('admin.pets.index', compact('pets'));
         } else {
             // Si no es admin, muestra solo las mascotas del usuario autenticado
             $pets = Pet::with(['breed', 'owner'])
@@ -29,9 +30,10 @@ class PetController extends Controller
                     $query->where('user_id', Auth::id());
                 })
                 ->paginate(10);
+                return view('owner.pets.index', compact('pets'));
         }
 
-        return view('admin.pets.index', compact('pets'));
+        
     }
 
     /**
@@ -41,7 +43,7 @@ class PetController extends Controller
     {
         if (Auth::user()->hasRole('owner')) {
             $breeds = Breed::all();
-            return view('admin.pets.create', compact('breeds'));
+            return view('owner.pets.create', compact('breeds'));
         } else {
             return redirect()->route('admin.pets.index')
                 ->with('error', 'No tienes permiso para crear mascotas.');
@@ -53,21 +55,23 @@ class PetController extends Controller
      */
     public function store(StorePetRequest $request)
     {
-    // Asigno a la mascota el ID del usuario autenticado
-    $request->merge(['owner_id' => Auth::id()]);
-    // Si sube una foto, la guardo en el sistema de archivos
-    if ($request->hasFile('photo')) {
-        $path = $request->file('photo')->store('pets', 'public');
-        $request->merge(['photo' => $path]);
-    } else {
-        $request->merge(['photo' => null]);
-    }
-    $owner = Auth::user()->owner;
-$request->merge(['owner_id' => $owner->user_id]);
-        Pet::create($request->validated());
+        $owner = Auth::user()->owner; // El dueño es el usuario logueado
 
-    return redirect()->route(Auth::user()->hasRole('admin') ? 'admin.pets.index' : 'owner.pets.index')
-    ->with('success', 'Mascota creada correctamente');
+        $data = $request->validated();
+        
+        $data['owner_id'] = $owner->user_id; // Asigno el owner_id
+
+        // Si sube una foto, la guardo en storage
+        if ($request->hasFile('photo')) {
+            $data['photo'] = $request->file('photo')->store('pets', 'public');
+        } else {
+            $data['photo'] = null;
+        }
+
+        Pet::create($data);
+
+        return redirect()->route('owner.pets.index')
+            ->with('success', 'Mascota creada correctamente');
     }
 
     /**

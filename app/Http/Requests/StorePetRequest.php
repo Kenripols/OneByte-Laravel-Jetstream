@@ -23,9 +23,8 @@ class StorePetRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'bDate' => 'required|integer|min:0',
-            'breed_id' => 'required|exists:breeds,id',
-            'owner_id' => 'required|exists:users,id',
+            'bDate' => 'required|date',
+            'breed_id' => 'required|exists:breeds,id', // No requiero comprobar el owner debido a que lo asigno desde el controlador
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }

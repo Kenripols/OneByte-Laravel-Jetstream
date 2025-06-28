@@ -4,6 +4,16 @@
             {{ __('Ingresar Mascota') }}
         </h2>
     </x-slot>
+    <!-- Muestro errores -->
+    @if ($errors->any())
+    <div class="mb-4">
+        <ul class="text-red-600">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">

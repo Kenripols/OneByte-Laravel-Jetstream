@@ -18,7 +18,7 @@ class Owner extends Model
     protected $table ='owners';
     //Asignación masiva
     protected $fillable = [
-        'docType', 'docNum', 'fname1', 'fname2', 'sname1', 'sname2'
+        'user_id', 'docType', 'docNum', 'fName1', 'fName2', 'sName1', 'sName2'
                 ];
 
     //Especifico la relacion de uno a N con mascotas

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->timestamps();
             $table->string('docType');
             $table->string('docNum');
-            $table->string('fName');
+            $table->string('fName1');
             $table->string('fName2')->nullable();
             $table->string('sName1');
             $table->string('sName2')->nullable();

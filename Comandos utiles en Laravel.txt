@@ -22,3 +22,7 @@ Crear un request (Se almacenan en Controllers/Requests)
 
 php artisan make:request UpdateBreedRequest
 
+Enlace simbólico con storage para carga de imágenes:
+
+php artisan storage:link
+
