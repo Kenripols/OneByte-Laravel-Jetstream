@@ -34,8 +34,8 @@ class CreateNewUser implements CreatesNewUsers
             //Terminan campos extra de owner
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
-
-        return User::create([
+// Creo el usuario y lo guardo en una variable
+        $user = User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
