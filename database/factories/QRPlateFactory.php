@@ -16,11 +16,17 @@ class QRPlateFactory extends Factory
      * @return array<string, mixed>
      */
     public function definition(): array
-    {
-        return [
-            'iDate' => $this->faker->date,
-            'eDate' => $this->faker->date,
-            'pet_id' => Pet::factory(),
-        ];
-    }
+{
+    // iDate entre hace 1 año y hoy
+    $iDate = $this->faker->dateTimeBetween('-1 year', 'now');
+
+    // eDate exactamente 2 años después de iDate
+    $eDate = (clone $iDate)->modify('+2 years');
+
+    return [
+        'iDate' => $iDate,
+        'eDate' => $eDate,
+        'pet_id' => Pet::factory(),
+    ];
+}
 }

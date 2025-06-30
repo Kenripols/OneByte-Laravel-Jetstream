@@ -20,6 +20,9 @@
                     <x-nav-link href="{{ route('owner.pets.index') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Mis Mascotas') }}
                     </x-nav-link>
+                    <x-nav-link href="{{ route('owner.qrplates.index') }}" :active="request()->routeIs('dashboard')">
+                        {{ __('Asociar QR') }}
+                    </x-nav-link>
                     @endrole
                     <!-- Acceso Menú a funciones administrador -->
                     @role('admin')

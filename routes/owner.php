@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BreedController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PetController;
+use App\Http\Controllers\Admin\QRPlateController;
 use App\Models\Pet;
 use App\Models\User;
 use GuzzleHttp\Middleware;
@@ -13,6 +14,10 @@ Route::middleware(['auth', 'role:owner'])->prefix('owner')->name('owner.')->grou
         Route::resource('pets', PetController::class)
     ->parameters(['pets' => 'pet'])
     ->names('pets');
+
+    Route::resource('QRPlates', QRPlateController::class)
+    ->parameters(['QRPlates' => 'QRPlate'])
+    ->names('qrplates');
 
     Route::get('/', function () {
    return view('dashboard');

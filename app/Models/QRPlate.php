@@ -9,7 +9,7 @@ class QRPlate extends Model
 {
     use HasFactory;
 
-    public function pets()
+    public function pet()
     {
         return $this->belongsTo(Pet::class);
     }
