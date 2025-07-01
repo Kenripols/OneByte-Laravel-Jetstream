@@ -33,8 +33,8 @@
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $breed->breedName }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $breed->size }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <!-- Agrego botones para editar la raza -->
-                                    <a href="{{ route('admin.breeds.edit', $breed) }}" class="text-blue-600 hover:text-blue-900">Editar</a>
+                                    <!-- Agrego botones para editar o borar la raza -->
+                                    <a href="{{ route('admin.breeds.edit', $breed) }}" class="text-blue-600 hover:text-blue-900">Editar</a>  |  <a href="{{ route('admin.breeds.drop', $breed) }}" class="text-blue-600 hover:text-blue-900">Eliminar</a>
                                 </td>
                             </tr>
                         @endforeach

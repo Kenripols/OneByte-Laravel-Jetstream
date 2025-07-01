@@ -10,24 +10,26 @@ use Illuminate\Support\Facades\Route;
 
 //Rutas de administracion con autenticacion y verificacion de rol admin
 
-    Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+
+    // Ruta para la vista de confirmación de borrado (drop)
+    Route::get('breeds/{breed}/drop', [BreedController::class, 'drop'])->name('breeds.drop');
+
     Route::resource('breeds', BreedController::class)
         ->parameters(['breeds' => 'breed'])
         ->names('breeds');
 
-        Route::resource('users', UserController::class)
-    ->parameters(['users' => 'user'])
-    ->names('users');
+    Route::resource('users', UserController::class)
+        ->parameters(['users' => 'user'])
+        ->names('users');
 
-        Route::resource('pets', PetController::class)
-    ->parameters(['pets' => 'pet'])
-    ->names('pets');
+    Route::resource('pets', PetController::class)
+        ->parameters(['pets' => 'pet'])
+        ->names('pets');
 
     Route::get('/', function () {
-   return view('dashboard');
-})->name('dashboard');
-    });
-
-
+        return view('dashboard');
+    })->name('dashboard');
+});
 
 

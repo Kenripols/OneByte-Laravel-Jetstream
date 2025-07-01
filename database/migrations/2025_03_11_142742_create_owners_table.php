@@ -12,7 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('owners', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id')->primary();
+            $table->string('doctype');
+            $table->string('docnum');
+            $table->string('fname');
+            $table->string('fname2')->nullable();
+            $table->string('sname1');
+            $table->string('sname2')->nullable();
             $table->timestamps();
+<<<<<<< Updated upstream
             $table->string('docType');
             $table->string('docNum');
             $table->string('fName1');
@@ -22,6 +30,10 @@ return new class extends Migration
             $table->primary('user_id');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
+=======
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+>>>>>>> Stashed changes
         });
     }
 

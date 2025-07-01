@@ -9,9 +9,20 @@ class Reading extends Model
 {
     use HasFactory;
 
-    public function pets(){
+    protected $fillable = [
+        'pet_id',
+        'QRPlate_id',
+        // otros campos si los tienes
+    ];
 
-    return $this->hasOne(Pet::class);
-    
-}
+    // Relaciones
+    public function pet()
+    {
+        return $this->belongsTo(Pet::class);
+    }
+
+    public function qrPlate()
+    {
+        return $this->belongsTo(QRPlate::class, 'QRPlate_id');
+    }
 }
