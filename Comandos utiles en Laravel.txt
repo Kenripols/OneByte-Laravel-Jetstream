@@ -1,3 +1,5 @@
+Como iniciar el repo luego de git clone
+
 1) Instalar Composer
 composer install
 Al bajar el repositorio es necesario instalar composer en este directorio y correr los comandos 
@@ -7,9 +9,16 @@ npm run build
 
 En cmd o powershell, probar donde funcionen
 
+2)
 Luego es necesario configurar el archivo .env con la configuracion de xampp, dejo ejemplo más abajo.
 
 Ejecutar un php artisan migrate:fresh --seed
+
+Enlace simbólico con storage para carga de imágenes:
+
+php artisan storage:link
+
+------------------------------------------------------------------------------------------------------
 
 
 (No es necesario realizar los siguientes pasos si ya tienen composer con el json)
@@ -30,9 +39,6 @@ Crear un request (Se almacenan en Controllers/Requests)
 
 php artisan make:request UpdateBreedRequest
 
-Enlace simbólico con storage para carga de imágenes:
-
-php artisan storage:link
 
 EJEMPLO archivo .env
 

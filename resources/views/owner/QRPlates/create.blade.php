@@ -42,7 +42,18 @@
                         <input type="date" name="eDate" id="eDate" value="{{ now()->addYears(2)->format('Y-m-d') }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly>
                     </div>
 
+
+
                     <!-- Muestro codigo de QR -->
+                    <!-- Escáner de QR -->
+                    <div class="mb-4" wire:ignore>
+                    <label class="block text-gray-700 font-bold mb-2">Escanear QR con Cámara:</label>
+                    <div id="reader" style="width: 300px;"></div>
+                    <div id="qr-result" class="mt-2 text-green-600 font-bold"></div>
+                    </div>
+
+                    <!-- Campo oculto donde se guarda el resultado del QR -->
+                    <input type="hidden" name="qr_code" id="qr_code">
                     
                     <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                         Guardar
@@ -51,4 +62,24 @@
             </div>
         </div>
     </div>
+
+    <script src="https://unpkg.com/html5-qrcode"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        if (document.getElementById('reader')) {
+            const scanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 });
+
+            scanner.render((decodedText, decodedResult) => {
+                // Mostrar el resultado
+                document.getElementById('qr-result').textContent = `Código escaneado: ${decodedText}`;
+
+                // Guardarlo en el campo oculto del formulario
+                document.getElementById('qr_code').value = decodedText;
+
+                // Opcional: detener escáner
+                scanner.clear();
+            });
+        }
+    });
+</script>
 </x-app-layout>
