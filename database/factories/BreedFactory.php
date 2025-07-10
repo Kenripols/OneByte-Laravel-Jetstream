@@ -4,20 +4,14 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Breed>
- */
 class BreedFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
-    {
-        return [
-            //
-        ];
-    }
+   public function definition(): array
+{
+    return [
+        'breedName' => $this->faker->word(),
+        'animalType' => $this->faker->randomElement(['Perro', 'Gato']),
+        'size' => $this->faker->randomElement(['Pequeño', 'Mediano', 'Grande']),
+    ];
+}
 }

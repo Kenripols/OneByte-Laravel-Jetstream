@@ -16,6 +16,7 @@ class QRPlateFactory extends Factory
      * @return array<string, mixed>
      */
     public function definition(): array
+<<<<<<< Updated upstream
 {
     // iDate entre hace 1 año y hoy
     $iDate = $this->faker->dateTimeBetween('-1 year', 'now');
@@ -29,4 +30,14 @@ class QRPlateFactory extends Factory
         'pet_id' => Pet::factory(),
     ];
 }
+=======
+    {
+        return [
+            'code' => $this->faker->bothify('???-#####'),
+            'iDate' => $this->faker->date,
+            'eDate' => $this->faker->date,
+            'pet_id' => Pet::factory(),
+        ];
+    }
+>>>>>>> Stashed changes
 }

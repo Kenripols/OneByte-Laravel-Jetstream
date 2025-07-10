@@ -58,7 +58,12 @@ class BreedController extends Controller
         // Actualiza la raza específica en la base de datos
     }
 
-   
+    public function drop(Breed $breed)
+    {
+        return view('admin.breeds.drop', compact('breed'));
+        // Devuelve la vista de confirmacion de borrado
+    }
+
     public function destroy(Breed $breed)
     {
         $breed->delete();

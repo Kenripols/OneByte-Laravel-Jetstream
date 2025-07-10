@@ -1,37 +1,47 @@
 <?php
 
 namespace App\Models;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Permission\Traits\HasRoles;
 
 class Pet extends Model
 {
-    use HasFactory;
-    use HasRoles;
-
-    protected $casts = [
-    'bDate' => 'date',
-];
+    use HasFactory, HasRoles, SoftDeletes;
 
     protected $fillable = [
         'photo', 'name', 'bDate', 'breed_id', 'owner_id'
     ];
 
-//Especifico la relacion de una mascota pertenece a una raza
-    public function breed()
-{
-    return $this->belongsTo(Breed::class, 'breed_id', 'id');
-}
-//Especifico la relacion de uno a uno
+    protected $casts = [
+        'bDate' => 'date',
+    ];
+
+    /**
+     * Relación: una mascota pertenece a una raza.
+     */
+    public function breed(): BelongsTo
+    {
+        return $this->belongsTo(Breed::class, 'breed_id', 'id');
+    }
+
+    /**
+     * Relación: una mascota pertenece a un owner.
+     */
     public function owner(): BelongsTo
     {
         return $this->belongsTo(Owner::class, 'owner_id', 'user_id');
     }
-    
-   
 
-
+    /**
+     * Relación: una mascota puede tener muchas placas QR.
+     */
+    public function q_r_plates(): HasMany
+    {
+        return $this->hasMany(QRPlate::class, 'pet_id');
+    }
 }

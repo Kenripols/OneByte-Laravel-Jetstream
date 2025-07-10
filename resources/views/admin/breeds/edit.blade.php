@@ -9,13 +9,18 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
                 <div class="block mb-8">
-                    
+                  
                 <form action="{{ route('admin.breeds.update', $breed) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="mb-4">
                         <label for="animalType" class="block text-gray-700 font-bold mb-2">Tipo de Animal:</label>
-                        <input type="text" name="animalType" id="animalType" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{ $breed->animalType }}" required>
+                        <select name="animalType" id="animalType" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                            <option value="Perro"{{ $breed->animalType == "Perro" ? 'selected' : '' }}>Perro</option>
+                            <option value="Gato" {{ $breed->animalType == "Gato" ? 'selected' : '' }}>Gato</option>
+                            <option value="Otro" {{ $breed->animalType == "Otro" ? 'selected' : '' }}>Otro</option>
+                        </select>
+
                     </div>
                     <div class="mb-4">
                         <label for="breedName" class="block text-gray-700 font-bold mb-2">Nombre de la Raza:</label>
@@ -23,7 +28,11 @@
                     </div>
                     <div class="mb-4">
                         <label for="size" class="block text-gray-700 font-bold mb-2">Tamaño:</label>
-                        <input type="text" name="size" id="size" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{ $breed->size}}" required>
+                        <select name="size" id="size" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                            <option value="Pequeño" {{ $breed->size == "Pequeño" ? 'selected' : '' }}>Pequeño</option>
+                            <option value="Mediano" {{ $breed->size == "Mediano" ? 'selected' : '' }}>Mediano</option>
+                            <option value="Grande" {{ $breed->size == "Grande" ? 'selected' : '' }}>Grande</option>
+                        </select>
                     </div>
                     <div class="flex items-center justify-between">
                         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Actualizar Raza</button>
@@ -33,4 +42,3 @@
 </x-app-layout>
 
                      
-                

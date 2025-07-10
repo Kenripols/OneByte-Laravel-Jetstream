@@ -11,6 +11,7 @@
 
         @if($user->owner)
             <h2 class="text-xl font-semibold mt-6">Datos de Dueño</h2>
+<<<<<<< Updated upstream
             <p><strong>Tipo de Documento:</strong> {{ $user->owner->docType }}</p>
             <p><strong>Numero de documento:</strong> {{ $user->owner->docNum }}</p>
             <p><strong>Primer Nombre:</strong> {{ $user->owner->fName1 }}</p>
@@ -18,6 +19,14 @@
             <p><strong>Primer Apellido:</strong> {{ $user->owner->sName1 }}</p>
             <p><strong>Segundo Apellido:</strong> {{ $user->owner->sName2 }}</p>
 
+=======
+            <p><strong>Tipo de Documento:</strong> {{ $user->owner->doctype }}</p>
+            <p><strong>Numero de documento:</strong> {{ $user->owner->docnum }}</p>
+            <p><strong>Primer Nombre:</strong> {{ $user->owner->fname }}</p>
+            <p><strong>Segundo Nombre:</strong> {{ $user->owner->fname2 }}</p>
+            <p><strong>Primer Apellido:</strong> {{ $user->owner->sname1 }}</p>
+            <p><strong>Segundo Apellido:</strong> {{ $user->owner->sname2 }}</p>
+>>>>>>> Stashed changes
             @if($user->owner->pets->isNotEmpty())
                 <h2 class="text-xl font-semibold mt-6">Mascotas</h2>
                 <ul class="list-disc list-inside">
@@ -34,5 +43,9 @@
         @else
             <p class="text-gray-500 mt-4">Este usuario no tiene perfil de owner asociado.</p>
         @endif
+    </div>            
+    <div class="mb-4">
+        <a href="{{ route('admin.users.index') }}" 
+                class="inline-block bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Volver</a>
     </div>
 </x-app-layout>

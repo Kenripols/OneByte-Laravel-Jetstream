@@ -113,3 +113,11 @@ return [
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
 
 ];
+/*rS94IHkKnH-eaKxg3mufN
+WpL3Ojg3xA-b6fGyq41iR
+HnQfedYBpx-5bSvUJ1uCD
+nDFhSHUvsG-1A1P1zG3hA
+MTJpvv4RFf-suaop0mkB9
+eikg2Estkp-Sn3qOveQRk
+isMS6ygb5C-bDWGVWeO0M
+irv05LMpHi-K644Lvj5hm*/

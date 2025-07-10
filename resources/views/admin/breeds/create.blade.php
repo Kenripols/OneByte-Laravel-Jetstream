@@ -11,16 +11,24 @@
                 <form action="{{ route('admin.breeds.store') }}" method="POST">
                     @csrf
                     <div class="mb-4">
-                        <label for="animalType" class="block text-gray-700 font-bold mb-2">Tipo de Animal:</label>
-                        <input type="text" name="animalType" id="animalType" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                        <label for="animalType" class="block text-gray-700 font-bold mb-2">Animal:</label>
+                        <select name="animalType" id="animalType" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                            <option value="Perro" selected>Perro</option>
+                            <option value="Gato" >Gato</option>
+                            <option value="Otro">Otro</option>
+                        </select>
                     </div>
                     <div class="mb-4">
                         <label for="breedName" class="block text-gray-700 font-bold mb-2">Nombre de la Raza:</label>
                         <input type="text" name="breedName" id="breedName" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                     </div>
                     <div class="mb-4">
-                        <label for="size" class="block text-gray-700 font-bold mb-2">Tamaño:</label>
-                        <input type="text" name="size" id="size" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                        <label for="size" class="block text-gray-700 font-bold mb-2">Tamaño:</label>                        
+                        <select name="size" id="size" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                            <option value="Pequeño" selected>Pequeño</option>
+                            <option value="Mediano" >Mediano</option>
+                            <option value="Grande">Grande</option>
+                        </select>
                     </div>
                     <div class="flex items-center justify-between">
                         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
