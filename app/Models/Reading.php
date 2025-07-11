@@ -12,15 +12,10 @@ class Reading extends Model
     protected $fillable = [
         'pet_id',
         'QRPlate_id',
-        // otros campos si los tienes
     ];
 
-    // Relaciones
-    public function pet()
-    {
-        return $this->belongsTo(Pet::class);
-    }
-
+    
+// La lectura realizada es de una placa QR y por asociacion de una mascota
     public function qrPlate()
     {
         return $this->belongsTo(QRPlate::class, 'QRPlate_id');

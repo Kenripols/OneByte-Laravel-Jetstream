@@ -44,40 +44,40 @@
 
             {{-- Datos del Owner --}}
             <div class="mb-4">
-                <label for="doctype" class="block text-gray-700 font-bold mb-2">Tipo de documento:</label>
-                <select name="doctype" id="doctype" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
-                    <option value="Cedula" {{ old('doctype', $owner->doctype ?? '') == "Cedula" ? 'selected' : '' }}>Cédula</option>
-                    <option value="Pasaporte" {{ old('doctype', $owner->doctype ?? '') == "Pasaporte" ? 'selected' : '' }}>Pasaporte</option>
+                <label for="docType" class="block text-gray-700 font-bold mb-2">Tipo de documento:</label>
+                <select name="docType" id="docType" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    <option value="Cedula" {{ old('docType', $owner->docType ?? '') == "Cedula" ? 'selected' : '' }}>Cédula</option>
+                    <option value="Pasaporte" {{ old('docType', $owner->docType ?? '') == "Pasaporte" ? 'selected' : '' }}>Pasaporte</option>
                 </select>
             </div>
 
             <div class="mb-4">
-                <label for="docnum" class="block text-gray-700 font-bold mb-2">Número de documento:</label>
-                <input type="number" name="docnum" id="docnum" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    value="{{ old('docnum', $owner->docnum ?? '') }}" required>
+                <label for="docNum" class="block text-gray-700 font-bold mb-2">Número de documento:</label>
+                <input type="number" name="docNum" id="docNum" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    value="{{ old('docNum', $owner->docNum ?? '') }}" required>
             </div>
 
             <div class="mb-4">
-                <label for="fname" class="block text-gray-700 font-bold mb-2">Primer Nombre:</label>
-                <input type="text" name="fname" id="fname" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    value="{{ old('fname', $owner->fname ?? '') }}" required>
+                <label for="fName1" class="block text-gray-700 font-bold mb-2">Primer Nombre:</label>
+                <input type="text" name="fName1" id="fName1" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    value="{{ old('fName1', $owner->fName1 ?? '') }}" required>
             </div>
 
             <div class="mb-4">
-                <label for="fname2" class="block text-gray-700 font-bold mb-2">Segundo Nombre:</label>
-                <input type="text" name="fname2" id="fname2" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    value="{{ old('fname2', $owner->fname2 ?? '') }}">
+                <label for="fName2" class="block text-gray-700 font-bold mb-2">Segundo Nombre:</label>
+                <input type="text" name="fName2" id="fName2" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    value="{{ old('fName2', $owner->fName2 ?? '') }}">
             </div>
 
             <div class="mb-4">
-                <label for="sname1" class="block text-gray-700 font-bold mb-2">Primer Apellido:</label>
-                <input type="text" name="sname1" id="sname1" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    value="{{ old('sname1', $owner->sname1 ?? '') }}" required>
+                <label for="sName1" class="block text-gray-700 font-bold mb-2">Primer Apellido:</label>
+                <input type="text" name="sName1" id="sName1" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    value="{{ old('sName1', $owner->sName1 ?? '') }}" required>
             </div>
 
             <div class="mb-4">
-                <label for="sname2" class="block text-gray-700 font-bold mb-2">Segundo Apellido:</label>
-                <input type="text" name="sname2" id="sname2" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                <label for="sName2" class="block text-gray-700 font-bold mb-2">Segundo Apellido:</label>
+                <input type="text" name="sName2" id="sName2" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     value="{{ old('sname2', $owner->sname2 ?? '') }}">
             </div>
 

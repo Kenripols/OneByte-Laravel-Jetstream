@@ -14,7 +14,7 @@
         <p><strong>Raza:</strong> {{ $pet->breed ? $pet->breed->breedName : 'Sin raza' }}</p>
         <p><strong>Dueño:</strong> 
             @if($pet->owner)
-                {{ $pet->owner->fname }} {{ $pet->owner->sName1 }} {{ $pet->owner->user->email}}
+                {{ $pet->owner->fName1 }} {{ $pet->owner->sName1 }} {{ $pet->owner->user->email}}
             @else
                 Sin dueño asignado
             @endif

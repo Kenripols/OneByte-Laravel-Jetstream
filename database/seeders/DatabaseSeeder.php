@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
         // Creo usuario Admin precargado
         $adminUser = User::factory()->create([
             'name' => 'Admin',
-            'email' => 'gvilarino1727@gmail.com',
+            'email' => 'ken.rip2@gmail.com',
             'password' => bcrypt('12345678'), // Contraseña por defecto
         ]);
         $adminUser->assignRole($roleAdmin); // Asigno el rol de admin al usuario creado

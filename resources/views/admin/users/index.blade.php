@@ -36,7 +36,8 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             <a href="{{ route('admin.users.show', $user) }}" class="text-blue-600 hover:text-blue-900">Ver Datos</a> | 
                             <a href="{{ route('admin.users.edit', $user) }}" class="text-blue-600 hover:text-blue-900">Editar</a> |
-                            <a href="{{ route('admin.users.confirm-delete', $user) }}" class="bg-red-500 hover:bg-red-700 text-white py-1 px-3 rounded">Eliminar</a>
+                            <a href="{{ route('admin.users.confirm-delete', $user) }}" class="bg-red-500 hover:bg-red-700 text-red py-1 px-3 rounded">Eliminar</a>
+                            <!-- Cambiado porque no se ve el boton eliminar, revisar funcion de borrado lógico ya que luego al restaurar no vuelven datos de owner -->
                         </td>
                     </tr>
                 @endforeach

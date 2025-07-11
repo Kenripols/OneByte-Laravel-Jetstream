@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Http\Requests\UpdateUserRequest;  // Asegúrate de importar el FormRequest
+use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -14,7 +14,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        // Obtiene usuarios con paginación
+        //Devuelve la vista del index de usuarios
+        // Paginamos los resultados
         $users = User::paginate(10);
         return view('admin.users.index', compact('users'));
     }
@@ -24,7 +25,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        // Implementar si quieres crear usuarios desde admin
+        //
     }
 
     /**
@@ -32,7 +33,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // Implementar si usas creación desde admin
+        // 
     }
 
     /**
@@ -50,6 +51,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+
         return view('admin.users.edit', compact('user'));
     }
 
@@ -63,29 +65,29 @@ class UserController extends Controller
 
     // Datos para Owner
     $ownerData = [
-        'doctype' => $validated['doctype'],
-        'docnum'  => $validated['docnum'],
-        'fname'   => $validated['fname'],
-        'fname2'  => $validated['fname2'] ?? null,
-        'sname1'  => $validated['sname1'],
-        'sname2'  => $validated['sname2'] ?? null,
+        'docType' => $validated['docType'],
+        'docNum'  => $validated['docNum'],
+        'fName1'   => $validated['fName1'],
+        'fName2'  => $validated['fName2'] ?? null,
+        'sName1'  => $validated['sName1'],
+        'sName2'  => $validated['sName2'] ?? null,
     ];
 
-    // Actualiza o crea el Owner relacionado
+    // Actualiza o crea el Owner relacionado ?? Consultar con Equis
     $user->owner()->updateOrCreate(
         ['user_id' => $user->id],
         $ownerData
     );
 
     return redirect()->route('admin.users.index')
-        ->with('success', 'Propietario actualizado correctamente');
+        ->with('success', 'Dueño actualizado correctamente');
 }
     /**
      * Remove the specified resource from storage (borrado lógico).
      */
     public function destroy(User $user)
     {
-        // Borrado lógico de mascotas relacionadas si usan SoftDeletes
+        // Borrado lógico de mascotas relacionadas con el uso de SoftDeletes
         if ($user->owner) {
             $user->owner->pets()->delete();
             $user->owner->delete();
@@ -105,7 +107,7 @@ class UserController extends Controller
     {
         if ($user->owner) {
             foreach ($user->owner->pets as $pet) {
-                $pet->q_r_plates()->forceDelete(); // Borra QR plates asociados
+                $pet->q_r_plates()->forceDelete(); // Borra Placas QR asociadas a mascotas
             }
             $user->owner->pets()->forceDelete(); // Borra mascotas
             $user->owner->forceDelete();         // Borra owner
@@ -133,7 +135,7 @@ class UserController extends Controller
     }
 public function trashed()
 {
-    // Obtener sólo usuarios eliminados lógicamente con paginación
+    // Obtengo sólo usuarios eliminados lógicamente con paginación
     $users = User::onlyTrashed()->paginate(10);
 
     // Retornar vista, podrías usar la misma vista con una bandera, o una vista distinta

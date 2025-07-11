@@ -17,6 +17,7 @@ Route::middleware([
     })->name('dashboard');
 });
 
+// Estas rutas deberian estar en routes/admin.php que es el archivo donde se guardan las rutas de admin
 // Rutas admin agrupadas con prefijo y nombre 'admin.'
 Route::prefix('admin')->name('admin.')->group(function () {
 

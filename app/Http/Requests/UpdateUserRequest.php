@@ -22,12 +22,12 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
 {
     return [
-        'doctype' => 'required|string|max:255',
-        'docnum' => 'required|string|max:255',
-        'fname' => 'required|string|max:255',
-        'fname2' => 'nullable|string|max:255',
-        'sname1' => 'required|string|max:255',
-        'sname2' => 'nullable|string|max:255',
+        'docType' => 'required|string|max:255',
+        'docNum' => 'required|string|max:255',
+        'fName1' => 'required|string|max:255',
+        'fName2' => 'nullable|string|max:255',
+        'sName1' => 'required|string|max:255',
+        'sName2' => 'nullable|string|max:255',
     ];
 }
 }

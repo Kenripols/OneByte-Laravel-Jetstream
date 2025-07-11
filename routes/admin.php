@@ -20,16 +20,16 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
         ->names('breeds');
 
     Route::resource('users', UserController::class)
-        ->parameters(['users' => 'user'])
-        ->names('users');
+    ->parameters(['users' => 'user'])
+    ->names('users');
 
     Route::resource('pets', PetController::class)
-        ->parameters(['pets' => 'pet'])
-        ->names('pets');
+    ->parameters(['pets' => 'pet'])
+    ->names('pets');
 
     Route::get('/', function () {
-        return view('dashboard');
-    })->name('dashboard');
+   return view('dashboard');
+})->name('dashboard');
 });
 
 

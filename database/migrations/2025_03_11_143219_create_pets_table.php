@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('photo');
             $table->string('name');
             $table->date('bDate');
-
+            
             // Clave foránea a la tabla breeds
             $table->unsignedBigInteger('breed_id');
             $table->foreign('breed_id')->references('id')->on('breeds')->onDelete('cascade');

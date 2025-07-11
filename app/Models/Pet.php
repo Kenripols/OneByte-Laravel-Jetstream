@@ -21,25 +21,19 @@ class Pet extends Model
         'bDate' => 'date',
     ];
 
-    /**
-     * Relación: una mascota pertenece a una raza.
-     */
+    //Especifico la relacion de una mascota pertenece a una raza
     public function breed(): BelongsTo
     {
         return $this->belongsTo(Breed::class, 'breed_id', 'id');
     }
 
-    /**
-     * Relación: una mascota pertenece a un owner.
-     */
+    // Especifico la relacion de una mascota pertenece a un owner
     public function owner(): BelongsTo
     {
         return $this->belongsTo(Owner::class, 'owner_id', 'user_id');
     }
 
-    /**
-     * Relación: una mascota puede tener muchas placas QR.
-     */
+    // Especifico la relacion de una mascota tiene muchas placas QR
     public function q_r_plates(): HasMany
     {
         return $this->hasMany(QRPlate::class, 'pet_id');

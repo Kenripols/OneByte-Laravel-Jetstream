@@ -68,9 +68,7 @@ class User extends Authenticatable
         'email_verified_at',
     ];
 
-    /**
-     * Obtener el owner asociado a la id de usuario.
-     */
+    // Especifico la relacion de un usuario a un owner
     public function owner()
     {
         return $this->hasOne(Owner::class, 'user_id', 'id');
