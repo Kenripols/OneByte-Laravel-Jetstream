@@ -18,6 +18,11 @@ Enlace simbólico con storage para carga de imágenes:
 
 php artisan storage:link
 
+Pasos necesarios para acceder:
+
+Instalar en XAMPP un certificado autofirmado para ingresar por HTTPS y usar todas las funcionalidades.
+(Proximamente Guia de instalación paso a paso)
+
 ------------------------------------------------------------------------------------------------------
 
 

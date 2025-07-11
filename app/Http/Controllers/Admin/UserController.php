@@ -144,13 +144,18 @@ public function trashed()
 public function restore($id)
 {
     $user = User::onlyTrashed()->findOrFail($id);
-    
-    if ($user->owner) {
-        $user->owner()->withTrashed()->restore(); // Restaura el owner
-        $user->owner->pets()->withTrashed()->restore(); // Restaura las mascotas
-    }
 
-    $user->restore(); // Restaura el usuario
+    // Restauro el usuario primero
+    $user->restore();
+
+    // Restauro el perfil de owner y sus mascotas si tiene
+    if ($user->owner()->withTrashed()->exists()) {
+        $owner = $user->owner()->withTrashed()->first();
+        $owner->restore();
+
+        // Restauro sus mascotas
+        $owner->pets()->withTrashed()->restore();
+    }
 
     return redirect()->route('admin.users.trashed')->with('success', 'Usuario restaurado correctamente.');
 }
