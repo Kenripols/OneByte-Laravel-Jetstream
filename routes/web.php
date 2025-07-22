@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\PetController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -12,28 +13,29 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
+
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    // Rutas admin (solo usuarios con rol admin)
+    Route::middleware('role:admin')->prefix('admin')->name('admin.')->group(function () {
+        
+        // Usuarios
+        Route::get('users/{user}/confirm-delete', [UserController::class, 'confirmDelete'])->name('users.confirm-delete');
+        Route::get('users/{user}/confirm-force-delete', [UserController::class, 'confirmForceDelete'])->name('users.confirm-force-delete');
+        Route::delete('users/{user}/force-delete', [UserController::class, 'forceDelete'])->name('users.force-delete');
+        Route::get('users/trashed', [UserController::class, 'trashed'])->name('users.trashed');
+        Route::patch('users/{id}/restore', [UserController::class, 'restore'])->name('users.restore');
+        Route::resource('users', UserController::class);
+
+        // Mascotas (Pets)
+        Route::resource('pets', PetController::class);
+    });
+
+    // Rutas owner (solo usuarios con rol owner)
+    Route::middleware('role:owner')->prefix('owner')->name('owner.')->group(function () {
+        Route::resource('pets', PetController::class);
+    });
+
 });
-
-// Estas rutas deberian estar en routes/admin.php que es el archivo donde se guardan las rutas de admin
-// Rutas admin agrupadas con prefijo y nombre 'admin.'
-Route::prefix('admin')->name('admin.')->group(function () {
-
-    // Confirmación de borrado lógico
-    Route::get('users/{user}/confirm-delete', [UserController::class, 'confirmDelete'])->name('users.confirm-delete');
-
-    // Confirmación de borrado físico
-    Route::get('users/{user}/confirm-force-delete', [UserController::class, 'confirmForceDelete'])->name('users.confirm-force-delete');
-
-    // Borrado físico (force delete)
-    Route::delete('users/{user}/force-delete', [UserController::class, 'forceDelete'])->name('users.force-delete');
-    
-    Route::get('users/trashed', [UserController::class, 'trashed'])->name('users.trashed');
-    Route::patch('users/{id}/restore', [UserController::class, 'restore'])->name('users.restore');
-    
-    // CRUD completo para users
-    Route::resource('users', UserController::class);
-});
-

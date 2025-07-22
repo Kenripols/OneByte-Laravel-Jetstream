@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Permission\Traits\HasRoles;
+use Spatie\Permission\Traits\HasRoles; //lo sacaria
 
 class Pet extends Model
 {
@@ -39,3 +39,4 @@ class Pet extends Model
         return $this->hasMany(QRPlate::class, 'pet_id');
     }
 }
+//revisar el has roles que me parece que no va

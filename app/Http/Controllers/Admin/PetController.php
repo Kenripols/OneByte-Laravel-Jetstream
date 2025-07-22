@@ -8,39 +8,36 @@ use App\Models\Pet;
 use App\Models\Breed;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Spatie\Permission\Traits\HasRoles;
 
 class PetController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-       //Segun el rol de usuario autenticado, muestra las mascotas (Funciona a pesar de que el ID da error)
-        if (Auth::user()->hasRole('admin')) {
-            // Si es admin, muestra todas las mascotas
-            $pets = Pet::with(['breed', 'owner'])->paginate(10);
-            return view('admin.pets.index', compact('pets'));
-        } else {
-            // Si no es admin, muestra solo las mascotas del usuario autenticado
-            $pets = Pet::with(['breed', 'owner'])
-                ->whereHas('owner', function ($query) {
-                    $query->where('user_id', Auth::id());
-                })
-                ->paginate(10);
-                return view('owner.pets.index', compact('pets'));
-        }
+    $user = Auth::user();
 
-        
+    if ($user->hasRole('admin')) {
+        return view('admin.pets.index');
+    } else {
+        return view('owner.pets.index');
     }
+}
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        if (Auth::user()->hasRole('owner')) {
+        $user = Auth::user();
+
+        if ($user->hasRole('owner')) {
             $breeds = Breed::all();
             return view('owner.pets.create', compact('breeds'));
         } else {
@@ -54,13 +51,19 @@ class PetController extends Controller
      */
     public function store(StorePetRequest $request)
     {
-        $owner = Auth::user()->owner; // El dueño es el usuario logueado
+        $user = Auth::user();
+
+        if (!$user->hasRole('owner')) {
+            return redirect()->route('admin.pets.index')
+                ->with('error', 'No tienes permiso para crear mascotas.');
+        }
+
+        $owner = $user->owner; // El dueño es el usuario logueado
 
         $data = $request->validated();
-        
+
         $data['owner_id'] = $owner->user_id; // Asigno el owner_id
 
-        // Si sube una foto, la guardo en storage
         if ($request->hasFile('photo')) {
             $data['photo'] = $request->file('photo')->store('pets', 'public');
         } else {
@@ -78,9 +81,19 @@ class PetController extends Controller
      */
     public function show(Pet $pet)
     {
-        $pet = Pet::with(['breed', 'owner'])->findOrFail($pet->id);
+        $pet->load(['breed', 'owner']);
 
-    return view('admin.pets.show', compact('pet'));
+        $user = Auth::user();
+
+        if ($user->hasRole('admin')) {
+            return view('admin.pets.show', compact('pet'));
+        }
+
+        if ($user->hasRole('owner') && $pet->owner->user_id === $user->id) {
+            return view('owner.pets.show', compact('pet'));
+        }
+
+        abort(403, 'No autorizado');
     }
 
     /**
@@ -88,15 +101,45 @@ class PetController extends Controller
      */
     public function edit(Pet $pet)
     {
-        //
+        $user = Auth::user();
+
+        if (!$user->hasRole('admin') && $pet->owner->user_id !== $user->id) {
+            return redirect()->route('owner.pets.index')->with('error', 'No autorizado');
+        }
+
+        $breeds = Breed::all();
+
+        if ($user->hasRole('admin')) {
+            return view('admin.pets.edit', compact('pet', 'breeds'));
+        } else {
+            return view('owner.pets.edit', compact('pet', 'breeds'));
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Pet $pet)
+    public function update(StorePetRequest $request, Pet $pet)
     {
-        //
+        $user = Auth::user();
+
+        if (!$user->hasRole('admin') && $pet->owner->user_id !== $user->id) {
+            return redirect()->route('owner.pets.index')->with('error', 'No autorizado');
+        }
+
+        $data = $request->validated();
+
+        if ($request->hasFile('photo')) {
+            $data['photo'] = $request->file('photo')->store('pets', 'public');
+        }
+
+        $pet->update($data);
+
+        if ($user->hasRole('admin')) {
+            return redirect()->route('admin.pets.index')->with('success', 'Mascota actualizada correctamente');
+        } else {
+            return redirect()->route('owner.pets.index')->with('success', 'Mascota actualizada correctamente');
+        }
     }
 
     /**
@@ -104,6 +147,18 @@ class PetController extends Controller
      */
     public function destroy(Pet $pet)
     {
-        //
+        $user = Auth::user();
+
+        if (!$user->hasRole('admin') && $pet->owner->user_id !== $user->id) {
+            return redirect()->route('owner.pets.index')->with('error', 'No autorizado');
+        }
+
+        $pet->delete();
+
+        if ($user->hasRole('admin')) {
+            return redirect()->route('admin.pets.index')->with('success', 'Mascota eliminada correctamente');
+        } else {
+            return redirect()->route('owner.pets.index')->with('success', 'Mascota eliminada correctamente');
+        }
     }
 }
