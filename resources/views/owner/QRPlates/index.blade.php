@@ -31,6 +31,7 @@
                         <tr>
                             <!-- Nombre de columnas -->
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID QR</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Código QR</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha de Registro </th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha de Vencimiento</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID Mascota Asociada</th>
@@ -41,6 +42,7 @@
                         @foreach ($QRPlates as $QRPlate)
                             <tr>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $QRPlate->id }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $QRPlate->code }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $QRPlate->iDate }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $QRPlate->eDate }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $QRPlate->pet_id }}</td>

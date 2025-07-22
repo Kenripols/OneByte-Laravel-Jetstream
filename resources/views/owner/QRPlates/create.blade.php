@@ -53,7 +53,7 @@
                     </div>
 
                     <!-- Campo oculto donde se guarda el resultado del QR -->
-                    <input type="hidden" name="qr_code" id="qr_code">
+                    <input type="hidden" name="code" id="code">
                     
                     <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                         Guardar
@@ -74,7 +74,7 @@
                 document.getElementById('qr-result').textContent = `Código escaneado: ${decodedText}`;
 
                 // Guardarlo en el campo oculto del formulario
-                document.getElementById('qr_code').value = decodedText;
+                document.getElementById('code').value = decodedText;
 
                 // Opcional: detener escáner
                 scanner.clear();

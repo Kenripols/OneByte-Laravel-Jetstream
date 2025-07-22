@@ -13,10 +13,7 @@ class QRPlate extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'code',
-        'pet_id',
-        'iDate',
-        'eDate',
+        'code', 'pet_id', 'iDate', 'eDate',
     ];
 // Especifico que una placa QR pertenece a una mascota
     public function pet(): BelongsTo

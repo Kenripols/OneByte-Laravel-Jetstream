@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreQRPlateRequest;
 use App\Models\QRPlate;
 use App\Models\Pet;
 use Illuminate\Http\Request;
@@ -49,9 +50,19 @@ class QRPlateController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreQRPlateRequest $request)
     {
-        //
+        // Validación y almacenamiento del QRPlate
+        $request->validated();
+        // Creo el nuevo QRPlate
+        $qRPlate = new QRPlate();
+        $qRPlate->pet_id = $request->pet_id;
+        $qRPlate->code = $request->code;
+        $qRPlate->iDate = $request->iDate;
+        $qRPlate->eDate = $request->eDate;
+        $qRPlate->save();
+
+        return redirect()->route('owner.qrplates.index')->with('success', 'La placa QR ha sido creada.');
     }
 
     /**
