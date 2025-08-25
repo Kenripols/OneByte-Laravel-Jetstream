@@ -36,6 +36,9 @@ Publicar la migración
 php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
 
 
+Crear un modelo con una migración asociada
+
+php artisan make:model PetHistory -m
 
 Crear un controlador en base a un model:
 php artisan make:controller Admin/BreedController --model=Breed
