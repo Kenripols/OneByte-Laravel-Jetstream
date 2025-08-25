@@ -18,6 +18,13 @@
             <p><strong>Primer Apellido:</strong> {{ $user->owner->sName1 }}</p>
             <p><strong>Segundo Apellido:</strong> {{ $user->owner->sName2 }}</p>
 
+            <div class="mt-4">
+                <a href="{{ route('admin.pets.create') }}" 
+                    class="inline-block bg-blue-600 hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded">
+                    Agregar Mascota
+                </a>
+            </div>
+
             @if($user->owner->pets->isNotEmpty())
                 <h2 class="text-xl font-semibold mt-6">Mascotas</h2>
                 <ul class="list-disc list-inside">
@@ -25,6 +32,7 @@
                         <li>
                             {{ $pet->name }} ({{ $pet->breed ? $pet->breed->name : 'Sin raza' }}) -
                             <a href="{{ route('admin.pets.show', $pet) }}" class="text-blue-600 hover:text-blue-900">Ver Detalles</a>
+                            <a href="{{ route('admin.pets.edit', $pet) }}" class="text-green-600 hover:text-green-900 ml-2">Editar</a>
                         </li>
                     @endforeach
                 </ul>
@@ -35,7 +43,8 @@
             <p class="text-gray-500 mt-4">Este usuario no tiene perfil de owner asociado.</p>
         @endif
     </div>            
-    <div class="mb-4">
+
+    <div class="mb-4 mt-6">
         <a href="{{ route('admin.users.index') }}" 
                 class="inline-block bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Volver</a>
     </div>
