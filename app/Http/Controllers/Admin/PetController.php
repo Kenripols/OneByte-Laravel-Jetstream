@@ -8,6 +8,8 @@ use App\Models\Pet;
 use App\Models\Breed;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Traits\HasRoles;
+
 
 class PetController extends Controller
 {
@@ -21,12 +23,19 @@ class PetController extends Controller
      */
     public function index()
     {
-    $user = Auth::user();
-
-    if ($user->hasRole('admin')) {
-        return view('admin.pets.index');
-    } else {
-        return view('owner.pets.index');
+           //Segun el rol de usuario autenticado, muestra las mascotas (Funciona a pesar de que el ID da error)
+        if (Auth::user()->hasRole('admin')) {
+            // Si es admin, muestra todas las mascotas
+            $pets = Pet::with(['breed', 'owner'])->paginate(10);
+            return view('admin.pets.index', compact('pets'));
+} else {
+                // Si no es admin, muestra solo las mascotas del usuario autenticado
+            $pets = Pet::with(['breed', 'owner'])
+                ->whereHas('owner', function ($query) {
+                    $query->where('user_id', Auth::id());
+                })
+                ->paginate(10);
+                return view('owner.pets.index', compact('pets'));
     }
 }
 
@@ -35,9 +44,7 @@ class PetController extends Controller
      */
     public function create()
     {
-        $user = Auth::user();
-
-        if ($user->hasRole('owner')) {
+        if (Auth::user()->hasRole('owner')) {
             $breeds = Breed::all();
             return view('owner.pets.create', compact('breeds'));
         } else {
@@ -51,19 +58,13 @@ class PetController extends Controller
      */
     public function store(StorePetRequest $request)
     {
-        $user = Auth::user();
-
-        if (!$user->hasRole('owner')) {
-            return redirect()->route('admin.pets.index')
-                ->with('error', 'No tienes permiso para crear mascotas.');
-        }
-
-        $owner = $user->owner; // El dueño es el usuario logueado
+        $owner = Auth::user()->owner; // El dueño es el usuario logueado
 
         $data = $request->validated();
 
         $data['owner_id'] = $owner->user_id; // Asigno el owner_id
 
+        //Si sube una foto, la guardo en storage
         if ($request->hasFile('photo')) {
             $data['photo'] = $request->file('photo')->store('pets', 'public');
         } else {
@@ -121,6 +122,7 @@ class PetController extends Controller
      */
     public function update(StorePetRequest $request, Pet $pet)
     {
+        //Usuario autenticado
         $user = Auth::user();
 
         if (!$user->hasRole('admin') && $pet->owner->user_id !== $user->id) {
@@ -128,6 +130,7 @@ class PetController extends Controller
         }
 
         $data = $request->validated();
+        // Si sube una foto, la guardo en storage
 
         if ($request->hasFile('photo')) {
             $data['photo'] = $request->file('photo')->store('pets', 'public');

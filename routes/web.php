@@ -17,7 +17,7 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-
+//Ver de mover las rutas admin a routes/admin.php
     // Rutas admin (solo usuarios con rol admin)
     Route::middleware('role:admin')->prefix('admin')->name('admin.')->group(function () {
         
@@ -29,13 +29,9 @@ Route::middleware([
         Route::patch('users/{id}/restore', [UserController::class, 'restore'])->name('users.restore');
         Route::resource('users', UserController::class);
 
-        // Mascotas (Pets)
-        Route::resource('pets', PetController::class);
+        
     });
 
-    // Rutas owner (solo usuarios con rol owner)
-    Route::middleware('role:owner')->prefix('owner')->name('owner.')->group(function () {
-        Route::resource('pets', PetController::class);
-    });
+    
 
 });

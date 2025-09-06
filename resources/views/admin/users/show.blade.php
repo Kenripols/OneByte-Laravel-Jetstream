@@ -18,12 +18,6 @@
             <p><strong>Primer Apellido:</strong> {{ $user->owner->sName1 }}</p>
             <p><strong>Segundo Apellido:</strong> {{ $user->owner->sName2 }}</p>
 
-            <div class="mt-4">
-                <a href="{{ route('admin.pets.create') }}" 
-                    class="inline-block bg-blue-600 hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded">
-                    Agregar Mascota
-                </a>
-            </div>
 
             @if($user->owner->pets->isNotEmpty())
                 <h2 class="text-xl font-semibold mt-6">Mascotas</h2>
