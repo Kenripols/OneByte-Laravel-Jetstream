@@ -43,6 +43,9 @@ php artisan make:model PetHistory -m
 Crear un controlador en base a un model:
 php artisan make:controller Admin/BreedController --model=Breed
 
+Crear un factory en base a un modelo
+php artisan make:factory UserFactory --model=User
+
 Crear un request (Se almacenan en Controllers/Requests)
 
 php artisan make:request UpdateBreedRequest

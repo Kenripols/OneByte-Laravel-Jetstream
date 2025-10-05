@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class PetHistory extends Model
 {
-    protected $table = 'pet_status_histories';
+    use HasFactory;
+    protected $table = 'pet_state_history';
 
     protected $fillable = [
         'pet_id',

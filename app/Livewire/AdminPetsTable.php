@@ -25,7 +25,7 @@ class AdminPetsTable extends Component
     {
         $this->resetPage();
     }
-// esta fucnion abre el modal, se la llama cuando se hace clic en el nombre de la mascota 
+// esta funcion abre el modal, se la llama cuando se hace clic en el nombre de la mascota 
     public function openModal($petId)
     {
         $this->selectedPet = Pet::find($petId);

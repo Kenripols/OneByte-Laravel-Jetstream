@@ -12,10 +12,10 @@
                     
                 <form action="{{ route('admin.breeds.destroy', $breed) }}" method="POST">
                     @csrf
-                    @method('PUT')
+                    @method('DELETE')
                     <div class="mb-4">
                         <label for="animalType" class="block text-gray-700 font-bold mb-2">Tipo de Animal:</label>
-                        {{ $breed->animaltype }}
+                        {{ $breed->animalType }}
 
                     </div>
                     <div class="mb-4">

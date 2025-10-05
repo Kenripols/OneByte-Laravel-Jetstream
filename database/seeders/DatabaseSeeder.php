@@ -8,6 +8,7 @@ use App\Models\Breed;
 use App\Models\Pet;
 use App\Models\Reading;
 use App\Models\QRPlate;
+use App\Models\PetHistory;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -55,21 +56,25 @@ class DatabaseSeeder extends Seeder
         Owner::all()->each(function ($owner) use ($breeds) {
             // Cada propietario tendrá 3 mascotas
             Pet::factory(3)->create([
-                'owner_id' => $owner->user_id,  // Asigna el owner actual
-                'breed_id' => $breeds->random()->id, // Asigna una raza aleatoria
+                'owner_id' => $owner->user_id,
+                'breed_id' => $breeds->random()->id,
             ])->each(function ($pet) {
-                // Cada mascota tendrá una placa QR
-                QRPlate::factory()->create([
+                // Creo la placa QR para la mascota
+                $qrPlate = QRPlate::factory()->create([
                     'pet_id' => $pet->id,
-                ])->each(function ($qrPlate) {
-                    // Cada placa QR tendrá una lectura
-                    Reading::factory()->create([
-                        'QRPlate_id' => $qrPlate->id,
-                    ]);
-                });
+                ]);
+
+                // Creo entre 1 estado para cada mascota
+                PetHistory::factory()->count(1)->create([
+                    'pet_id' => $pet->id,
+                ]);
+
+                // Creo una lectura para la placa QR
+                Reading::factory()->create([
+                    'QRPlate_id' => $qrPlate->id,
+                ]);
             });
         });
-       
-    
     }
 }
+

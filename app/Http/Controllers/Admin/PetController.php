@@ -164,4 +164,5 @@ class PetController extends Controller
             return redirect()->route('owner.pets.index')->with('success', 'Mascota eliminada correctamente');
         }
     }
+    
 }
