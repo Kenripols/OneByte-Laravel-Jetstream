@@ -38,5 +38,11 @@ class Pet extends Model
     {
         return $this->hasMany(QRPlate::class, 'pet_id');
     }
+
+    // Especifico la relacion de una mascota tiene muchos historiales de estado
+    public function pet_state_histories(): HasMany
+    {
+        return $this->hasMany(PetHistory::class, 'pet_id');
+    }
 }
 //revisar el has roles que me parece que no va

@@ -54,7 +54,11 @@
         <p><strong>Fecha de nacimiento:</strong> {{ $selectedPet->bDate->format('d/m/Y') }}</p>
         <p><strong>Especie:</strong> {{ $selectedPet->breed ? $selectedPet->breed->animalType : 'Sin Especie' }}</p>
         <p><strong>Raza:</strong> {{ $selectedPet->breed ? $selectedPet->breed->breedName : 'Sin raza' }}</p>
-        <p><strong>Estado:</strong> vivo, perdido, caput, capaz hacer historicos</p>
+        <p><strong>Estado Actual:</strong> 
+            @php
+                $latestHistory = $selectedPet->pet_state_histories()->orderBy('created_at', 'desc')->first();
+            @endphp
+            {{ $latestHistory ? $latestHistory->state : 'Sin historial de estado' }}
         <p><strong>Dueño:</strong>  @if($pet->owner)
                                         {{ $pet->owner->fName1 }}
                                         {{ $pet->owner->sName1 }}     
