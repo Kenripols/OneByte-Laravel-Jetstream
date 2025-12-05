@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Pet;
 
 class OwnerPetsTable extends Component
@@ -12,10 +13,10 @@ class OwnerPetsTable extends Component
 
     public $searchId = '';
     public $searchName = '';
-
     public $selectedPet = null;
     public $showModal = false;
-// los updating funcionan para resetear en la medida que se va escribiendo
+
+    // los updating funcionan para resetear en la medida que se va escribiendo
     public function updatingSearchId()
     {
         $this->resetPage();
@@ -25,24 +26,33 @@ class OwnerPetsTable extends Component
     {
         $this->resetPage();
     }
-// esta funcion abre el modal, se la llama cuando se hace clic en el nombre de la mascota 
+
+    // esta funcion abre el modal, se la llama cuando se hace clic en el nombre de la mascota 
     public function openModal($petId)
     {
-        $this->selectedPet = Pet::find($petId);
+        $this->selectedPet = Pet::with(['breed', 'owner', 'pet_state_histories'])->find($petId);
         $this->showModal = true;
         logger('Se abrio el modal Wiiiii: ' . $petId);
     }
-// cerrar modal
+
+    // cerrar modal
     public function closeModal()
     {
         $this->showModal = false;
         $this->selectedPet = null;
     }
-// esta funcion realiza una consulta cada vez que se escribe, usando el datoq que se escribe, si se escriben ambos, cuenta como AND de los 2 datos
-//la busqueda de nombre es parcial (LIKE), pero la de ID es exacta, si se escribe 1, no encuentra 10 ni 501, solo 1
+
+    // esta funcion realiza una consulta cada vez que se escribe, usando el dato que se escribe, si se escriben ambos, cuenta como AND de los 2 datos
+    // la busqueda de nombre es parcial (LIKE), pero la de ID es exacta, si se escribe 1, no encuentra 10 ni 501, solo 1
+    // Solo muestra mascotas del owner autenticado
     public function render()
     {
-        $query = Pet::query();
+        $userId = Auth::id();
+
+        $query = Pet::with(['breed', 'owner'])
+            ->whereHas('owner', function ($q) use ($userId) {
+                $q->where('user_id', $userId);
+            });
 
         if (!empty($this->searchId)) {
             $query->where('id', $this->searchId);
@@ -52,8 +62,8 @@ class OwnerPetsTable extends Component
             $query->where('name', 'like', '%' . $this->searchName . '%');
         }
 
-        $pets = $query->paginate(10);
+        $pets = $query->orderBy('id')->paginate(10);
 
-        return view('livewire.admin-pets-table', compact('pets'));
+        return view('livewire.owner-pets-table', compact('pets'));
     }
 }

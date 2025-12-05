@@ -22,7 +22,7 @@ class PetController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
+    { //Quedaría obsoleto al utilizar livewire con modal
            //Segun el rol de usuario autenticado, muestra las mascotas (Funciona a pesar de que el ID da error)
         if (Auth::user()->hasRole('admin')) {
             // Si es admin, muestra todas las mascotas
