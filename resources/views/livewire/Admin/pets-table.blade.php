@@ -11,7 +11,8 @@
         <tr>
             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID </th>
             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha de Nacimiento</th>            
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha de Nacimiento</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>           
         </tr>
         </thead>
        <tbody>
@@ -54,26 +55,25 @@
         <p><strong>Fecha de nacimiento:</strong> {{ $selectedPet->bDate->format('d/m/Y') }}</p>
         <p><strong>Especie:</strong> {{ $selectedPet->breed ? $selectedPet->breed->animalType : 'Sin Especie' }}</p>
         <p><strong>Raza:</strong> {{ $selectedPet->breed ? $selectedPet->breed->breedName : 'Sin raza' }}</p>
-        <p><strong>Estado Actual:</strong> 
-            @php
-                $latestHistory = $selectedPet->pet_state_histories()->orderBy('created_at', 'desc')->first();
-            @endphp
-            {{ $latestHistory ? $latestHistory->state : 'Sin historial de estado' }}
-        <p><strong>Dueño:</strong>  @if($pet->owner)
-                                        {{ $pet->owner->fName1 }}
-                                        {{ $pet->owner->sName1 }}     
-        <br><p><strong>Email:</strong>                                   
-         <a href="mailto:{{ $pet->owner?->user?->email }}" class="text-blue-600 hover:underline">
-            {{ $pet->owner?->user?->email ?? 'No disponible' }}
+        <p><strong>Estado Actual:</strong> {{ $selectedPet->currentState?->state ?? 'Sin historial de estado' }}</p>
+
+@if($selectedPet->owner)
+    <p><strong>Dueño:</strong> {{ $selectedPet->owner->fName1 }} {{ $selectedPet->owner->sName1 }}</p>
+    <p>
+        <strong>Email:</strong>
+        <a href="mailto:{{ $selectedPet->owner?->user?->email }}" class="text-blue-600 hover:underline">
+            {{ $selectedPet->owner?->user?->email ?? 'No disponible' }}
         </a>
-        <br><p><strong>Teléfono:</strong>
-    <a href="https://wa.me/59894971648" target="_blank" class="text-green-600 hover:underline">
-preciso telefono de Owner
-    </a>
-</p>
-            @else
-                Sin dueño asignado
-            @endif</p>
+    </p>
+    <p>
+        <strong>Teléfono:</strong>
+        <a href="https://wa.me/598{{ $selectedPet->owner?->user?->phone }}" target="_blank" class="text-green-600 hover:underline">
+            {{ $selectedPet->owner?->user?->phone ?? 'No disponible' }}
+        </a>
+    </p>
+@else
+    <p><strong>Dueño:</strong> Sin dueño asignado</p>
+@endif
         <button wire:click="closeModal"
                 class="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
             Cerrar

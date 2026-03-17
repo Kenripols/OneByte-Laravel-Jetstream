@@ -1,6 +1,6 @@
 <?php
 // Creado 16-12-25 para recuento de usuarios, mascotas, y estados de las mismas
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pet;

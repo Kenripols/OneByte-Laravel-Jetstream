@@ -29,10 +29,11 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
         ->parameters(['users' => 'user'])
         ->names('users');
 
-    // Pets
+    // Rutas para mascotas, limito el acceso unicamente a index y show, las demás acciones se manejarán con Livewire y modal
     Route::resource('pets', PetController::class)
-        ->parameters(['pets' => 'pet'])
-        ->names('pets');
+    ->only(['index', 'show'])
+    ->parameters(['pets' => 'pet'])
+    ->names('pets');
 });
 
 

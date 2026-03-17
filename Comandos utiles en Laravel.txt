@@ -50,6 +50,8 @@ Crear un request (Se almacenan en Controllers/Requests)
 
 php artisan make:request UpdateBreedRequest
 
+Crear una Policy para un modelo:
+php artisan make:policy PetPolicy --model=Pet
 
 EJEMPLO archivo .env
 

@@ -1,12 +1,7 @@
 <?php
 
-use App\Http\Controllers\Admin\BreedController;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\PetController;
-use App\Http\Controllers\Admin\QRPlateController;
-use App\Models\Pet;
-use App\Models\User;
-use GuzzleHttp\Middleware;
+use App\Http\Controllers\Owner\PetController;
+use App\Http\Controllers\Owner\QRPlateController;
 use Illuminate\Support\Facades\Route;
 
 //Rutas de usuario con autenticacion y verificacion de rol owner/dueño
@@ -21,6 +16,6 @@ Route::middleware(['auth', 'role:owner'])->prefix('owner')->name('owner.')->grou
 
     Route::get('/', function () {
    return view('dashboard');
-})->name('owner.dashboard');
+})->name('dashboard');
     });
 

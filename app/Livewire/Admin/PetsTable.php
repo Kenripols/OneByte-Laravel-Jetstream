@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Admin;
 
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Pet;
 
-class AdminPetsTable extends Component
+class PetsTable extends Component
 {
     use WithPagination;
 
@@ -26,12 +26,16 @@ class AdminPetsTable extends Component
         $this->resetPage();
     }
 // esta funcion abre el modal, se la llama cuando se hace clic en el nombre de la mascota 
+//Modal se actualiza cada vez que se abre 
     public function openModal($petId)
-    {
-        $this->selectedPet = Pet::find($petId);
-        $this->showModal = true;
-        logger('Se abrio el modal Wiiiii: ' . $petId);
-    }
+{
+    $this->reset('selectedPet');
+
+    $this->selectedPet = Pet::with(['breed', 'currentState', 'owner.user'])
+        ->findOrFail($petId);
+
+    $this->showModal = true;
+}
 // cerrar modal
     public function closeModal()
     {
@@ -42,7 +46,7 @@ class AdminPetsTable extends Component
 //la busqueda de nombre es parcial (LIKE), pero la de ID es exacta, si se escribe 1, no encuentra 10 ni 501, solo 1
     public function render()
     {
-        $query = Pet::query();
+        $query = Pet::with(['breed', 'owner.user']);
 
         if (!empty($this->searchId)) {
             $query->where('id', $this->searchId);
@@ -52,8 +56,8 @@ class AdminPetsTable extends Component
             $query->where('name', 'like', '%' . $this->searchName . '%');
         }
 
-        $pets = $query->paginate(10);
+        $pets = $query->orderBy('id')->paginate(10);
 
-        return view('livewire.admin-pets-table', compact('pets'));
+        return view('livewire.admin.pets-table', compact('pets'));
     }
 }

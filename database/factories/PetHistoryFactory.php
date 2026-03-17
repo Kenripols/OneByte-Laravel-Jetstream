@@ -12,7 +12,7 @@ class PetHistoryFactory extends Factory
 
     public function definition()
     {
-        $states = ['OK', 'Fallecido', 'Perdido'];
+        $states = ['OK', 'FALLECIDA', 'PERDIDA'];
         $beginDate = $this->faker->dateTimeBetween('-2 years', 'now');
         $endDate = $this->faker->boolean(30) ? $this->faker->dateTimeBetween($beginDate, 'now') : null;
 

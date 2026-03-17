@@ -15,20 +15,10 @@ class QRPlateController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {   // Si el usuario es owner mostrar solo los QR de sus mascotas
-        if (Auth::user()->hasRole('owner')) {
-            $QRPlates = QRPlate::whereHas('pet', function ($query) {
-                $query->where('owner_id', Auth::id());
-            })->paginate(10); // Paginación de 10
-            return view('owner.qrplates.index', compact('QRPlates'));
-        }
-        // Si el usuario es admin mostrar todos los QR
-        if (Auth::user()->hasRole('admin')) {
+    {   
             $QRPlates = QRPlate::paginate(10); 
             return view('admin.qrplates.index', compact('QRPlates'));
-        }
-        // Default: empty collection
-        return view('admin.qrplates.index', ['QRPlates' => collect()]);
+
     }
 
     /**
@@ -36,15 +26,8 @@ class QRPlateController extends Controller
      */
     public function create()
     {
-        // Si el usuario es owner, redirigir a la vista de crear QR para mascotas
-        if (Auth::user()->hasRole('owner')) {
-            $pets = Pet::with(['breed', 'owner'])
-                ->whereHas('owner', function ($query) {
-                    $query->where('user_id', Auth::id());
-                })
-                ->paginate(10);
-            return view('owner.qrplates.create', compact('pets'));
-        }
+       return redirect()->route('admin.qrplates.index')
+            ->with('error', 'No tienes permiso para crear placas QR.');
     }
 
     /**
@@ -52,17 +35,8 @@ class QRPlateController extends Controller
      */
     public function store(StoreQRPlateRequest $request)
     {
-        // Validación y almacenamiento del QRPlate
-        $request->validated();
-        // Creo el nuevo QRPlate
-        $qRPlate = new QRPlate();
-        $qRPlate->pet_id = $request->pet_id;
-        $qRPlate->code = $request->code;
-        $qRPlate->iDate = $request->iDate;
-        $qRPlate->eDate = $request->eDate;
-        $qRPlate->save();
-
-        return redirect()->route('owner.qrplates.index')->with('success', 'La placa QR ha sido creada.');
+        return redirect()->route('admin.qrplates.index')
+            ->with('error', 'No tienes permiso para crear placas QR.');
     }
 
     /**

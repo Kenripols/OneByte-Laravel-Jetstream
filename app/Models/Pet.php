@@ -50,7 +50,7 @@ class Pet extends Model
     {
         return $this->hasOne(PetHistory::class, 'pet_id')
                 ->whereNull('endDate')
-                ->latest('beginDate');
+                ->latestOfMany('beginDate');
     }
 
 }
