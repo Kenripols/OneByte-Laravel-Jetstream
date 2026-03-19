@@ -37,6 +37,10 @@
                         {{ __('Mascotas') }}
                     </x-nav-link>
                     
+                    <x-nav-link href="{{ route('admin.qrplates.index') }}" :active="request()->routeIs('dashboard')">
+                        {{ __('QR') }}
+                    </x-nav-link>
+                    
                     
                     @endrole
                     <!-- Al agregar otros elementos a este menú también es necesario agregarlos al menu responsive más abajo. -->

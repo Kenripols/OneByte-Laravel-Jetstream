@@ -11,12 +11,21 @@ class QRPlate extends Model
 {
     use HasFactory;
     use SoftDeletes;
+<<<<<<< Updated upstream
 
     protected $fillable = [
         'code',
         'pet_id',
         'iDate',
         'eDate',
+=======
+     protected $fillable = [
+        'code',
+        'pet_id',
+        'batch_id',
+        'generated_at',
+        'downloaded_at',
+>>>>>>> Stashed changes
     ];
 // Especifico que una placa QR pertenece a una mascota
     public function pet(): BelongsTo

@@ -1,8 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+<<<<<<< Updated upstream
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PetController;
+=======
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\QRPlateController;
+>>>>>>> Stashed changes
 
 Route::get('/', function () {
     return view('welcome');
@@ -14,6 +19,7 @@ Route::middleware([
     'verified',
 ])->group(function () {
 
+<<<<<<< Updated upstream
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
@@ -39,3 +45,15 @@ Route::middleware([
     });
 
 });
+=======
+// Inicio de agregado 16-12-25
+    Route::get('/dashboard', [DashboardController::class, 'index'])
+        ->name('dashboard');
+//estimo esto va aca adentro, pero vos sos el que sabe de rutas
+    Route::post('/admin/qrplates/generate',[QRPlateController::class,'generate'])->name('admin.qrplates.generate');
+
+     Route::post('qrplates/download', [QRPlateController::class, 'download'])->name('admin.qrplates.download');
+});
+
+//
+>>>>>>> Stashed changes

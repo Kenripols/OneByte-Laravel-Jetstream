@@ -10,32 +10,30 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('q_r_plates', function (Blueprint $table) {
-            $table->id();
-            $table->string('code'); // Campo del código QR
-            $table->unsignedBigInteger('pet_id');
+Schema::create('qr_plates', function (Blueprint $table) {
+    $table->id();
+    $table->string('code')->unique();
+    $table->unsignedBigInteger('pet_id')->nullable(); //lo hice nullable para generar los qr en solitario
+    $table->date('iDate')->nullable(); // no se que hacen estas 2 fechas
+    $table->date('eDate')->nullable();//
+    $table->unsignedBigInteger('batch_id')->nullable()->index();// numero de lote en el que fue descargado
+    $table->date('generated_at')->nullable();// fecha en que se descarga,
+    $table->date('downloaded_at')->nullable();// fecha en que se descarga
+    $table->date('asoc_at')->nullable();// fecha en que se le pone a un perro
+    $table->date('finish_at')->nullable();// fecha de caducidad
 
-            $table->date('iDate')->nullable(); // Fecha inicial (puede ser null)
-            $table->date('eDate')->nullable(); // Fecha final (puede ser null)
+    $table->foreign('pet_id')
+        ->references('id')
+        ->on('pets')
+        ->onDelete('cascade');
 
-            // Llave foránea a la tabla pets
-            $table->foreign('pet_id')
-                  ->references('id')
-                  ->on('pets')
-                  ->onDelete('cascade');
-
-            $table->timestamps();
-
-            // Para soft deletes (borrado lógico)
-            $table->softDeletes();
-        });
+    $table->timestamps();
+    $table->softDeletes();
+});
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('q_r_plates');
+        Schema::dropIfExists('qr_plates');
     }
 };
