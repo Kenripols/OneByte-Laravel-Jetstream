@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('pet_id')->nullable();
             $table->unsignedBigInteger('QRPlate_id');
             $table->timestamps();
-            $table->foreign('QRPlate_id')->references('id')->on('q_r_plates')->onDelete('cascade');
+            $table->foreign('QRPlate_id')->references('id')->on('qr_plates')->onDelete('cascade');
         });
     }
 

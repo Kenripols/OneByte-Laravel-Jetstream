@@ -34,7 +34,7 @@ class Pet extends Model
     }
 
     // Especifico la relacion de una mascota tiene muchas placas QR
-    public function q_r_plates(): HasMany
+    public function qr_plates(): HasMany
     {
         return $this->hasMany(QRPlate::class, 'pet_id');
     }

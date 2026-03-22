@@ -36,6 +36,10 @@
                     <x-nav-link href="{{ route('admin.pets.index') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Mascotas') }}
                     </x-nav-link>
+
+                    <x-nav-link href="{{ route('admin.qrplates.index') }}" :active="request()->routeIs('dashboard')">
+                        {{ __('Placas QR') }}
+                    </x-nav-link>
                     
                     
                     @endrole
@@ -170,6 +174,15 @@
             @role('admin')
             <x-responsive-nav-link href="{{ route('admin.breeds.index') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Razas') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('admin.users.index') }}" :active="request()->routeIs('dashboard')">
+                {{ __('Usuarios') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('admin.pets.index') }}" :active="request()->routeIs('dashboard')">
+                {{ __('Mascotas') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('admin.qrplates.index') }}" :active="request()->routeIs('dashboard')">
+                {{ __('Placas QR') }}
             </x-responsive-nav-link>
             @endrole
                <!-- Agregar aca los elementos de la barra menu para que aparezcan responsive -->

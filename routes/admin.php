@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BreedController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PetController;
+use App\Http\Controllers\Admin\QRPlateController;
 use Illuminate\Support\Facades\Route;
 
 // Rutas de administracion con autenticacion y verificacion de rol admin
@@ -34,6 +35,12 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     ->only(['index', 'show'])
     ->parameters(['pets' => 'pet'])
     ->names('pets');
+    //Rutas para placas QR admin
+    Route::post('qrplates/generate',[QRPlateController::class,'generate'])->name('qrplates.generate');
+    Route::post('qrplates/download', [QRPlateController::class, 'download'])->name('qrplates.download');
+    Route::resource('qrplates', QRPlateController::class)
+    ->only(['index', 'show'])
+    ->names('qrplates');
 });
 
 
