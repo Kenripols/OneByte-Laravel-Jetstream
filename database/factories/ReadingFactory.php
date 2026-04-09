@@ -15,8 +15,8 @@ class ReadingFactory extends Factory
     {
         return [
             'cellPhone' => $this->faker->phoneNumber(),
-            'dateTime' => $this->faker->dateTime(),
-            'QRPlate_id' => QRPlate::factory(), // corregido a snake_case ?? Consultar Equispe
+          //  'dateTime' => $this->faker->dateTime(),
+            'qr_plate_id' => QRPlate::factory(), // corregido a snake_case ?? Consultar Equispe
         ];
     }
 }

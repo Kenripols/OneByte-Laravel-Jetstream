@@ -22,7 +22,7 @@ class QRPlatePolicy
     public function view(User $user, QRPlate $qrPlate): bool
     {
         return $user->hasRole('owner')
-            && $qrPlate->pet?->owner?->user_id === $user->id;
+            && $qrPlate->pet?->owner?->owner_id === $user->id;
     }
 
     public function create(User $user): bool
@@ -33,12 +33,12 @@ class QRPlatePolicy
     public function update(User $user, QRPlate $qrPlate): bool
     {
         return $user->hasRole('owner')
-            && $qrPlate->pet?->owner?->user_id === $user->id;
+            && $qrPlate->pet?->owner?->owner_id === $user->id;
     }
 
     public function delete(User $user, QRPlate $qrPlate): bool
     {
         return $user->hasRole('owner')
-            && $qrPlate->pet?->owner?->user_id === $user->id;
+            && $qrPlate->pet?->owner?->owner_id === $user->id;
     }
 }

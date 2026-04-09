@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Qr\ScanController;
+use App\Http\Controllers\Qr\QrAssignmentController;
+use App\Http\Controllers\Owner\QRPlateController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -17,3 +20,20 @@ Route::middleware([
     Route::get('/dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
 });
+
+//Route::get('/qr/{code}', [QrController::class, 'handle']);
+
+Route::get('/qr/assign', [QrAssignmentController::class, 'form'])
+    ->name('qr.assign.form');
+
+Route::get('/qr/{code}', [ScanController::class, 'handle']);
+
+Route::get('/qr/{code}/claim', [QRPlateController::class, 'claim'])
+    ->middleware('auth')
+    ->name('qr.claim');
+
+Route::get('/qr/{code}/resolve', [ScanController::class, 'resolve'])
+    ->name('owner.qr.resolve');
+
+Route::post('/qr/{code}/claim', [QRPlateController::class, 'claim'])
+    ->name('owner.qr.claim');

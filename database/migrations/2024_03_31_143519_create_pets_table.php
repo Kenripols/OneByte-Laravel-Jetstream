@@ -13,21 +13,20 @@ return new class extends Migration
     {
         Schema::create('pets', function (Blueprint $table) {
             $table->id();
-            $table->string('photo');
+            $table->string('photo')->nullable();
             $table->string('name');
-            $table->date('bDate');
+            $table->date('bDate')->nullable();
             
             // Clave foránea a la tabla breeds
-            $table->unsignedBigInteger('breed_id');
-            $table->foreign('breed_id')->references('id')->on('breeds')->onDelete('cascade');
+            $table->foreignId('breed_id')->nullable()->constrained()->cascadeOnDelete();
 
             // Clave foránea a la tabla owners (relacionada por user_id)
             $table->unsignedBigInteger('owner_id');
-            $table->foreign('owner_id')->references('user_id')->on('owners')->onDelete('cascade');
+            $table->foreign('owner_id')->references('id')->on('owners')->onDelete('cascade');
 
             $table->timestamps();
 
-            // 🔁 Borrado lógico (opcional)
+            //Borrado lógico (opcional)
             $table->softDeletes();
         });
     }

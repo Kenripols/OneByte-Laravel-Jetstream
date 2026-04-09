@@ -21,7 +21,7 @@ class PetController extends Controller
         $this->authorize('viewAny', Pet::class);
             $pets = Pet::with(['breed', 'owner'])
                 ->whereHas('owner', function ($query) {
-                    $query->where('user_id', Auth::id());
+                    $query->where('owner_id', Auth::id());
                 })
                 ->paginate(10);
 
@@ -50,6 +50,17 @@ class PetController extends Controller
         $data = $request->validated();
 
         $data['owner_id'] = $owner->user_id; // Asigno el owner_id
+
+
+        if (session('claimed_qr_id')) {
+            $qr = QrPlate::find(session('claimed_qr_id'));
+
+            app(QrAssignmentService::class)->assignToPet($qr, $pet);
+
+            session()->forget('claimed_qr_id');
+        }
+
+
 
         //Si sube una foto, la guardo en storage
         if ($request->hasFile('photo')) {

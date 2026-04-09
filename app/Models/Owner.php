@@ -13,27 +13,42 @@ class Owner extends Model
 
     protected $table = 'owners';
 
-    protected $primaryKey = 'user_id';
-    public $incrementing = false;
+/*
+    protected $primaryKey = 'id';
+    public $incrementing = false; //esto no precisa porque usamos el ID default de owner
     protected $keyType = 'int';
-
+*/
     protected $fillable = [
-        'user_id', 'docType', 'docNum', 'fName1', 'fName2', 'sName1', 'sName2'
+        'user_id', 'docType', 'docNum', 'fName1', 'fName2', 'sName1', 'sName2','registration_qr_id'
                 ];
 
                 // Para que Laravel maneje correctamente la fecha del borrado lógico
-    protected $dates = ['deleted_at'];
+    //protected $dates = ['deleted_at'];  como pusimos softdelete en el migrate esto no se
 
     //Especifico la relacion uno a N con mascotas
     public function pets()
     {
-        return $this->hasMany(Pet::class, 'owner_id', 'user_id');
+        return $this->hasMany(Pet::class);
     }
 
     //Especifico la relacion de un usuario a un owner
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class);
     }
+    //el qr con el usaurio
+    public function registrationQr()
+    {
+        return $this->belongsTo(QrPlate::class, 'registration_qr_id');
+    }
+    public function getDocTypeLabelAttribute()
+    {
+        return [
+            1 => 'Cédula',
+            2 => 'Pasaporte',
+            3 => 'DNI Extranjero'
+        ][$this->docType] ?? 'Desconocido';
+    }
+    
 }
 

@@ -209,11 +209,11 @@ public function updatePet()
     // Solo muestra mascotas del owner autenticado
     public function render()
     {
-        $userId = Auth::id();
+        $ownerId = Auth::id();
 
         $query = Pet::with(['breed', 'owner'])
-            ->whereHas('owner', function ($q) use ($userId) {
-                $q->where('user_id', $userId);
+            ->whereHas('owner', function ($q) use ($ownerId) {
+                $q->where('owner_id', $userId);
             });
 
         if (!empty($this->searchId)) {

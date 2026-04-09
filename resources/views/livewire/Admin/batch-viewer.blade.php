@@ -40,14 +40,12 @@
                                 <th class="p-2 border text-left">ID</th>
                                 <th class="p-2 border text-left">Código</th>
                                 <th class="p-2 border text-left">Batch</th>
-                                <th class="p-2 border text-left">Generado</th>
-                                <th class="p-2 border text-left">Descargado</th>
-                                <th class="p-2 border text-left">Asignado</th>
-                                <th class="p-2 border text-center">QR</th>
+                                <th class="p-2 border text-left">Estado</th>
+                                <th class="p-2 border text-center">Acciones</th>
                             </tr>
                         </thead>
 
-                        <tbody>
+                       <tbody>
                             @foreach($qrs as $qr)
                                 <tr class="border-t hover:bg-gray-50">
 
@@ -64,29 +62,25 @@
                                     </td>
 
                                     <td class="p-2 border">
-                                        {{ $qr->generated_at 
-                                            ? \Carbon\Carbon::parse($qr->generated_at)->format('d/m/Y H:i') 
-                                            : '-' }}
+                                        {{ $qr->status_label }}
                                     </td>
 
-                                    <td class="p-2 border">
-                                        {{ $qr->downloaded_at 
-                                            ? \Carbon\Carbon::parse($qr->downloaded_at)->format('d/m/Y H:i') 
-                                            : '-' }}
-                                    </td>
+                                    <td class="p-2 border text-center space-x-2">
+                                        <button onclick="copyLink('{{ url('/qr/' . $qr->code) }}', this)"
+                                            class="bg-blue-500 text-white px-2 py-1 rounded text-xs">
+                                            Copiar
+                                        </button>
 
-                                    <td class="p-2 border text-center">
-                                        {{ $qr->pet_id ? '🐶' : '—' }}
-                                    </td>
-
-                                   <td class="p-2 border text-center">
-                                    <a href="{{ url('/p/' . $qr->code) }}" target="_blank" class="bg-blue-500 text-white px-2 py-1 rounded text-xs"> Abrir  </a>
+                                        <!-- FUTURO: botón timeline -->
+                                        <button wire:click="showTimeline({{ $qr->id }})"
+                                            class="bg-gray-600 text-white px-2 py-1 rounded text-xs">
+                                            Ver
+                                        </button>
                                     </td>
 
                                 </tr>
                             @endforeach
                         </tbody>
-
                     </table>
                 </div>
 
@@ -101,3 +95,22 @@
     @endif
 
 </div>
+<script>
+function copyLink(link, btn) {
+    // método fallback universal
+    const input = document.createElement('input');
+    input.value = link;
+    document.body.appendChild(input);
+    input.select();
+    document.execCommand('copy');
+    document.body.removeChild(input);
+
+    // feedback visual
+    const original = btn.innerText;
+    btn.innerText = "Copiado";
+
+    setTimeout(() => {
+        btn.innerText = original;
+    }, 100000);
+}
+</script>

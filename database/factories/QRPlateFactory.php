@@ -3,31 +3,43 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Pet;
+use Illuminate\Support\Str;
+use App\Models\QRPlate;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\QRPlate>
- */
 class QRPlateFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
-{
-    // iDate entre hace 1 año y hoy
-    $iDate = $this->faker->dateTimeBetween('-1 year', 'now');
+    {
+        return [
+            'code' => (string) Str::uuid(),
 
-    // eDate exactamente 2 años después de iDate
-    $eDate = (clone $iDate)->modify('+2 years');
+            // estado inicial
+            'status' => QRPlate::STATUS_GENERATED,
 
-    return [
-        'code' => $this->faker->bothify('???-#####'),
-        'iDate' => $iDate,
-        'eDate' => $eDate,
-        'pet_id' => Pet::factory(),
-    ];
-}
+            'pet_id' => null,
+            'batch_id' => null,
+        ];
+    }
+    
+    public function generated()
+    {
+        return $this->afterCreating(function ($qr) {
+            $qr->addEvent('generated');
+        });
+    }
+    public function downloaded()
+    {
+        return $this->afterCreating(function ($qr) {
+            $qr->addEvent('downloaded');
+        });
+    }
+    public function assigned($pet = null)
+    {
+        return $this->afterCreating(function ($qr) use ($pet) {
+            if ($pet) {
+                $qr->update(['pet_id' => $pet->id]);
+            }
+            $qr->addEvent('assigned');
+        });
+    }
 }

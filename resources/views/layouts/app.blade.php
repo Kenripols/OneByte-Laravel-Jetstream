@@ -39,9 +39,17 @@
                 {{ $slot }}
             </main>
         </div>
+    <livewire:qr-pending-banner />
 
         @stack('modals')
 
         @livewireScripts
+        <script>
+            document.addEventListener('livewire:load', function () {
+                @if(request()->has('qr'))
+                    Livewire.dispatch('openQrModal');
+                @endif
+            });
+        </script>
     </body>
 </html>

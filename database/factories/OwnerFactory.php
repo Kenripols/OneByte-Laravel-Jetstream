@@ -22,7 +22,7 @@ class OwnerFactory extends Factory
     {
        
         return [
-            'docType' => $this->faker->randomElement(['Cedula', 'Pasaporte']),
+            'docType' => $this->faker->randomElement([1, 2]),
             'docNum' => $this->faker->unique()->numerify('##########'),
             'fName1' => $this->faker->firstName,
             'fName2' => $this->faker->optional()->firstName,

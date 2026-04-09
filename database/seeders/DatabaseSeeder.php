@@ -8,38 +8,71 @@ use App\Models\Breed;
 use App\Models\Pet;
 use App\Models\Reading;
 use App\Models\QRPlate;
+use App\Enums\QREventType;
 use App\Models\PetHistory;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
         // Creo los roles necesarios administrador y dueño
-        $roleAdmin = Role::create(['name' => 'admin']);
-        $roleOwner = Role::create(['name' => 'owner']);
+        $roleAdmin = Role::firstOrCreate(['name' => 'admin']);
+        $roleOwner = Role::firstOrCreate(['name' => 'owner']);
+
         // Creo usuario Admin precargado
-        $adminUser = User::factory()->create([
-            'name' => 'Admin',
-            'email' => 'ken.rip2@gmail.com',
-            'password' => bcrypt('12345678'), // Contraseña por defecto
+        $adminUser = User::firstOrCreate(
+            ['email' => 'ken.rip2@gmail.com'],
+            ['password' => bcrypt('12345678')]// Creo usuario Admin precargado
+        );
+
+        $adminUser->assignRole('admin');// Asigno el rol de admin al usuario creado
+
+        //Usuario Owner de prueba
+        $ownerUser = User::firstOrCreate(
+            ['email' => 'gvilarino1727@gmail.com'],
+            ['password' => bcrypt('12345678')]
+        );
+
+        $ownerUser->assignRole('owner');
+
+       
+
+        //QR DE REGISTRO         
+        $qr = QRPlate::create([
+            'code' => (string) Str::uuid(),
+            'batch_id' => 1,
         ]);
-        $adminUser->assignRole($roleAdmin); // Asigno el rol de admin al usuario creado
-        // Creo owners asociados a un usuario (Detallado en el ownerfactory )
+
+        $qr->addEvent(QREventType::GENERATED, now()->subDays(10));
+        $qr->addEvent(QREventType::DOWNLOADED, now()->subDays(5));
+        $qr->addEvent(QREventType::REGISTERED, now(), [
+            'user_id' => $ownerUser->id,
+        ]);
+           
+         //Crear registro en owners
+       Owner::updateOrCreate([
+            'user_id' => $ownerUser->id],
+        [
+            'docType' => 1,
+            'docNum' => '12345678',
+            'fName1' => 'Gabriel',
+            'sName1' => 'Vila',
+            'registration_qr_id' => $qr->id//a mi owner le pongo un qr
+        ]
+        );
+
+        // Crear registro en owners
         //Owner::factory(10)->create();
         User::factory(10)->create()->each(function ($user) {
-            $user->assignRole('owner'); // Asigno el rol de owner a cada usuario creado
+            $user->assignRole('owner');
+
             Owner::factory()->create([
-                'user_id' => $user->id, // Asigno el mismo ID al dueño que el usuario
+                'user_id' => $user->id,
             ]);
         });
-
-
 
         // Creo razas de perros precargadas
         $breeds = Breed::factory()->createMany([
@@ -51,30 +84,36 @@ class DatabaseSeeder extends Seeder
             ['animalType' => 'Gato','breedName' => 'Persa', 'size' => 'Pequeño'],
             ['animalType' => 'Gato','breedName' => 'Maine Coon', 'size' => 'Grande'],
         ]);
-       
+
         // Creo 10 propietarios, cada uno con 3 mascotas
         Owner::all()->each(function ($owner) use ($breeds) {
-            // Cada propietario tendrá 3 mascotas
+        // Creo 10 propietarios, cada uno con 3 mascotas
             Pet::factory(3)->create([
-                'owner_id' => $owner->user_id,
+                'owner_id' => $owner->id,
                 'breed_id' => $breeds->random()->id,
             ])->each(function ($pet) {
+
                 // Creo la placa QR para la mascota
-                $qrPlate = QRPlate::factory()->create([
+                $qrPlate = QRPlate::create([
+                    'code' => (string) Str::uuid(),
+                    'status' => QRPlate::STATUS_ASSIGNED,
                     'pet_id' => $pet->id,
-                ]);
+                    //'owner_user_id' => $pet->owner->user_id,
+                    'batch_id' => rand(1, 3),
+                    ]);
+
+                    $generatedDate = now()->subDays(rand(10, 30));
+                    $downloadedDate = (clone $generatedDate)->addDays(rand(1, 5)); //genero a partir de la anterior para no hacer lio de fechas
+                    $assignedDate = (clone $downloadedDate)->addDays(rand(1, 3));
 
                 // Creo entre 1 estado para cada mascota
-                PetHistory::factory()->count(1)->create([
-                    'pet_id' => $pet->id,
-                ]);
+                PetHistory::factory()->count(1)->create([ 'pet_id' => $pet->id, ]);
 
                 // Creo una lectura para la placa QR
                 Reading::factory()->create([
-                    'QRPlate_id' => $qrPlate->id,
+                    'qr_plate_id' => $qrPlate->id,
                 ]);
             });
         });
     }
 }
-

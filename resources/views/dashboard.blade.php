@@ -24,7 +24,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 m-6">
 
             <!-- Usuarios -->
-            <div class="bg-white rounded-xl shadow p-6 flex items-center space-x-4">
+         <!--   <div class="bg-white rounded-xl shadow p-6 flex items-center space-x-4">
                 <div class="bg-blue-100 text-blue-600 p-3 rounded-full text-xl">
                     &#128100;
                 </div>
@@ -33,7 +33,7 @@
                     <p class="text-3xl font-bold">{{ $totalUsers }}</p>
                 </div>
             </div>
-
+-->
             <!-- Mascotas -->
             <div class="bg-white rounded-xl shadow p-6 flex items-center space-x-4">
                 <div class="bg-purple-100 text-purple-600 p-3 rounded-full text-xl">

@@ -73,4 +73,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(Owner::class, 'user_id', 'id');
     }
+    public function qrPending()
+    {
+        return $this->belongsTo(QRPlate::class, 'claimed_qr_id');
+    }
 }

@@ -24,31 +24,31 @@ class Pet extends Model
     //Especifico la relacion de una mascota pertenece a una raza
     public function breed(): BelongsTo
     {
-        return $this->belongsTo(Breed::class, 'breed_id', 'id');
+        return $this->belongsTo(Breed::class);
     }
 
     // Especifico la relacion de una mascota pertenece a un owner
     public function owner(): BelongsTo
     {
-        return $this->belongsTo(Owner::class, 'owner_id', 'user_id');
+        return $this->belongsTo(Owner::class);
     }
 
     // Especifico la relacion de una mascota tiene muchas placas QR
-    public function qr_plates(): HasMany
+    public function qrPlates(): HasMany
     {
-        return $this->hasMany(QRPlate::class, 'pet_id');
+        return $this->hasMany(QrPlate::class);
     }
 
     // Especifico la relacion de una mascota tiene muchos historiales de estado
-    public function pet_state_histories(): HasMany
+    public function petStateHistories(): HasMany
     {
-        return $this->hasMany(PetHistory::class, 'pet_id');
+        return $this->hasMany(PetHistory::class); 
     }
 
     // 16-12-25 Especifico la relacion de una mascota en un único historial, el mas reciente
     public function currentState(): HasOne
     {
-        return $this->hasOne(PetHistory::class, 'pet_id')
+        return $this->hasOne(PetHistory::class)
                 ->whereNull('endDate')
                 ->latestOfMany('beginDate');
     }

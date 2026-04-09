@@ -14,11 +14,9 @@ return new class extends Migration
         Schema::create('readings', function (Blueprint $table) {
             $table->id();
             $table->string('cellPhone');
-            $table->dateTime('dateTime');
-            $table->unsignedBigInteger('pet_id')->nullable();
-            $table->unsignedBigInteger('QRPlate_id');
+            $table->unsignedBigInteger('qr_plate_id');
             $table->timestamps();
-            $table->foreign('QRPlate_id')->references('id')->on('qr_plates')->onDelete('cascade');
+            $table->foreign('qr_plate_id')->references('id')->on('qr_plates')->onDelete('cascade');
         });
     }
 

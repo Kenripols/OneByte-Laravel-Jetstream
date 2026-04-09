@@ -22,7 +22,7 @@ class DashboardController extends Controller
         $foundPets = Pet::whereHas('currentState', function ($q) {
             $q->where('state', 'OK');
         })->count();
-        // Yo diría de no poner el indicador de mascotas fallecidas
+        // Yo diría de no poner el indicador de mascotas fallecidas (estoy de acuerdo)
         // Total de usuarios
         $totalUsers = User::count();
 

@@ -24,13 +24,13 @@ class DashboardController extends Controller
         })->count();
         // Yo diría de no poner el indicador de mascotas fallecidas
         // Total de usuarios
-        $totalUsers = User::count();
+      //  $totalUsers = User::count();
 
         return view('dashboard', compact(
             'totalPets',
             'lostPets',
             'foundPets',
-            'totalUsers'
+        //    'totalUsers'
         ));
     }
 }

@@ -27,7 +27,6 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             // Se usa contraseña por defecto para testing, para hacer que sea random en lugar de 12345678 poner password

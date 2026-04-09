@@ -1,0 +1,29 @@
+<?php 
+
+class QrAssignmentService
+{
+    public function assignToPet(QrPlate $qr, Pet $pet)
+    {
+        DB::transaction(function () use ($qr, $pet) {
+
+            $qr = QrPlate::lockForUpdate()->find($qr->id);
+
+            if ($qr->status >= 4) {
+                throw new \Exception('QR no disponible');
+            }
+
+            QrPlate::where('pet_id', $pet->id)
+                ->where('status', 4)
+                ->update([
+                    'status' => 6,
+                    'replaced_at' => now()
+                ]);
+
+            $qr->update([
+                'pet_id' => $pet->id,
+                'status' => 4,
+                'assigned_at' => now()
+            ]);
+        });
+    }
+}

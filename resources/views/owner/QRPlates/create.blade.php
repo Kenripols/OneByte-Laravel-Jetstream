@@ -14,7 +14,12 @@
         </ul>
     </div>
     @endif
-
+@if(isset($qr))
+    <div class="bg-green-100 p-3 mb-4 rounded">
+        Estás asignando el QR:
+        <strong>{{ $qr->code }}</strong>
+    </div>
+@endif
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
@@ -83,3 +88,4 @@
     });
 </script>
 </x-app-layout>
+<livewire:qr.pet-assign />
