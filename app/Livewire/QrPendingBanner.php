@@ -13,7 +13,7 @@ class QrPendingBanner extends Component
     
 public function mount()
     {
-        if (auth()->check() && auth()->user()->qr_pending_id) {
+        if (auth()->check() && auth()->user()->claimed_qr_id) {
             $this->qr = auth()->user()->qrPending;
         }
     }

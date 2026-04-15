@@ -1,3 +1,9 @@
+@if(session('error'))
+dd($qr->status);
+    <div class="bg-red-100 p-3 mb-4 rounded">
+        {{ session('error') }}
+    </div>
+@endif
 <div>
     <h1>¿Qué querés hacer con el QR?</h1>
     <form method="POST" action="{{ route('owner.qr.claim', $qr->code) }}">

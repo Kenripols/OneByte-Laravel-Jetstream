@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Qr\ScanController;
 use App\Http\Controllers\Qr\QrAssignmentController;
 use App\Http\Controllers\Owner\QRPlateController;
+use App\Http\Controllers\PublicQrController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -33,7 +34,11 @@ Route::get('/qr/{code}/claim', [QRPlateController::class, 'claim'])
     ->name('qr.claim');
 
 Route::get('/qr/{code}/resolve', [ScanController::class, 'resolve'])
-    ->name('owner.qr.resolve');
+    ->name('owner.qr.resolve'); //te logueas, te registras, ya estas logueado, etc.
 
 Route::post('/qr/{code}/claim', [QRPlateController::class, 'claim'])
-    ->name('owner.qr.claim');
+    ->name('owner.qr.claim'); //trancar QR para usaurio
+
+Route::post('/qr/{code}/location', [PublicQrController::class, 'sendLocation'])
+    ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class])
+    ->name('qr.sendLocation'); //esta chanchada es porque es publico y tranca

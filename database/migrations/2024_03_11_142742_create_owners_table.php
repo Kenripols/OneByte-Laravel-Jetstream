@@ -11,6 +11,7 @@ return new class extends Migration
     {
         Schema::create('owners', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->tinyInteger('docType');
             $table->string('docNum');
@@ -19,16 +20,14 @@ return new class extends Migration
             $table->string('fName2')->nullable();
             $table->string('sName1');
             $table->string('sName2')->nullable();
-            $table->unsignedBigInteger('user_id');
+            
             
 //          $table->foreignId('registration_qr_id')->nullable()->constrained('qr_plates')->nullOnDelete();
            
             $table->foreignId('registration_qr_id')->nullable();
 
             $table->timestamps();
-          if (!Schema::hasColumn('owners', 'deleted_at')) {
-               $table->softDeletes();
-}
+            $table->softDeletes();
             $table->index('user_id');
         });
     }

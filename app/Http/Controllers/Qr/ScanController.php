@@ -17,7 +17,7 @@ class ScanController extends Controller
     }
 
     if (!Auth::check()) {
-        return redirect()->route('login');
+    return view('qr.public', compact('qr'));
     }
 
     if (!$qr->canBeUsedBy(Auth::user())) {
