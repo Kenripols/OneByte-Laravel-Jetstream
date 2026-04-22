@@ -8,8 +8,9 @@ use App\Models\Breed;
 use App\Models\Pet;
 use App\Models\Reading;
 use App\Models\QRPlate;
+
 use App\Enums\QREventType;
-use App\Models\PetHistory;
+use App\Models\PetStateHistory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
@@ -48,7 +49,7 @@ class DatabaseSeeder extends Seeder
 
         $qr->addEvent(QREventType::GENERATED, now()->subDays(10));
         $qr->addEvent(QREventType::DOWNLOADED, now()->subDays(5));
-        $qr->addEvent(QREventType::REGISTERED, now(), [
+        $qr->addEvent(QREventType::CLAIMED, now(), [
             'user_id' => $ownerUser->id,
         ]);
            
@@ -107,13 +108,38 @@ class DatabaseSeeder extends Seeder
                     $assignedDate = (clone $downloadedDate)->addDays(rand(1, 3));
 
                 // Creo entre 1 estado para cada mascota
-                PetHistory::factory()->count(1)->create([ 'pet_id' => $pet->id, ]);
+                $isLost = rand(0, 1); // 50% probabilidad
+                PetStateHistory::create([ 'pet_id' => $pet->id,'state' => $isLost ? 'LOST' : 'NORMAL','created_at' => now()->subDays(rand(0, 5)),]);
 
-                // Creo una lectura para la placa QR
-                Reading::factory()->create([
-                    'qr_plate_id' => $qrPlate->id,
-                ]);
+                // Creo varias lecturas para la placa QR (esto lo hizo "ella" porque yo ni idea, pero anda)
+                $lat = -34.9011;
+                $lng = -56.1645;
+
+                $steps = rand(15, 40);
+
+                for ($i = 0; $i < $steps; $i++) {
+
+                    // movimiento suave (simula paseo / fuga)
+                    $lat += rand(-20, 20) / 10000;
+                    $lng += rand(-20, 20) / 10000;
+
+                    Reading::create([
+                        'qr_plate_id' => $qrPlate->id,
+                        'user_id' => rand(0, 1) ? $pet->owner->user_id : null,
+                        'cell_phone' => rand(0, 1) ? '099'.rand(100000,999999) : null,
+
+                        'ip' => fake()->ipv4(),
+                        'user_agent' => fake()->userAgent(),
+
+                        'lat' => $lat,
+                        'lng' => $lng,
+
+                        'metadata' => ['source' => 'seed','event' => 'scan',],
+                        'created_at' => now()->subMinutes($steps - $i),
+                        'updated_at' => now(),
+                    ]);
+                }
+                });
             });
-        });
-    }
+        }
 }

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Enums\QREventType;
+use Illuminate\Support\Facades\DB;
 
 class QrPlate extends Model
 {
@@ -29,6 +30,7 @@ class QrPlate extends Model
         'pet_id',
         'batch_id',
         'status',
+        'owner_user_id'
     ];
 
     protected $casts = [
@@ -147,17 +149,36 @@ class QrPlate extends Model
             ->latest()
             ->value('created_at');
     }
-private function mapEventToStatus(string $type): ?int
-{
-    return match($type) {
-        'generated'  => self::STATUS_GENERATED,
-        'downloaded' => self::STATUS_DOWNLOADED,
-        'claimed'    => self::STATUS_CLAIMED,  
-        'registered' => self::STATUS_REGISTERED,
-        'assigned'   => self::STATUS_ASSIGNED,
-        'expired'    => self::STATUS_EXPIRED,
-        'replaced'   => self::STATUS_REPLACED,
-        default      => null
-    };
-}
+    private function mapEventToStatus(string $type): ?int
+    {
+        return match($type) {
+            'generated'  => self::STATUS_GENERATED,
+            'downloaded' => self::STATUS_DOWNLOADED,
+            'claimed'    => self::STATUS_CLAIMED,  
+            'registered' => self::STATUS_REGISTERED,
+            'assigned'   => self::STATUS_ASSIGNED,
+            'expired'    => self::STATUS_EXPIRED,
+            'replaced'   => self::STATUS_REPLACED,
+            'forgotten'  => self::STATUS_DOWNLOADED, //cuando dejo de tenerlo en pendiente lo dejo disponible como recien descargado
+            default      => null
+        };
+    }
+    public function forget($userId = null) //le sacas el qr pendiente al tipo
+    {
+        return DB::transaction(function () use ($userId) {
+
+            $this->addEvent('forgotten', now(), [
+                'user_id' => $userId
+            ]);
+
+            return $this;
+        });
+    }
+    public function lastReading(){
+        return $this->hasOne(Reading::class)->latestOfMany();
+    }
+    public function readingsCount(){
+        return $this->readings()->count();
+    }
+    
 }

@@ -13,13 +13,19 @@ class PetPolicy
         return $user->hasRole('admin') || $user->hasRole('owner');
     }
 
+/*public function view(User $user, Pet $pet): bool
+{
+    return $pet->owner?->user_id === $user->id;
+}*/
+
+
     public function view(User $user, Pet $pet): bool
     {
         if ($user->hasRole('admin')) {
             return true;
         }
 
-        return $user->hasRole('owner') && $pet->owner?->owner_id === $user->id;
+        return $user->hasRole('owner') && $pet->owner?->user_id === $user->id;
     }
 //Solamente el dueño puede crear una mascota
     public function create(User $user): bool
@@ -34,6 +40,6 @@ class PetPolicy
 
     public function delete(User $user, Pet $pet): bool
     {
-        return $user->hasRole('owner') && $pet->owner?->owner_id === $user->id;
+        return $user->hasRole('owner') && $pet->owner?->user_id === $user->id;
     }
 }

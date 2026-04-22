@@ -15,16 +15,19 @@ public function up()
         $table->id();
         $table->foreignId('qr_plate_id')->constrained()->cascadeOnDelete();
         $table->string('type'); 
+        $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
         /*
     generated   -> Fecha en que el QR fue generado (creación en sistema)
     downloaded  -> Fecha en que el QR fue descargado (habilitado para uso)
     claimed     -> fecha en que se leyo e hizo login por lo que nadie lo puede agarrar
-    registered  ->Fecha en que el usuario se registró usando este QR
+    //registered  ->Fecha en que el usuario se registró usando este QR
     assigned    ->Fecha en que se asigno a una mascota
-    expires     -> Fecha de caducidad del QR
+    expired     -> Fecha de caducidad del QR
     replaced    -> la mascota obtuvo otro QR
 */
         $table->json('metadata')->nullable(); // opcional
+        $table->index('qr_plate_id');
+        $table->index('type');
         $table->timestamps();
     });
 }

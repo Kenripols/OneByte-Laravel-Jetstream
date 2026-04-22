@@ -8,7 +8,8 @@ use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Pet;
 use App\Models\Breed;
-use App\Models\PetHistory;
+use App\Models\PetStateHistory;
+use App\Models\Reading;
 
 class PetsTable extends Component
 {
@@ -26,7 +27,11 @@ class PetsTable extends Component
     public $photo;
     public $showEditModal = false;
     public $editingPetId = null;
+    public $editMode =false;
+    public $readings = [];
+    public $selectedPetIdForReadings = null;
 
+    public $points = []; //para el mapa
     // los updating funcionan para resetear en la medida que se va escribiendo
     public function updatingSearchId()
     {
@@ -41,20 +46,26 @@ class PetsTable extends Component
     // esta funcion abre el modal, se la llama cuando se hace clic en el nombre de la mascota 
     public function openModal($petId)
 {
-    $pet = Pet::with(['breed', 'currentState', 'owner.user'])
+    $pet = Pet::with(['breed', 'currentStateModel', 'owner.user'])
         ->findOrFail($petId);
 
-    abort_unless(Auth::user()->can('view', $pet), 403);
-
     $this->selectedPet = $pet;
+
+    $this->name = $pet->name;
+    $this->bDate = $pet->bDate?->format('Y-m-d');
+    $this->breed_id = $pet->breed_id;
+
+    $this->editMode = false; // 
+
     $this->showModal = true;
 }
     // cerrar modal
     public function closeModal()
-    {
-        $this->showModal = false;
-        $this->selectedPet = null;
-    }
+{
+    $this->showModal = false;
+    $this->selectedPet = null;
+    $this->editMode = false; //
+}
 //Modal de crear mascota
     public function openCreateModal()
     {
@@ -162,15 +173,15 @@ public function updatePet()
             'name' => $data['name'],
             'bDate' => $data['bDate'] ?: null,
             'breed_id' => $data['breed_id'],
-            'owner_id' => Auth::user()->owner->user_id,
+            'owner_id' => Auth::user()->owner->id,
             'photo' => $photoPath,
         ]);
 
-        PetHistory::create([
+        PetStateHistory::create([
         'pet_id' => $pet->id,
-        'state' => 'OK',
-        'beginDate' => now(),
-        'endDate' => null,
+        'state' => 'NORMAL',
+        'started_at' => now(),
+        'ended_at' => null,
     ]);
 
         $this->closeCreateModal();
@@ -178,26 +189,24 @@ public function updatePet()
     }
 
     public function markAsDeceased($petId)
-{
-    $pet = Pet::with('currentState')->findOrFail($petId);
-
-    abort_unless(Auth::user()->can('update', $pet), 403);
-
-    if ($pet->currentState) {
-        $pet->currentState->update([
-            'endDate' => now(),
-        ]);
+    {
+        $pet = Pet::with('currentStateModel')->findOrFail($petId);
+        abort_unless(Auth::user()->can('update', $pet), 403);
+        if ($pet->currentStateModel) {
+            $pet->currentStateModel->update([
+                'ended_at' => now(),
+            ]);
     }
 
-    PetHistory::create([
+    PetStateHistory::create([
         'pet_id' => $pet->id,
         'state' => 'FALLECIDA',
-        'beginDate' => now(),
-        'endDate' => null,
+        'started_at' => now(),
+        'ended_at' => null,
     ]);
 
     if ($this->selectedPet && $this->selectedPet->id === $pet->id) {
-        $this->selectedPet = Pet::with(['breed', 'currentState', 'owner.user'])->find($pet->id);
+$this->selectedPet = Pet::with(['breed', 'currentStateModel', 'owner.user'])->find($pet->id);
     }
 
     session()->flash('success', 'La mascota fue marcada como fallecida.');
@@ -226,5 +235,27 @@ public function updatePet()
         $breeds = Breed::orderBy('animalType')->get();
 
         return view('livewire.owner.pets-table', compact('pets', 'breeds'));
+    }
+
+
+    public function showReadings($petId)
+    {
+logger("CLICK showReadings: " . $petId);
+        $readings = \App\Models\Reading::whereHas('qrPlate', function ($q) use ($petId) {
+            $q->where('pet_id', $petId);
+        })
+        ->orderBy('created_at')
+        ->get();
+
+        $points = $readings->map(function ($r) {
+            return [
+                'lat' => $r->lat,
+                'lng' => $r->lng,
+                'time' => $r->created_at->toDateTimeString(),
+            ];
+        })->values()->toArray();
+
+        // ESTA ES LA CLAVE
+        $this->dispatch('show-map', $points);
     }
 }

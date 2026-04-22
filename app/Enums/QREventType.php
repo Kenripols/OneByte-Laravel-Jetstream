@@ -4,11 +4,11 @@ namespace App\Enums;
 
 enum QREventType: string
 {
-    case GENERATED  = 'generated';
-    case DOWNLOADED = 'downloaded';
-    case CLAIMED    = 'claimed';
-    case REGISTERED = 'registered';
-    case ASSIGNED   = 'assigned';
-    case EXPIRED    = 'expired';
-    case REPLACED   = 'replaced';
+    case GENERATED  = 'generated';  //1
+    case DOWNLOADED = 'downloaded'; //2
+    case CLAIMED    = 'claimed';    //3
+    //case REGISTERED = 'registered'; //
+    case ASSIGNED   = 'assigned';   //4
+    case EXPIRED    = 'expired';    //5
+    case REPLACED   = 'replaced';   //6     
 }

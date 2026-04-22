@@ -9,17 +9,35 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-        Schema::create('readings', function (Blueprint $table) {
-            $table->id();
-            $table->string('cellPhone');
-            $table->unsignedBigInteger('qr_plate_id');
-            $table->timestamps();
-            $table->foreign('qr_plate_id')->references('id')->on('qr_plates')->onDelete('cascade');
-        });
-    }
+public function up(): void
+{
+    Schema::create('readings', function (Blueprint $table) {
+        $table->id();
 
+        $table->foreignId('qr_plate_id')
+              ->constrained()
+              ->cascadeOnDelete();
+
+        $table->foreignId('user_id')
+              ->nullable()
+              ->constrained()
+              ->nullOnDelete();
+
+        $table->string('cell_phone')->nullable();
+
+        $table->string('ip')->nullable();
+        $table->text('user_agent')->nullable();
+
+        $table->decimal('lat', 10, 7)->nullable();
+        $table->decimal('lng', 10, 7)->nullable();
+
+        $table->json('metadata')->nullable();
+
+        $table->timestamps();
+
+        $table->index('qr_plate_id');
+    });
+}
     /**
      * Reverse the migrations.
      */

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Pet;
 use App\Models\User;
+use App\Enums\PetState;
 
 class DashboardController extends Controller
 {
@@ -14,13 +15,13 @@ class DashboardController extends Controller
         $totalPets = Pet::count();
 
         // Mascotas perdidas (estado actual = PERDIDA)
-        $lostPets = Pet::whereHas('currentState', function ($q) {
-            $q->where('state', 'PERDIDA');
+        $lostPets = Pet::whereHas('currentStateModel', function ($q) {
+        $q->where('state', PetState::LOST);
         })->count();
 
-        // Mascotas encontradas (estado actual = OK)
-        $foundPets = Pet::whereHas('currentState', function ($q) {
-            $q->where('state', 'OK');
+        // Mascotas encontradas (estado actual = NORMAL)
+        $foundPets = Pet::whereHas('currentStateModel', function ($q) {
+        $q->where('state', PetState::NORMAL);
         })->count();
         // Yo diría de no poner el indicador de mascotas fallecidas (estoy de acuerdo)
         // Total de usuarios

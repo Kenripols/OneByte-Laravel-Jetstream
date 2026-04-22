@@ -9,19 +9,23 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-        Schema::create('pet_state_history', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('pet_id');
-            $table->string('state');
-            $table->date('beginDate');
-            $table->date('endDate')->nullable();
-            $table->timestamps();
+    public function up(): void{
+       Schema::create('pet_state_history', function (Blueprint $table) {
+        $table->id();
 
-            // Clave foránea tabla mascotas
-            $table->foreign('pet_id')->references('id')->on('pets')->onDelete('cascade');
-        });
+        $table->foreignId('pet_id')
+            ->constrained()
+            ->cascadeOnDelete();
+
+        $table->string('state');
+
+        $table->timestamp('started_at');
+        $table->timestamp('ended_at')->nullable();
+
+        $table->timestamps();
+
+        $table->index(['pet_id', 'ended_at']);
+    });
     }
 
     /**

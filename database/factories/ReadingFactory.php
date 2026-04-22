@@ -14,9 +14,17 @@ class ReadingFactory extends Factory
     public function definition(): array
     {
         return [
-            'cellPhone' => $this->faker->phoneNumber(),
-          //  'dateTime' => $this->faker->dateTime(),
-            'qr_plate_id' => QRPlate::factory(), // corregido a snake_case ?? Consultar Equispe
+            'qr_plate_id' => QRPlate::factory(),
+
+            'user_id' => null,
+
+            'ip' => $this->faker->ipv4(),
+            'user_agent' => $this->faker->userAgent(),
+
+            'lat' => $this->faker->latitude(-35, -34),
+            'lng' => $this->faker->longitude(-57, -55),
         ];
-    }
+    }// corregido a snake_case ?? Consultar Equispe
+  
+    
 }

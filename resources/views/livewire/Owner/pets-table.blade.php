@@ -1,237 +1,304 @@
 <div>
     <!-- Filtros -->
     <div class="flex space-x-4 mb-4">
-        <input type="text" wire:model.live="searchId" placeholder="Buscar por ID" class="border p-2" />
-        <input type="text" wire:model.live="searchName" placeholder="Buscar por Nombre" class="border p-2" />
+        <input type="text" wire:model.live="searchId" placeholder="Buscar por ID" class="border p-2 rounded" />
+        <input type="text" wire:model.live="searchName" placeholder="Buscar por Nombre" class="border p-2 rounded" />
     </div>
 
+
+    <!-- Botón crear (esto permite crear mascota sin QR, con el modelo actual es veneno)
     <div class="mb-4">
-   <button type="button" wire:click="openCreateModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-    Agregar nueva mascota
-</button>
-</div>
-
+        <button type="button"
+            wire:click="openCreateModal"
+            class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+            + Nueva mascota
+        </button>
+    </div>
+-->
     <!-- Tabla -->
-    <table class="min-w-full divide-y divide-gray-200 border border-gray-300">
-        <thead class="bg-gray-100">
-        <tr>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID </th>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha de Nacimiento</th>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>           
-        </tr>
-        </thead>
-       <tbody>
-    @forelse ($pets as $pet)
-        <tr>
-            <td class="px-6 py-4 whitespace-nowrap">{{ $pet->id }}</td>
+    <table class="min-w-full border border-gray-200 rounded-lg overflow-hidden">
 
-            <!-- Nombre clickeable -->
-            <td class="px-6 py-4 whitespace-nowrap text-blue-600 cursor-pointer"
-                wire:click="openModal({{ $pet->id }})">
+    <thead class="bg-gray-50 text-gray-600 text-xs uppercase">
+        <tr>
+            <th class="px-6 py-3 text-left">ID</th>
+            <th class="px-6 py-3 text-left">Nombre</th>
+            <th class="px-6 py-3 text-left">Estado</th>
+            <th class="px-6 py-3 text-left">QR</th>
+            <th class="px-6 py-3 text-left">Nacimiento</th>
+<th class="px-6 py-3 text-left">Historial de Ubicacion</th>
+            <th class="px-6 py-3 text-right">Acciones</th>
+        </tr>
+    </thead>
+
+    <tbody class="bg-white divide-y">
+
+    @forelse ($pets as $pet)
+        <tr >
+
+            <!-- ID -->
+            <td class="px-6 py-4 text-sm text-gray-500">
+                {{ $pet->id }}
+            </td>
+
+            <!-- Nombre -->
+            <td wire:click="openModal({{ $pet->id }})"
+                class="px-6 py-4 text-sm font-semibold text-blue-600 cursor-pointer">
                 {{ $pet->name }}
             </td>
 
-            <td class="px-6 py-4 whitespace-nowrap">
-                {{ $pet->bDate?->format('d/m/Y') ?? '-' }}
+            <!-- Estado -->
+            <td class="px-6 py-4">
+                <span class="px-2 py-1 text-xs rounded whitespace-nowrap
+                    @if($pet->isLost()) bg-red-100 text-red-600
+                    @elseif($pet->current_state === \App\Enums\PetState::DEAD) bg-gray-200 text-gray-600
+                    @else bg-green-100 text-green-600
+                    @endif">
+
+                    {{ $pet->current_state?->label() ?? 'Sin estado' }}
+
+                </span>
             </td>
 
-            <td class="px-6 py-4 whitespace-nowrap">
-                <button wire:click="openModal({{ $pet->id }})"
-                        class="text-blue-600 hover:text-blue-900">
-                    Ver Detalles
-                </button>
-                <button type="button"
-        wire:click="openEditModal({{ $pet->id }})"
-        class="text-yellow-600 hover:text-yellow-800 ml-3">
-    Editar
-</button>
+            <!-- QR -->
+            <td class="px-6 py-4">
+                @if($pet->hasQR())
+                    <span class="px-2 py-1 text-xs bg-green-100 text-green-600 rounded whitespace-nowrap">
+                        Activo
+                    </span>
+
+                @elseif($pet->isExpired())
+                    <span class="px-2 py-1 text-xs bg-gray-200 text-gray-600 rounded whitespace-nowrap">
+                        Caducado
+                    </span>
+
+                @else
+                    <span class="px-2 py-1 text-xs bg-yellow-100 text-yellow-600 rounded whitespace-nowrap">
+                        Pendiente
+                    </span>
+                @endif
             </td>
+
+            <!-- Fecha -->
+            <td class="px-6 py-4 text-sm text-gray-600 whitespace-nowrap">
+                {{ $pet->bDate?->format('d/m/Y') ?? '-' }}
+            </td>
+            <td class="px-6 py-4 text-sm text-gray-600 whitespace-nowrap">
+                @if($pet->hasQR())
+                <button wire:click.stop="showReadings({{ $pet->id }})" class="text-indigo-600 hover:underline">
+                    @if($pet->isLost())
+                        Ubicaciones
+                    @else
+                        Historial
+                    @endif
+                </button>
+                @endif
+
+
+
+            <!-- Acciones -->
+            <td class="px-6 py-4 text-right">
+                <div class="flex justify-end items-center gap-4 text-sm">
+
+                  
+                    @if($pet->isLost())
+                        <button wire:click.stop="markAsFound({{ $pet->id }})"
+                            class="text-green-600 hover:underline">
+                             Encontrada!!
+                        </button>
+                    @else
+                        <button wire:click.stop="markAsLost({{ $pet->id }})"
+                            class="text-red-600 hover:underline">
+                            Está Perdida
+                        </button>
+                    @endif
+
+                </div>
+            </td>
+
         </tr>
     @empty
         <tr>
-            <td colspan="4" class="text-center py-4">No se encontraron mascotas</td>
+            <td colspan="6" class="text-center py-6 text-gray-400">
+                No se encontraron mascotas
+            </td>
         </tr>
     @endforelse
-</tbody>
-    </table>
-    
+
+    </tbody>
+</table>
+    <!-- Paginación -->
     <div class="mt-4">
         {{ $pets->links() }}
     </div>
 
+    <!-- MODAL DETALLE -->
     @if($showModal && $selectedPet)
-        <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div class="bg-white rounded-lg p-6 w-96 shadow-lg">
-                <h2 class="text-xl font-bold mb-2">{{ $selectedPet->name }}</h2>
 
-                @if($selectedPet->photo)
-                    @php
-                        $photoUrl = \Illuminate\Support\Str::startsWith($selectedPet->photo, ['http://','https://','//'])
-                            ? $selectedPet->photo
-                            : asset('storage/' . $selectedPet->photo);
-                    @endphp
-
-                    <div class="mx-auto mb-4 w-[200px] h-[200px] sm:w-[240px] sm:h-[240px] rounded overflow-hidden shadow">
-                        <img
-                            src="{{ $photoUrl }}"
-                            alt="Foto de {{ $selectedPet->name }}"
-                            class="w-full h-full object-cover"
-                            loading="lazy"
-                        >
-                    </div>
-                @endif
-
-                <p><strong>ID:</strong> {{ $selectedPet->id }}</p>
-                <p><strong>Fecha de nacimiento:</strong> {{ $selectedPet->bDate?->format('d/m/Y') ?? '-' }}</p>
-                <p><strong>Especie:</strong> {{ $selectedPet->breed?->animalType ?? 'Sin Especie' }}</p>
-                <p><strong>Raza:</strong> {{ $selectedPet->breed?->breedName ?? 'Sin raza' }}</p>
-                <p><strong>Estado Actual:</strong> {{ $selectedPet->currentState?->state ?? 'Sin historial de estado' }}</p>
-
-                <button type="button"
-                        wire:click="closeModal"
-                        class="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
-                    Cerrar
-                </button>
-                @if(($selectedPet->currentState?->state ?? null) !== 'FALLECIDA')
-        <button type="button"
-                wire:click="markAsDeceased({{ $selectedPet->id }})"
-                class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
-            Marcar como fallecida
-        </button>
-    @endif
-                
-            </div>
-        </div>
-    @endif
-
-    @if($showCreateModal)
-        <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-lg">
-                <h2 class="text-xl font-bold mb-4">Agregar nueva mascota</h2>
-
-                <div class="mb-4">
-                    <label class="block text-sm font-medium mb-1">Nombre</label>
-                    <input type="text" wire:model.defer="name" class="w-full border rounded p-2">
-                    @error('name') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                </div>
-
-                <div class="mb-4">
-                    <label class="block text-sm font-medium mb-1">Fecha de nacimiento</label>
-                    <input type="date" wire:model.defer="bDate" class="w-full border rounded p-2">
-                    @error('bDate') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                </div>
-
-                <div class="mb-4">
-                    <label class="block text-sm font-medium mb-1">Raza</label>
-                    <select wire:model.defer="breed_id" class="w-full border rounded p-2">
-                        <option value="">Seleccione una raza</option>
-                        @foreach($breeds as $breed)
-                            <option value="{{ $breed->id }}">
-                                {{ $breed->animalType }} - {{ $breed->breedName }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('breed_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                </div>
-                <div class="mb-4">
-    <label class="block text-sm font-medium mb-1">Foto</label>
-    <input type="file" wire:model="photo" accept="image/*" class="w-full border rounded p-2">
-    @error('photo') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-</div>
-
-@if ($photo)
-<div class="mx-auto mb-4 w-[200px] h-[200px] sm:w-[240px] sm:h-[240px] rounded overflow-hidden shadow">
-    <img
-        src="{{ $photo->temporaryUrl() }}"
-        class="w-full h-full object-cover"
-    >
-</div>
-@else
-<div class="mx-auto mb-4 w-[200px] h-[200px] sm:w-[240px] sm:h-[240px] rounded bg-gray-200 flex items-center justify-center text-gray-500">
-    Sin foto
-</div>
-@endif
-                <div class="flex justify-end space-x-2 mt-4">
-                    <button type="button"
-                            wire:click="closeCreateModal"
-                            class="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500">
-                        Cancelar
-                    </button>
-
-                   <button type="button"
-        wire:click="savePet"
-        class="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500">
-    Guardar
-</button>
-                </div>
-            </div>
-        </div>
-    @endif
-
-    @if($showEditModal)
 <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-lg">
-        <h2 class="text-xl font-bold mb-4">Editar mascota</h2>
 
-        <div class="mb-4">
-            <label class="block text-sm font-medium mb-1">Nombre</label>
-            <input type="text" wire:model.defer="name" class="w-full border rounded p-2">
-            @error('name') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+    <div class="bg-white rounded-xl p-6 w-full max-w-md shadow-xl transition-all">
+
+        <!-- HEADER -->
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-bold">
+                {{ $selectedPet->name }}
+            </h2>
+
+            <!-- SWITCH -->
+            <label class="flex items-center cursor-pointer">
+                <span class="mr-2 text-sm text-gray-500">Editar</span>
+
+                <div class="relative">
+                    <input type="checkbox"
+                        wire:model="editMode"
+                        class="sr-only">
+
+                    <div class="w-10 h-5 bg-gray-300 rounded-full shadow-inner"></div>
+
+                    <div class="dot absolute left-0 top-0 w-5 h-5 bg-white rounded-full shadow transition
+                        @if($this->editMode) translate-x-full bg-blue-500 @endif">
+                    </div>
+                </div>
+            </label>
         </div>
 
-        <div class="mb-4">
-            <label class="block text-sm font-medium mb-1">Fecha de nacimiento</label>
-            <input type="date" wire:model.defer="bDate" class="w-full border rounded p-2">
-            @error('bDate') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+        <!-- FOTO -->
+       
+
+        <!-- NOMBRE -->
+        <div class="mb-3">
+            <label class="text-xs text-gray-500">Nombre</label>
+
+            @if(!$this->editMode)
+                <p class="font-semibold">{{ $selectedPet->name }}</p>
+            @else
+                <input type="text" wire:model.defer="name"
+                    class="w-full border p-2 rounded">
+            @endif
         </div>
 
-        <div class="mb-4">
-            <label class="block text-sm font-medium mb-1">Raza</label>
-            <select wire:model.defer="breed_id" class="w-full border rounded p-2">
-                <option value="">Seleccione una raza</option>
-                @foreach($breeds as $breed)
-                    <option value="{{ $breed->id }}">
-                        {{ $breed->animalType }} - {{ $breed->breedName }}
-                    </option>
+        <!-- FECHA -->
+        <div class="mb-3">
+            <label class="text-xs text-gray-500">Nacimiento</label>
+
+            @if(!$this->editMode)
+                <p>{{ $selectedPet->bDate?->format('d/m/Y') ?? '-' }}</p>
+            @else
+                <input type="date" wire:model.defer="bDate"
+                    class="w-full border p-2 rounded">
+            @endif
+        </div>
+
+        <!-- RAZA -->
+        <div class="mb-3">
+            <label class="text-xs text-gray-500">Raza</label>
+
+            @if(!$this->editMode)
+                <p>{{ $selectedPet->breed?->breedName ?? '-' }}</p>
+            @else
+                <select wire:model.defer="breed_id"
+                    class="w-full border p-2 rounded">
+                    @foreach($breeds as $breed)
+                        <option value="{{ $breed->id }}">
+                            {{ $breed->breedName }}
+                        </option>
+                    @endforeach
+                </select>
+            @endif
+        </div>
+        <div class="mt-4">
+            <div id="map" wire:ignore style="height: 400px;"></div>
+        </div>
+        @if($readings && count($readings))
+            <div class="mt-4 p-4 bg-gray-100 rounded">
+                <h3 class="font-bold mb-2"> Historial de lecturas</h3>
+
+                @foreach($readings as $r)
+                    <div class="text-sm mb-1">
+                        {{ $r->created_at }} → {{ $r->lat }}, {{ $r->lng }}
+                    </div>
                 @endforeach
-            </select>
-            @error('breed_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-        </div>
-
-        <div class="mb-4">
-            <label class="block text-sm font-medium mb-1">Nueva foto (opcional)</label>
-            <input type="file" wire:model="photo" accept="image/*" class="w-full border rounded p-2">
-            @error('photo') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-        </div>
-
-        @if ($photo)
-            <div class="mx-auto mb-4 w-[200px] h-[200px] sm:w-[240px] sm:h-[240px] rounded overflow-hidden shadow">
-                <img
-                    src="{{ $photo->temporaryUrl() }}"
-                    alt="Vista previa"
-                    class="w-full h-full object-cover"
-                >
             </div>
         @endif
+        <!-- FOOTER -->
+        <div class="flex justify-between mt-6">
 
-        <div class="flex justify-end space-x-2">
-            <button type="button"
-                    wire:click="closeEditModal"
-                    class="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500">
-                Cancelar
+            <button wire:click="closeModal"
+                class="px-4 py-2 bg-gray-300 rounded">
+                Cerrar
             </button>
 
-            <button type="button"
-                    wire:click="updatePet"
-                    class="px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700">
-                Actualizar
-            </button>
+            @if($this->editMode)
+                <button wire:click="updatePet"
+                    class="px-4 py-2 bg-green-600 text-white rounded">
+                    Guardar cambios
+                </button>
+            @endif
+
         </div>
-    </div>
-</div>
-@endif
-</div>
-    
 
-    
+    </div>
+
+</div>
+
+@endif
+@push('scripts')
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    window.addEventListener('show-map', (event) => {
+
+        console.log("MAPA OK", event.detail);
+        const points = event.detail[0];
+        //const points = event.detail.points;
+
+        if (!points || points.length === 0) {
+            console.log("sin puntos");
+            return;
+        }
+
+        const mapContainer = document.getElementById('map');
+        if (!mapContainer) return;
+
+        // limpiar mapa anterior
+        if (window.mapInstance) {
+            window.mapInstance.remove();
+        }
+
+        setTimeout(() => {
+
+            const map = L.map('map');
+            window.mapInstance = map;
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap'
+            }).addTo(map);
+
+            const latlngs = points.map(p => [p.lat, p.lng]);
+
+            L.polyline(latlngs, {
+                color: 'red',
+                weight: 4
+            }).addTo(map);
+
+            points.forEach((p, i) => {
+                const isLast = i === points.length - 1;
+
+                L.marker([p.lat, p.lng])
+                    .addTo(map)
+                    .bindPopup(isLast ? " Última ubicación" : p.time);
+            });
+
+            map.fitBounds(latlngs, { padding: [30, 30] });
+
+        }, 200);
+
+    });
+
+});
+</script>
+@endpush
+</div>

@@ -21,11 +21,10 @@
     </head>
     <body class="font-sans antialiased">
         <x-banner />
-
         <div class="min-h-screen bg-gray-100">
             @livewire('navigation-menu')
-
             <!-- Page Heading -->
+            <livewire:qr-pending-banner />
             @if (isset($header))
                 <header class="bg-white shadow">
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
@@ -39,7 +38,7 @@
                 {{ $slot }}
             </main>
         </div>
-    <livewire:qr-pending-banner />
+    
 
         @stack('modals')
 
@@ -47,7 +46,7 @@
         <script>
             document.addEventListener('livewire:load', function () {
                 @if(request()->has('qr'))
-                    Livewire.dispatch('openQrModal');
+                    Livewire.emit('openQrModal');
                 @endif
             });
         </script>

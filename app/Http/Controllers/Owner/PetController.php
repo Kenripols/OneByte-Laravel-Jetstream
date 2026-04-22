@@ -21,7 +21,7 @@ class PetController extends Controller
         $this->authorize('viewAny', Pet::class);
             $pets = Pet::with(['breed', 'owner'])
                 ->whereHas('owner', function ($query) {
-                    $query->where('owner_id', Auth::id());
+                    $query->where('user_id', Auth::id());
                 })
                 ->paginate(10);
 
@@ -49,7 +49,7 @@ class PetController extends Controller
 
         $data = $request->validated();
 
-        $data['owner_id'] = $owner->user_id; // Asigno el owner_id
+        $data['owner_id'] = $owner->id; // Asigno el owner_id
 
 
         if (session('claimed_qr_id')) {
@@ -80,14 +80,16 @@ class PetController extends Controller
      */
     public function show(Pet $pet)
     {
-        //Permiso de policy
+        //policy poar aque no rompa 403
         $this->authorize('view', $pet);
-        $pet->load(['breed', 'owner']);
-
-      
-            return view('owner.pets.show', compact('pet'));
-        
+        $pet->load(['breed','owner','qrPlate.readings'=> function ($q) {$q->orderBy('created_at');}]);
+        $readings = $pet->qrPlate?->readings ?? collect();
+        $points = $readings->map(function ($r) {return ['lat' => $r->lat,'lng' => $r->lng,'time' => $r->created_at->toDateTimeString(),];})
+        ->filter(fn($p) => $p['lat'] && $p['lng'])->values();
+        return view('owner.pets.show', compact('pet', 'points'));
     }
+
+    
 
     /**
      * Show the form for editing the specified resource.

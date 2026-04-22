@@ -17,10 +17,13 @@ Route::middleware([
     'verified',
 ])->group(function () {
 
-// Inicio de agregado 16-12-25
-    Route::get('/dashboard', [DashboardController::class, 'index'])
-        ->name('dashboard');
-});
+    // Inicio de agregado 16-12-25
+    Route::get('/dashboard', function () {
+            if (auth()->user()->hasRole('admin')) {return redirect()->route('admin.dashboard');}
+            return redirect()->route('owner.dashboard');
+        })->name('dashboard');
+    }   
+);
 
 //Route::get('/qr/{code}', [QrController::class, 'handle']);
 
@@ -42,3 +45,6 @@ Route::post('/qr/{code}/claim', [QRPlateController::class, 'claim'])
 Route::post('/qr/{code}/location', [PublicQrController::class, 'sendLocation'])
     ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class])
     ->name('qr.sendLocation'); //esta chanchada es porque es publico y tranca
+
+Route::get('/pet/{id}', [\App\Http\Controllers\Owner\PetController::class, 'show'])
+    ->name('owner.pet.show'); 
