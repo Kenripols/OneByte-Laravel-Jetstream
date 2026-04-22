@@ -240,22 +240,44 @@ $this->selectedPet = Pet::with(['breed', 'currentStateModel', 'owner.user'])->fi
 
     public function showReadings($petId)
     {
-logger("CLICK showReadings: " . $petId);
-        $readings = \App\Models\Reading::whereHas('qrPlate', function ($q) use ($petId) {
-            $q->where('pet_id', $petId);
+        logger("CLICK showReadings: " . $petId);
+
+        // Cargar mascota (igual que openModal)
+        $pet = Pet::with(['breed', 'currentStateModel', 'owner.user'])
+            ->findOrFail($petId);
+
+        $this->selectedPet = $pet;
+
+        $this->name = $pet->name;
+        $this->bDate = $pet->bDate?->format('Y-m-d');
+        $this->breed_id = $pet->breed_id;
+
+        $this->editMode = false;
+        $this->showModal = true;
+
+        // Traer lecturas
+        $readings = Reading::with('messages')
+        ->whereHas('qrPlate', function ($q) use ($petId) {
+        $q->where('pet_id', $petId);
         })
         ->orderBy('created_at')
         ->get();
 
         $points = $readings->map(function ($r) {
+            $message = $r->messages->first();
             return [
                 'lat' => $r->lat,
                 'lng' => $r->lng,
                 'time' => $r->created_at->toDateTimeString(),
+
+                'message' => $message?->message,
+                'photo' => $message?->photo_path,
+                'seen' => $message?->seen,
             ];
         })->values()->toArray();
 
-        // ESTA ES LA CLAVE
-        $this->dispatch('show-map', $points);
+logger("POINTS:", $points);
+        //  Esperar a que el modal exista en el DOM
+        $this->dispatch('show-map', points: $points);
     }
 }

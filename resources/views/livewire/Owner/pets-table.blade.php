@@ -243,62 +243,125 @@
 
 @endif
 @push('scripts')
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('livewire:init', () => {
 
     window.addEventListener('show-map', (event) => {
 
         console.log("MAPA OK", event.detail);
-        const points = event.detail[0];
-        //const points = event.detail.points;
+
+        const points = event.detail.points;
 
         if (!points || points.length === 0) {
             console.log("sin puntos");
             return;
         }
 
-        const mapContainer = document.getElementById('map');
-        if (!mapContainer) return;
+        let tries = 0;
 
-        // limpiar mapa anterior
-        if (window.mapInstance) {
-            window.mapInstance.remove();
-        }
+        const waitForMap = setInterval(() => {
+            const mapContainer = document.getElementById('map');
 
-        setTimeout(() => {
+            if (mapContainer) {
+                clearInterval(waitForMap);
 
-            const map = L.map('map');
-            window.mapInstance = map;
+                if (window.mapInstance) {
+                    window.mapInstance.remove();
+                }
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap'
-            }).addTo(map);
+                setTimeout(() => {
 
-            const latlngs = points.map(p => [p.lat, p.lng]);
+                    const map = L.map('map', {
+                        preferCanvas: true
+                    });
 
-            L.polyline(latlngs, {
-                color: 'red',
-                weight: 4
-            }).addTo(map);
+                    window.mapInstance = map;
 
-            points.forEach((p, i) => {
-                const isLast = i === points.length - 1;
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '© OpenStreetMap'
+                    }).addTo(map);
 
-                L.marker([p.lat, p.lng])
-                    .addTo(map)
-                    .bindPopup(isLast ? " Última ubicación" : p.time);
-            });
+                    const latlngs = points.map(p => [p.lat, p.lng]);
 
-            map.fitBounds(latlngs, { padding: [30, 30] });
+                    //  línea del recorrido
+                    L.polyline(latlngs, {
+                        color: 'red',
+                        weight: 4
+                    }).addTo(map);
 
-        }, 200);
+                    //  markers + popup
+                    points.forEach((p, i) => {
+
+                        const isLast = i === points.length - 1;
+
+                        let icon = L.icon({
+                            iconUrl: isLast
+                                ? 'https://maps.google.com/mapfiles/ms/icons/red-dot.png'
+                                : 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+                            iconSize: isLast ? [32, 32] : [28, 28],
+                            iconAnchor: isLast ? [16, 32] : [14, 28]
+                        });
+
+                        const imageUrl = p.photo 
+                            ? `/storage/${p.photo}` 
+                            : null;
+
+                        const popupContent = `
+                            <div style="width:200px;">
+
+                                ${imageUrl ? `
+                                    <img src="${imageUrl}" 
+                                        style="width:100%; height:120px; object-fit:cover; border-radius:8px; margin-bottom:6px;" />
+                                ` : ``}
+
+                                ${p.message ? `
+                                    <div style="font-size:13px; margin-bottom:6px;">
+                                         ${p.message}
+                                    </div>
+                                ` : `
+                                    <div style="font-size:12px; color:gray;">
+                                        Sin mensaje
+                                    </div>
+                                `}
+
+                                <div style="font-size:11px; color:gray;">
+                                    ${isLast ? "Última ubicación" : p.time}
+                                </div>
+
+                            </div>
+                        `;
+
+                        L.marker([p.lat, p.lng], { icon })
+                            .addTo(map)
+                            .bindPopup(popupContent);
+                    });
+
+                    //  esto va FUERA del foreach
+                    map.fitBounds(latlngs, { padding: [30, 30] });
+
+                    setTimeout(() => {
+                        map.invalidateSize();
+                    }, 200);
+
+                }, 200);
+            }
+
+            tries++;
+            if (tries > 15) {
+                clearInterval(waitForMap);
+                console.log("map nunca apareció");
+            }
+
+        }, 100);
 
     });
 
 });
 </script>
+
 @endpush
 </div>

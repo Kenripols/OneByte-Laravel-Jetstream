@@ -8,6 +8,7 @@ use App\Models\Breed;
 use App\Models\Pet;
 use App\Models\Reading;
 use App\Models\QRPlate;
+use App\Models\QrMessage;
 
 use App\Enums\QREventType;
 use App\Models\PetStateHistory;
@@ -138,6 +139,7 @@ class DatabaseSeeder extends Seeder
                         'created_at' => now()->subMinutes($steps - $i),
                         'updated_at' => now(),
                     ]);
+
                 }
                 });
             });

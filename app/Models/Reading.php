@@ -21,4 +21,8 @@ class Reading extends Model
     {
            return $this->qrPlate?->pet; // como ahora es reading->qr->pet, hice el helper para traer la mascota
     }
+    public function messages()
+    {
+        return $this->hasMany(\App\Models\QrMessage::class);
+    }
 }

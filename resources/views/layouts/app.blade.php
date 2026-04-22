@@ -43,6 +43,8 @@
         @stack('modals')
 
         @livewireScripts
+
+        @stack('scripts')
         <script>
             document.addEventListener('livewire:load', function () {
                 @if(request()->has('qr'))
