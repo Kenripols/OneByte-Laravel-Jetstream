@@ -9,6 +9,7 @@ use App\Models\Pet;
 use App\Models\Reading;
 use App\Models\QRPlate;
 use App\Models\QrMessage;
+use App\Models\Post;
 
 use App\Enums\QREventType;
 use App\Models\PetStateHistory;
@@ -112,6 +113,28 @@ class DatabaseSeeder extends Seeder
                 $isLost = rand(0, 1); // 50% probabilidad
                 PetStateHistory::create([ 'pet_id' => $pet->id,'state' => $isLost ? 'LOST' : 'NORMAL','created_at' => now()->subDays(rand(0, 5)),]);
 
+                if ($isLost) {//aca si hay una perdida la muestra en el feed de todos
+                    Post::create([
+                        'title' => "{$pet->name}, {$pet->breed->breedName}, perdido",
+                        'type' => 'news',
+                        'pet_id' => $pet->id,
+                        'is_active' => true,
+                        'publish_at' => now()->subHours(rand(1, 24)),
+                        'expires_at' => now()->addDays(14),
+                    ]);
+                }
+
+                if (!$isLost && rand(0, 1)) {//cuando aparece una hace un post
+
+                    Post::create([
+                        'title' => "{$pet->name} volvió a casa ",
+                        'type' => 'news',
+                        'pet_id' => $pet->id,
+                        'is_active' => true,
+                        'publish_at' => now()->subHours(rand(1, 48)),
+                    ]);
+                }
+
                 // Creo varias lecturas para la placa QR (esto lo hizo "ella" porque yo ni idea, pero anda)
                 $lat = -34.9011;
                 $lng = -56.1645;
@@ -142,6 +165,41 @@ class DatabaseSeeder extends Seeder
 
                 }
                 });
-            });
+   }); // ← termina el each de owners
+
+        
+        // post de consejos  TIPS
+        Post::updateOrCreate(
+            ['title' => 'Escaneá el QR para ayudar a una mascota'],
+            ['type' => 'tip', 'is_active' => true]
+        );
+
+        Post::updateOrCreate(
+            ['title' => 'Si encontrás una mascota, reportala'],
+            ['type' => 'tip', 'is_active' => true]
+        );
+
+        Post::updateOrCreate(
+            ['title' => 'Mantené actualizada la info de tu mascota'],
+            ['type' => 'tip', 'is_active' => true]
+        );
+
+        // Novedades (careteadas que escribe el admin)
+        
+        Post::create([
+            'title' => 'ya somos 3000 (hechos con faker), gracias por sumarte ',
+            'type' => 'news',
+            'is_active' => true,
+            'publish_at' => now()->subDays(1),
+        ]);
+
+        Post::create([
+            'title' => 'Primera mascota recuperada usando QR',
+            'type' => 'news',
+            'is_active' => true,
+            'publish_at' => now()->subHours(6),
+        ]);
         }
+
+
 }

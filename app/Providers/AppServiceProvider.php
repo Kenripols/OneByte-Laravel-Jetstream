@@ -1,24 +1,19 @@
 <?php
-
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Models\PetStateHistory;
+use App\Observers\PetStateHistoryObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
         //
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
-        //
+        PetStateHistory::observe(PetStateHistoryObserver::class);
     }
 }
