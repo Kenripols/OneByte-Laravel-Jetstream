@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Owner;
 use App\Http\Controllers\Controller;
 use App\Models\Pet;
 use App\Models\User;
+use App\Enums\PetState;
 
 class DashboardController extends Controller
 {
@@ -15,24 +16,48 @@ class DashboardController extends Controller
         $totalPets = Pet::where('owner_id', $ownerId)->count();
 
         // Mascotas perdidas (estado actual = PERDIDA)
-        $lostPets = Pet::where('owner_id', $ownerId)->whereHas('currentState', function ($q) {$q->where('state', 'PERDIDA');})->count();
+        $lostPets = Pet::where('owner_id', $ownerId)->whereHas('currentState', function ($q) {$q->where('state', 'LOST');})->count();
         // Mascotas encontradas (estado actual = NORMAL)
         $foundPets = Pet::where('owner_id', $ownerId)->whereHas('currentState', function ($q) {$q->where('state', 'NORMAL');})->count();
         // Yo diría de no poner el indicador de mascotas fallecidas  (coincido, queda fiero)
         
         //acá se pica todo y te muestra datos de tus mascotas perdidas para que al entrar ya sepas que onda
         $lostPetsList = Pet::where('owner_id', $ownerId)
-            ->whereHas('currentState', function ($q) {$q->where('state', 'PERDIDA');})
+            ->whereHas('currentState', function ($q) {$q->where('state', 'LOST');})
             ->with(['qrPlate.lastReading'])
             ->with(['qrPlate' => function ($q) {$q->withCount('readings')->with('lastReading');}])->get();
         //
         $lostPetsList = $lostPetsList->sortByDesc(function ($pet) {return $pet->qrPlate?->lastReading?->created_at;});
         
-        $lostPetsData = $lostPetsList->map(
-            function ($pet) {$qr = $pet->qrPlate;$last = $qr?->lastReading;
-                return ['id' => $pet->id,'name' => $pet->name,'lat' => $last?->lat,'lng' => $last?->lng,'last_seen' => $last?->created_at?->toDateTimeString(),'scans' => $qr?->readings_count ?? 0,'is_recent' => $last && now()->diffInMinutes($last->created_at) < 60,   ];
-            }
-        );
-        return view('owner.dashboard', compact('totalPets','lostPets','foundPets','lostPetsData'));
+$lostPetsData = $lostPetsList->map(function ($pet) {
+    $qr = $pet->qrPlate;
+    $last = $qr?->lastReading;
+
+    return [
+        'id' => $pet->id,
+        'name' => $pet->name,
+        'photo_url' => $pet->photo_url,
+        'message' => $qr?->message,
+
+        //(info actual)
+        'lat' => $last?->lat,
+        'lng' => $last?->lng,
+        'last_seen' => $last?->created_at?->toDateTimeString(),
+        'scans' => $qr?->readings_count ?? 0,
+        'is_recent' => $last && now()->diffInMinutes($last->created_at) < 60,
+
+        // recorrido
+        'points' => $qr?->readings?->map(function ($r) use ($pet, $qr) {
+            return [
+                'lat' => $r->lat,
+                'lng' => $r->lng,
+                'time' => $r->created_at?->toDateTimeString(),
+                'photo' => $pet->photo_url,
+                'message' => $qr?->message,
+            ];
+        })->values() ?? [],
+    ];
+});
+        return view('owner.dashboard', compact('totalPets','lostPets','foundPets','lostPetsData','lostPetsList',));
     }
 }

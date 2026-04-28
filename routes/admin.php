@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
 
     Route::get('/', function () {
-        return view('dashboard');
+        return view('admin.dashboard');
     })->name('dashboard');
 
     // Ruta para la vista de confirmación de borrado (drop)

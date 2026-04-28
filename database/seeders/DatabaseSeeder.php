@@ -116,7 +116,7 @@ class DatabaseSeeder extends Seeder
                 $lat = -34.9011;
                 $lng = -56.1645;
 
-                $steps = rand(15, 40);
+                $steps = rand(2, 5);
 
                 for ($i = 0; $i < $steps; $i++) {
 
