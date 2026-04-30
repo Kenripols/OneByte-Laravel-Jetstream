@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
-use App\Models\QRPlate;
+use App\Models\QrPlate;
 
 class PublicQrController extends Controller
 {

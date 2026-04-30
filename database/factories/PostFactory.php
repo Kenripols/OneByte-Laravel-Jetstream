@@ -1,4 +1,9 @@
 <?php
+
+
+namespace Database\Factories; //faltaba namespace
+
+
 use App\Models\Post;
 use App\Models\Pet;
 use Illuminate\Database\Eloquent\Factories\Factory;
