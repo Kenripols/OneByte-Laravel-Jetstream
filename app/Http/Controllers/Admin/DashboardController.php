@@ -27,7 +27,7 @@ class DashboardController extends Controller
         // Total de usuarios
         $totalUsers = User::count();
 
-        return view('dashboard', compact(
+        return view('admin.dashboard', compact(
             'totalPets',
             'lostPets',
             'foundPets',

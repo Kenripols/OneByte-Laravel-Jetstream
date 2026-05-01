@@ -4,15 +4,14 @@ use App\Http\Controllers\Admin\BreedController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PetController;
 use App\Http\Controllers\Admin\QRPlateController;
+use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 // Rutas de administracion con autenticacion y verificacion de rol admin
 // Rutas de admin manejo de usuarios movidas 14-3-2026
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
 
-    Route::get('/', function () {
-        return view('admin.dashboard');
-    })->name('dashboard');
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     // Ruta para la vista de confirmación de borrado (drop)
     Route::get('breeds/{breed}/drop', [BreedController::class, 'drop'])->name('breeds.drop');
@@ -32,7 +31,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     // Rutas para mascotas, limito el acceso unicamente a index y show, las demás acciones se manejarán con Livewire y modal
     Route::resource('pets', PetController::class)
-    ->only(['index', 'show'])
+    ->only(['index', 'show', 'update']) // Lo habilito temporalmente mientras lo migramos a modal y Livewire
     ->parameters(['pets' => 'pet'])
     ->names('pets');
     //Rutas para placas QR admin

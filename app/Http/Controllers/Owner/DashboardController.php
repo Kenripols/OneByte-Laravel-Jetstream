@@ -82,6 +82,6 @@ class DashboardController extends Controller
         ->latest()
         ->take(10)
         ->get();
-        return view('owner.dashboard', compact('totalPets','lostPets','foundPets','lostPetsData','lostPetsList','tip','news'));
+        return view('owner.dashboard', compact('totalPets','lostPets','foundPets','lostPetsData','lostPetsList','tips','news'));
         }
 }
