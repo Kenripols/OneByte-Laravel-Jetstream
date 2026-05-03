@@ -53,6 +53,14 @@ php artisan make:request UpdateBreedRequest
 Crear una Policy para un modelo:
 php artisan make:policy PetPolicy --model=Pet
 
+Crear componente livewire laravel
+
+php artisan make:livewire Admin/PetsTable
+
+Genera 2 archivos
+app/Livewire/Admin
+resources/views/livewire/admin/
+
 EJEMPLO archivo .env
 
 APP_NAME=Laravel
