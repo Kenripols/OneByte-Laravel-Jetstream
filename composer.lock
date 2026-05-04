@@ -3897,18 +3897,6 @@
         },
         {
             "name": "spatie/laravel-permission",
-<<<<<<< Updated upstream
-            "version": "6.19.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/spatie/laravel-permission.git",
-                "reference": "0cd412dcad066d75caf0b977716809be7e7642fd"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/0cd412dcad066d75caf0b977716809be7e7642fd",
-                "reference": "0cd412dcad066d75caf0b977716809be7e7642fd",
-=======
             "version": "6.25.0",
             "source": {
                 "type": "git",
@@ -3919,7 +3907,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/d7d4cb0d58616722f1afc90e0484e4825155b9b3",
                 "reference": "d7d4cb0d58616722f1afc90e0484e4825155b9b3",
->>>>>>> Stashed changes
                 "shasum": ""
             },
             "require": {
@@ -3982,11 +3969,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-permission/issues",
-<<<<<<< Updated upstream
-                "source": "https://github.com/spatie/laravel-permission/tree/6.19.0"
-=======
                 "source": "https://github.com/spatie/laravel-permission/tree/6.25.0"
->>>>>>> Stashed changes
             },
             "funding": [
                 {
@@ -3994,11 +3977,7 @@
                     "type": "github"
                 }
             ],
-<<<<<<< Updated upstream
-            "time": "2025-05-31T00:50:27+00:00"
-=======
             "time": "2026-03-17T22:46:46+00:00"
->>>>>>> Stashed changes
         },
         {
             "name": "symfony/clock",
