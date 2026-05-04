@@ -13,7 +13,11 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
         "livewire/livewire": "^3.0",
+<<<<<<< Updated upstream
         "spatie/laravel-permission": "^6.19"
+=======
+        "spatie/laravel-permission": "^6.25"
+>>>>>>> Stashed changes
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
