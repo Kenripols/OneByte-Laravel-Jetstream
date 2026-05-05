@@ -22,7 +22,7 @@ class PetStateHistoryObserver
             if (!$alreadyActive) {
                 Post::create([
                     'title' => "{$pet->name}, {$pet->breed->breedName}, perdido",
-                    'type' => 'news',
+                    'type' => 'lost',
                     'pet_id' => $pet->id,
                     'is_active' => true,
                     'publish_at' => now(),
@@ -35,7 +35,7 @@ class PetStateHistoryObserver
 
                 Post::create([
                     'title' => " Seguimos buscando a {$pet->name}",
-                    'type' => 'news',
+                    'type' => 'lost',
                     'pet_id' => $pet->id,
                     'is_active' => true,
                     'publish_at' => now(),
@@ -52,7 +52,7 @@ class PetStateHistoryObserver
 
             Post::create([
                 'title' => " {$pet->name} volvió a casa ",
-                'type' => 'news',
+                'type' => 'lost',
                 'pet_id' => $pet->id,
                 'is_active' => true,
                 'publish_at' => now(),

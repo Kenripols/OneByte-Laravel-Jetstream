@@ -40,6 +40,9 @@
                     <x-nav-link href="{{ route('admin.qrplates.index') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Placas QR') }}
                     </x-nav-link>
+                    <x-nav-link href="{{ route('admin.posts.index') }}" :active="request()->routeIs('admin.posts.*')">
+                        {{ __('Publicaciones') }}
+                    </x-nav-link>
                     
                     
                     @endrole
@@ -183,6 +186,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link href="{{ route('admin.qrplates.index') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Placas QR') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('admin.posts.index') }}" :active="request()->routeIs('admin.posts.*')">
+                {{ __('Publicaciones') }}
             </x-responsive-nav-link>
             @endrole
                <!-- Agregar aca los elementos de la barra menu para que aparezcan responsive -->

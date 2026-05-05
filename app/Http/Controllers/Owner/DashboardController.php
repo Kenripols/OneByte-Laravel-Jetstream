@@ -4,15 +4,16 @@ namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pet;
-use App\Models\User;
-use App\Enums\PetState;
 use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        $ownerId = auth()->user()->owner->id;
+        $user = Auth::user();
+        abort_if(!$user || !$user->owner, 403);
+        $ownerId = $user->owner->id;
         // Total de mascotas
         $totalPets = Pet::where('owner_id', $ownerId)->count();
 
@@ -82,6 +83,14 @@ class DashboardController extends Controller
         ->latest()
         ->take(10)
         ->get();
-        return view('owner.dashboard', compact('totalPets','lostPets','foundPets','lostPetsData','lostPetsList','tips','news'));
+    // Cambios de estado (publicaciones creadas por estados de mascota)
+    $statusPosts = (clone $base)
+        ->where('type', 'lost')
+        ->with('pet')
+        ->latest()
+        ->take(10)
+        ->get();
+
+        return view('owner.dashboard', compact('totalPets','lostPets','foundPets','lostPetsData','lostPetsList','tips','news','statusPosts'));
         }
 }
