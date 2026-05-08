@@ -20,7 +20,7 @@ class PublicQrController extends Controller
         ]);
 
         // 2) Buscar QR con relaciones
-        $qr = QRPlate::with('pet.owner.user')
+        $qr = QrPlate::with('pet.owner.user')
             ->where('code', $code)
             ->firstOrFail();
 

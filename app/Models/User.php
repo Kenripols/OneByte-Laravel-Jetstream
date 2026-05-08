@@ -24,6 +24,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'claimed_qr_id', // Agrego el campo para asignar QR pendiente
     ];
 
     /**

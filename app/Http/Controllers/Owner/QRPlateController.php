@@ -7,23 +7,23 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-use App\Models\QRPlate;
+use App\Models\QrPlate;
 use App\Models\Pet;
 
-class QRPlateController extends Controller
+class QrPlateController extends Controller
 {
     public function index()
     {   
-        $QRPlates = QRPlate::whereHas('pet.owner', function ($query) {
+        $QrPlates = QrPlate::whereHas('pet.owner', function ($query) {
             $query->where('user_id', Auth::id());
         })->paginate(10);
 
-        return view('owner.qrplates.index', compact('QRPlates'));
+        return view('owner.qrplates.index', compact('QrPlates'));
     }
 
     public function create(Request $request)
     {   
-        $this->authorize('create', QRPlate::class);
+        $this->authorize('create', QrPlate::class);
 
         $pets = Pet::with(['breed', 'owner'])
             ->whereHas('owner', function ($query) {
@@ -36,7 +36,7 @@ class QRPlateController extends Controller
 
         // QR pendiente
         if ($user->claimed_qr_id) {
-            $qr = QRPlate::find($user->claimed_qr_id);
+            $qr = QrPlate::find($user->claimed_qr_id);
 
             if (!$qr) {
                 $user->update(['claimed_qr_id' => null]);
@@ -44,7 +44,7 @@ class QRPlateController extends Controller
         }
         // QR por query
         elseif ($request->has('qr')) {
-            $qr = QRPlate::where('code', $request->qr)->first();
+            $qr = QrPlate::where('code', $request->qr)->first();
 
             if ($qr && $qr->owner_user_id && $qr->owner_user_id !== $user->id) {
                 abort(403);
@@ -67,7 +67,7 @@ class QRPlateController extends Controller
 
         $user = Auth::user();
 
-        $qr = QRPlate::where('code', $request->code)->firstOrFail();
+        $qr = QrPlate::where('code', $request->code)->firstOrFail();
 
         // mascota
         if ($request->pet_id) {
@@ -79,7 +79,7 @@ class QRPlateController extends Controller
                 'name' => $request->new_name,
                 'bDate' => $request->new_bDate,
                 'breed_id' => $request->new_breed_id,
-                'owner_id' => $user->owner->id,
+                'owner_id' => $user->id,
             ]);
         }
 
@@ -88,13 +88,13 @@ class QRPlateController extends Controller
             return back()->with('error', 'El QR ya está asignado.');
         }
 
-        if ($qr->status === QRPlate::STATUS_GENERATED) {
+        if ($qr->status === QrPlate::STATUS_GENERATED) {
             return back()->with('error', 'El QR aún no está disponible.');
         }
 
         if (in_array($qr->status, [
-            QRPlate::STATUS_CLAIMED,
-            QRPlate::STATUS_REGISTERED
+            QrPlate::STATUS_CLAIMED,
+            QrPlate::STATUS_REGISTERED
         ])) {
             if ($qr->owner_user_id !== $user->id) {
                 return back()->with('error', 'Este QR pertenece a otro usuario.');
@@ -124,7 +124,7 @@ class QRPlateController extends Controller
         // ya tiene uno pendiente
         if ($user->claimed_qr_id) {
 
-            $existingQr = QRPlate::find($user->claimed_qr_id);
+            $existingQr = QrPlate::find($user->claimed_qr_id);
 
             if ($existingQr) {
                 return redirect()->route('owner.qrplates.create', [
@@ -135,7 +135,7 @@ class QRPlateController extends Controller
             }
         }
 
-        $qr = QRPlate::where('code', $code)->firstOrFail();
+        $qr = QrPlate::where('code', $code)->firstOrFail();
 
         if ($qr->pet_id !== null) {
             return back()->with('error', 'Este QR ya está en uso.');

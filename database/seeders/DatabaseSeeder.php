@@ -11,7 +11,7 @@ use App\Models\QRPlate;
 use App\Models\QrMessage;
 use App\Models\Post;
 
-use App\Enums\QREventType;
+use App\Enums\QrEventType;
 use App\Models\PetStateHistory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -44,14 +44,14 @@ class DatabaseSeeder extends Seeder
        
 
         //QR DE REGISTRO         
-        $qr = QRPlate::create([
+        $qr = QrPlate::create([
             'code' => (string) Str::uuid(),
             'batch_id' => 1,
         ]);
 
-        $qr->addEvent(QREventType::GENERATED, now()->subDays(10));
-        $qr->addEvent(QREventType::DOWNLOADED, now()->subDays(5));
-        $qr->addEvent(QREventType::CLAIMED, now(), [
+        $qr->addEvent(QrEventType::GENERATED, now()->subDays(10));
+        $qr->addEvent(QrEventType::DOWNLOADED, now()->subDays(5));
+        $qr->addEvent(QrEventType::CLAIMED, now(), [
             'user_id' => $ownerUser->id,
         ]);
            
@@ -92,12 +92,12 @@ class DatabaseSeeder extends Seeder
         Owner::all()->each(function ($owner) use ($breeds) {
         // Creo 10 propietarios, cada uno con 3 mascotas
             Pet::factory(3)->create([
-                'owner_id' => $owner->id,
+                'owner_id' => $owner->user_id,
                 'breed_id' => $breeds->random()->id,
             ])->each(function ($pet) {
 
                 // Creo la placa QR para la mascota
-                $qrPlate = QRPlate::create([
+                $qrPlate = QrPlate::create([
                     'code' => (string) Str::uuid(),
                     'status' => QRPlate::STATUS_ASSIGNED,
                     'pet_id' => $pet->id,

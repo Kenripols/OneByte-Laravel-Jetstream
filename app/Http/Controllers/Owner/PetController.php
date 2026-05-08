@@ -49,7 +49,7 @@ class PetController extends Controller
 
         $data = $request->validated();
 
-        $data['owner_id'] = $owner->id; // Asigno el owner_id
+        $data['owner_id'] = $owner->user_id; // Asigno el owner_id
 
 
         if (session('claimed_qr_id')) {

@@ -9,10 +9,7 @@ return new class extends Migration
     {
         Schema::create('qr_plates', function (Blueprint $table) {
             $table->id();
-
-            
             $table->string('code')->unique();//Código único del QR (lo que se imprime/escanea)
-
             //Estado del QR:
             //1 = generado
             //2 = descargado
@@ -22,7 +19,8 @@ return new class extends Migration
             //5 = caducado
             //6 = sustituido
             $table->unsignedTinyInteger('status')->default(1);
-            $table->foreignId('pet_id')->nullable();//Mascota asociada (puede ser null hasta que se cree/asigne)
+            //Se quitó Pet_id porque no aporta información relevante, el QR se asocia a la mascota a través de la tabla de historial de asignación que realiza la función de control además.
+            $table->unsignedBigInteger('pet_id')->nullable();
             $table->unsignedBigInteger('batch_id')->nullable()->index(); //numero de lote en que se descargo
             
             $table->timestamps();

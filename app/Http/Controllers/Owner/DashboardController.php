@@ -12,7 +12,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $ownerId = auth()->user()->owner->id;
+        $ownerId = auth()->id();
         // Total de mascotas
         $totalPets = Pet::where('owner_id', $ownerId)->count();
 

@@ -29,7 +29,7 @@ class Pet extends Model
 
     // Especifico la relacion de una mascota pertenece a un owner
     public function owner(): BelongsTo{
-        return $this->belongsTo(Owner::class);
+        return $this->belongsTo(Owner::class, 'owner_id', 'user_id');
     }
 
     // Especifico la relacion de una mascota tiene muchas placas QR

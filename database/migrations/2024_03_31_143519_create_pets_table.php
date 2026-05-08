@@ -22,7 +22,7 @@ return new class extends Migration
 
             // Clave foránea a la tabla owners (relacionada por user_id)
             $table->unsignedBigInteger('owner_id');
-            $table->foreign('owner_id')->references('id')->on('owners')->onDelete('cascade');
+            $table->foreign('owner_id')->references('user_id')->on('owners')->onDelete('cascade');
 
             $table->timestamps();
 

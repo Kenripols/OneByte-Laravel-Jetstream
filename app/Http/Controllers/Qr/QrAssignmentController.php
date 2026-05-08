@@ -21,7 +21,7 @@ class QrAssignmentController extends Controller
 
         $owner = Owner::where('user_id', auth()->id())->firstOrFail();
 
-        $pets = Pet::where('owner_id', $owner->id)->get();
+        $pets = Pet::where('owner_id', $owner->user_id)->get();
 
         // si no tiene mascotas -> crear directamente
         if ($pets->isEmpty()) {
@@ -43,7 +43,7 @@ class QrAssignmentController extends Controller
         $owner = Owner::where('user_id', auth()->id())->firstOrFail();
 
         $pet = Pet::where('id', $request->pet_id)
-            ->where('owner_id', $owner->id)
+            ->where('owner_id', $owner->user_id)
             ->firstOrFail();
 
         // VALIDACIONES
@@ -100,7 +100,7 @@ class QrAssignmentController extends Controller
             $pet = Pet::create([
                 'name' => $request->name,
                 'breed_id' => $request->breed_id,
-                'owner_id' => $owner->id,
+                'owner_id' => $owner->user_id,
             ]);
 
             // asignar QR

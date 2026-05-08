@@ -9,11 +9,6 @@
         <form method="POST" action="{{ route('register') }}">
             @csrf
 
-            <div>
-                <x-label for="name" value="{{ __('Nombre de Usuario') }}" />
-                <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            </div>
-
             <div class="mt-4">
                 <x-label for="email" value="{{ __('Correo Electrónico') }}" />
                 <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
@@ -23,8 +18,8 @@
             <div class="mt-4">
                 <x-label for="docType" value="{{ __('Tipo de Documento') }}" />
                 <select id="docType" name="docType" class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                    <option value="pasaporte">{{ __('Pasaporte') }}</option>
-                    <option value="cedula">{{ __('Cedula') }}</option>
+                    <option value="2">{{ __('Pasaporte') }}</option>
+                    <option value="1">{{ __('Cedula') }}</option>
                 </select>
             </div>
 

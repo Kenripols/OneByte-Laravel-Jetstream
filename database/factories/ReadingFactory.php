@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\QRPlate;
+use App\Models\QrPlate;
 use App\Models\Pet;
 
 /**
@@ -14,7 +14,7 @@ class ReadingFactory extends Factory
     public function definition(): array
     {
         return [
-            'qr_plate_id' => QRPlate::factory(),
+            'qr_plate_id' => QrPlate::factory(),
 
             'user_id' => null,
 

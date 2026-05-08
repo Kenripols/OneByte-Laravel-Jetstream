@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\QRPlate;
+use App\Models\QrPlate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
@@ -13,13 +13,13 @@ use BaconQrCode\Renderer\Image\SvgImageBackEnd;
 use BaconQrCode\Writer;
 use ZipArchive;
 
-class QRPlateController extends Controller
+class QrPlateController extends Controller
 {
     //Listado
     public function index()
     {
-        $QRPlates = QRPlate::paginate(10);
-        return view('admin.qrplates.index', compact('QRPlates'));
+        $QrPlates = QrPlate::paginate(10);
+        return view('admin.qrplates.index', compact('QrPlates'));
     }
 
     
@@ -63,20 +63,20 @@ $qr->addEvent('generated');
     {
         $amount = (int) ($request->amount ?? 10);
 
-        $available = QRPlate::where('status', QRPlate::STATUS_GENERATED)->count();
+        $available = QrPlate::where('status', QrPlate::STATUS_GENERATED)->count();
 
         if ($available < $amount) {
             return back()->with('error', "Solo hay $available QR disponibles");
         }
 
         // busca el ultimo batch y le suma 1 para el nuevo.
-        $batchId = (QRPlate::max('batch_id') ?? 0) + 1;
+        $batchId = (QrPlate::max('batch_id') ?? 0) + 1;
 
         $files = [];
 
         DB::transaction(function () use ($amount, $batchId, &$files) {
 
-            $qrs = QRPlate::where('status', QRPlate::STATUS_GENERATED)
+            $qrs = QrPlate::where('status', QrPlate::STATUS_GENERATED)
                 ->lockForUpdate()
                 ->orderBy('id')
                 ->limit($amount)
@@ -127,6 +127,6 @@ $qr->addEvent('generated');
     //Contador de QRs disponibles
     public function getDisponiblesCountProperty()
     {
-        return QRPlate::where('status', QRPlate::STATUS_GENERATED)->count();
+        return QrPlate::where('status', QrPlate::STATUS_GENERATED)->count();
     }
 }

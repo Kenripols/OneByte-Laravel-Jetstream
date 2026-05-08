@@ -12,14 +12,12 @@ class Owner extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'owners';
-
-/*
-    protected $primaryKey = 'id';
-    public $incrementing = false; //esto no precisa porque usamos el ID default de owner
+    protected $primaryKey = 'user_id';
+    public $incrementing = false;
     protected $keyType = 'int';
-*/
+
     protected $fillable = [
-        'user_id', 'docType', 'docNum', 'fName1', 'fName2', 'sName1', 'sName2','registration_qr_id'
+        'user_id', 'docType', 'docNum', 'fName1', 'fName2', 'sName1', 'sName2','registration_qr_id', 'phone'
                 ];
 
                 // Para que Laravel maneje correctamente la fecha del borrado lógico
@@ -28,7 +26,7 @@ class Owner extends Model
     //Especifico la relacion uno a N con mascotas
     public function pets()
     {
-        return $this->hasMany(Pet::class);
+        return $this->hasMany(Pet::class, 'owner_id', 'user_id');
     }
 
     //Especifico la relacion de un usuario a un owner

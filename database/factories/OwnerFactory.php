@@ -29,6 +29,7 @@ class OwnerFactory extends Factory
             'sName1' => $this->faker->lastName,
             'sName2' => $this->faker->optional()->lastName,
             'user_id' => User::factory(), // Crea un User y usa su ID
+            'phone' => $this->faker->optional()->phoneNumber,
         ];
     }
 }

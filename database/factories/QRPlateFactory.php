@@ -4,9 +4,9 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\Models\QRPlate;
+use App\Models\QrPlate;
 
-class QRPlateFactory extends Factory
+class QrPlateFactory extends Factory
 {
     public function definition(): array
     {
@@ -14,7 +14,7 @@ class QRPlateFactory extends Factory
             'code' => (string) Str::uuid(),
 
             // estado inicial
-            'status' => QRPlate::STATUS_GENERATED,
+            'status' => QrPlate::STATUS_GENERATED,
 
             'pet_id' => null,
             'batch_id' => null,

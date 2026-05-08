@@ -12,7 +12,7 @@ use Laravel\Jetstream\Jetstream;
 class CreateNewUser implements CreatesNewUsers
 {
     use PasswordValidationRules;
-
+//Hay que agregar a este formulario de registro la lógica de los QR
     /**
      * Validate and create a newly registered user.
      *
@@ -21,7 +21,6 @@ class CreateNewUser implements CreatesNewUsers
     public function create(array $input): User
     {
         Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
             //Campos extra para owner
@@ -31,12 +30,12 @@ class CreateNewUser implements CreatesNewUsers
             'fName2' => ['nullable', 'string', 'max:50'],
             'sName1' => ['required', 'string', 'max:50'],
             'sName2' => ['nullable', 'string', 'max:50'],
+            'phone' => ['nullable', 'string', 'max:20'],
             //Terminan campos extra de owner
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
 // Creo el usuario y lo guardo en una variable
         $user = User::create([
-            'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
         ]);
@@ -53,6 +52,7 @@ class CreateNewUser implements CreatesNewUsers
         'fName2' => $input['fName2'] ?? null,
         'sName1' => $input['sName1'],
         'sName2' => $input['sName2'] ?? null,
+        'phone' => $input['phone'] ?? null,
     ]);
         // Devuelvo el usuario
         return $user;

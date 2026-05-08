@@ -39,23 +39,23 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        @foreach ($QRPlates as $QRPlate)
+                        @foreach ($QrPlates as $QrPlate)
                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $QRPlate->id }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $QRPlate->code }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $QRPlate->iDate }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $QRPlate->eDate }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $QRPlate->pet_id }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $QrPlate->id }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $QrPlate->code }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $QrPlate->iDate }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $QrPlate->eDate }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $QrPlate->pet_id }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">
 
-                                    <a href="{{ route('owner.qrplates.show', $QRPlate) }}" class="text-blue-600 hover:text-blue-900">Ver Detalles</a>
+                                    <a href="{{ route('owner.qrplates.show', $QrPlate) }}" class="text-blue-600 hover:text-blue-900">Ver Detalles</a>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
 
-                {{ $QRPlates->links() }} <!-- Paginación -->
+                {{ $QrPlates->links() }} <!-- Paginación -->
             </div>
         </div>
     </div>

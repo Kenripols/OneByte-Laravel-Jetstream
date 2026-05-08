@@ -10,9 +10,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('owners', function (Blueprint $table) {
-            $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->tinyInteger('docType');
             $table->string('docNum');
             $table->unique(['docType', 'docNum']);
@@ -20,6 +19,7 @@ return new class extends Migration
             $table->string('fName2')->nullable();
             $table->string('sName1');
             $table->string('sName2')->nullable();
+            $table->string('phone')->nullable();
             
             
 //          $table->foreignId('registration_qr_id')->nullable()->constrained('qr_plates')->nullOnDelete();

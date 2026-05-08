@@ -2,10 +2,10 @@
 
 namespace App\Policies;
 
-use App\Models\QRPlate;
+use App\Models\QrPlate;
 use App\Models\User;
 
-class QRPlatePolicy
+class QrPlatePolicy
 {
     public function before(User $user)
     {
@@ -19,10 +19,10 @@ class QRPlatePolicy
         return $user->hasRole('owner');
     }
 
-    public function view(User $user, QRPlate $qrPlate): bool
+    public function view(User $user, QrPlate $qrPlate): bool
     {
         return $user->hasRole('owner')
-            && $qrPlate->pet?->owner?->owner_id === $user->id;
+            && $qrPlate->pet?->owner?->user_id === $user->id;
     }
 
     public function create(User $user): bool
@@ -30,15 +30,15 @@ class QRPlatePolicy
         return $user->hasRole('owner');
     }
 
-    public function update(User $user, QRPlate $qrPlate): bool
+    public function update(User $user, QrPlate $qrPlate): bool
     {
         return $user->hasRole('owner')
-            && $qrPlate->pet?->owner?->owner_id === $user->id;
+            && $qrPlate->pet?->owner?->user_id === $user->id;
     }
 
-    public function delete(User $user, QRPlate $qrPlate): bool
+    public function delete(User $user, QrPlate $qrPlate): bool
     {
         return $user->hasRole('owner')
-            && $qrPlate->pet?->owner?->owner_id === $user->id;
+            && $qrPlate->pet?->owner?->user_id === $user->id;
     }
 }
