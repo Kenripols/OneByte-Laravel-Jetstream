@@ -173,7 +173,7 @@ public function updatePet()
             'name' => $data['name'],
             'bDate' => $data['bDate'] ?: null,
             'breed_id' => $data['breed_id'],
-            'owner_id' => Auth::user()->owner->id,
+            'owner_id' => Auth::id(),
             'photo' => $photoPath,
         ]);
 
@@ -211,6 +211,51 @@ $this->selectedPet = Pet::with(['breed', 'currentStateModel', 'owner.user'])->fi
 
     session()->flash('success', 'La mascota fue marcada como fallecida.');
 }
+//Marco la mascota como perdida
+public function markAsLost($petId)
+{
+    $pet = Pet::with('currentStateModel')->findOrFail($petId);
+
+    abort_unless(Auth::user()->can('update', $pet), 403);
+// CurrentStateModel es el historial de estado actual, si existe, le pongo ended_at para cerrarlo porque se va a crear uno nuevo con estado perdido
+    if ($pet->currentStateModel) {
+        $pet->currentStateModel->update([
+            'ended_at' => now(),
+        ]);
+    }
+
+    PetStateHistory::create([
+        'pet_id' => $pet->id,
+        'state' => \App\Enums\PetState::LOST,
+        'started_at' => now(),
+        'ended_at' => null,
+    ]);
+
+    session()->flash('success', 'La mascota fue marcada como perdida.');
+}
+
+//Marco la mascota como encontrada
+public function markAsFound($petId)
+{
+    $pet = Pet::with('currentStateModel')->findOrFail($petId);
+
+    abort_unless(Auth::user()->can('update', $pet), 403);
+
+    if ($pet->currentStateModel) {
+        $pet->currentStateModel->update([
+            'ended_at' => now(),
+        ]);
+    }
+
+    PetStateHistory::create([
+        'pet_id' => $pet->id,
+        'state' => \App\Enums\PetState::NORMAL,
+        'started_at' => now(),
+        'ended_at' => null,
+    ]);
+
+    session()->flash('success', 'La mascota fue marcada como encontrada.');
+}
 
     
     // esta funcion realiza una consulta cada vez que se escribe, usando el dato que se escribe, si se escriben ambos, cuenta como AND de los 2 datos
@@ -218,7 +263,7 @@ $this->selectedPet = Pet::with(['breed', 'currentStateModel', 'owner.user'])->fi
     // Solo muestra mascotas del owner autenticado
     public function render()
     {
-       $ownerId = Auth::user()->owner->id; //user_id no corre para estas cosas, se usa el owner_id
+       $ownerId = Auth::id(); // el owner_id en pets es el id del usuario autenticado
 
         $query = Pet::with(['breed', 'owner'])->where('owner_id', $ownerId); 
 

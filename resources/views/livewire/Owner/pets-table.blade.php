@@ -92,8 +92,7 @@
                     @endif
                 </button>
                 @endif
-
-
+            </td>
 
             <!-- Acciones -->
             <td class="px-6 py-4 text-right">
@@ -118,7 +117,7 @@
         </tr>
     @empty
         <tr>
-            <td colspan="6" class="text-center py-6 text-gray-400">
+            <td colspan="7" class="text-center py-6 text-gray-400">
                 No se encontraron mascotas
             </td>
         </tr>

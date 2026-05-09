@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Pet;
+use App\Models\Owner;
 use App\Models\User;
 
 class PetPolicy
@@ -33,9 +34,10 @@ class PetPolicy
         return $user->hasRole('owner');
     }
 //Solamente el dueño puede actualizar o eliminar una mascota suya
+//Esta rompido 
     public function update(User $user, Pet $pet): bool
     {
-        return $user->hasRole('owner') && $pet->owner?->owner_id === $user->id;
+         return $user->hasRole('owner') && $pet->owner?->user_id === $user->id;
     }
 
     public function delete(User $user, Pet $pet): bool
