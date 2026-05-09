@@ -10,9 +10,6 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4">
                 <!-- Index con modal y Livewire -->
                @livewire('owner.pets-table')
-
-
-                
             </div>
         
     </div>

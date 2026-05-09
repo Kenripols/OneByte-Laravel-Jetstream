@@ -98,15 +98,14 @@
             <td class="px-6 py-4 text-right">
                 <div class="flex justify-end items-center gap-4 text-sm">
 
-                  
                     @if($pet->isLost())
                         <button wire:click.stop="markAsFound({{ $pet->id }})"
                             class="text-green-600 hover:underline">
                              Encontrada!!
                         </button>
                     @else
-                        <button wire:click.stop="markAsLost({{ $pet->id }})"
-                            class="text-red-600 hover:underline">
+                        <button wire:click.stop="openLostConfirmModal({{ $pet->id }})"
+                            class="text-red-600 hover:underline font-medium">
                             Está Perdida
                         </button>
                     @endif
@@ -133,9 +132,9 @@
     <!-- MODAL DETALLE -->
     @if($showModal && $selectedPet)
 
-<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
 
-    <div class="bg-white rounded-xl p-6 w-full max-w-md shadow-xl transition-all">
+    <div class="bg-white rounded-xl p-5 w-full max-w-md max-h-[90vh] overflow-y-auto shadow-xl transition-all">
 
         <!-- HEADER -->
         <div class="flex justify-between items-center mb-4">
@@ -205,20 +204,24 @@
                 </select>
             @endif
         </div>
-        <div class="mt-4">
-            <div id="map" wire:ignore style="height: 400px;"></div>
-        </div>
-        @if($readings && count($readings))
-            <div class="mt-4 p-4 bg-gray-100 rounded">
-                <h3 class="font-bold mb-2"> Historial de lecturas</h3>
 
-                @foreach($readings as $r)
-                    <div class="text-sm mb-1">
-                        {{ $r->created_at }} → {{ $r->lat }}, {{ $r->lng }}
-                    </div>
-                @endforeach
+        @if($showReadingsMap)
+            <div class="mt-4 border-t pt-4">
+                <h3 class="text-sm font-semibold text-gray-700 mb-2">Mapa de lecturas QR</h3>
+                <div id="map" wire:ignore class="w-full rounded-lg border border-gray-200" style="height: 220px;"></div>
             </div>
+            @if(!empty($readings))
+                <div class="mt-3 p-3 bg-gray-50 rounded-lg text-sm max-h-40 overflow-y-auto">
+                    <p class="font-semibold text-gray-700 mb-2">Historial</p>
+                    @foreach($readings as $r)
+                        <div class="text-xs text-gray-600 mb-1 border-b border-gray-100 pb-1 last:border-0">
+                            {{ $r['created_at'] ?? '' }} → {{ $r['lat'] ?? '' }}, {{ $r['lng'] ?? '' }}
+                        </div>
+                    @endforeach
+                </div>
+            @endif
         @endif
+
         <!-- FOOTER -->
         <div class="flex justify-between mt-6">
 
@@ -241,6 +244,92 @@
 </div>
 
 @endif
+
+<!-- MODAL DE CONFIRMACIÓN PARA MARCAR COMO PERDIDA -->
+@if($showLostConfirmModal)
+<div class="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 p-4">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-md max-h-[85vh] overflow-y-auto">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-red-500 to-red-600 px-4 py-3 rounded-t-lg">
+            <h3 class="text-base font-bold text-white leading-snug">
+                Marcar a {{ $petNameToMarkLost }} como perdida
+            </h3>
+        </div>
+
+        <!-- Body -->
+        <div class="p-4 space-y-3 text-sm">
+            <p class="text-gray-700">
+                ¿Querés publicar una alerta para que otros ayuden a encontrar a <strong>{{ $petNameToMarkLost }}</strong>?
+            </p>
+
+            <div class="bg-amber-50 border-l-4 border-amber-500 p-3 rounded text-amber-900 text-xs leading-relaxed">
+                <strong>Publicar alerta:</strong> escribí un breve mensaje visible en la comunidad.
+            </div>
+
+            <!-- Descripción (solo si quiere publicar) -->
+            @if($showDescriptionForm)
+            <div class="space-y-2 p-3 bg-red-50 rounded-lg border border-red-200">
+                <div>
+                    <label for="descriptionLost" class="block text-xs font-medium text-gray-700 mb-1">
+                        Mensaje de la alerta
+                    </label>
+                    <textarea
+                        wire:model="descriptionLost"
+                        id="descriptionLost"
+                        rows="3"
+                        maxlength="80"
+                        placeholder="Ej: Se perdió por el barrio sur, collar azul…"
+                        class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500 resize-none"></textarea>
+                    @error('descriptionLost')
+                        <span class="text-xs text-red-600 mt-1 block">{{ $message }}</span>
+                    @enderror
+                </div>
+            </div>
+            @endif
+
+            <!-- Acciones -->
+            <div class="flex flex-col gap-2 pt-3 border-t border-gray-100">
+                @if($showDescriptionForm)
+                    <button
+                        type="button"
+                        wire:click="markAsLostWithPost"
+                        class="w-full px-3 py-2 text-sm bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium">
+                        Publicar alerta
+                    </button>
+                    <button
+                        type="button"
+                        wire:click="$set('showDescriptionForm', false)"
+                        class="w-full px-3 py-2 text-sm text-red-700 bg-red-50 rounded-lg hover:bg-red-100 font-medium">
+                        Volver
+                    </button>
+                @else
+                    <button
+                        type="button"
+                        wire:click="$set('showDescriptionForm', true)"
+                        class="w-full px-3 py-2 text-sm bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium">
+                        Publicar alerta
+                    </button>
+
+                    <button
+                        type="button"
+                        wire:click="markAsLostWithoutPost"
+                        class="w-full px-3 py-2 text-sm rounded-lg font-medium border-2 border-amber-600 bg-amber-50 text-amber-950 hover:bg-amber-100">
+                        Solo marcar como perdida (sin publicar)
+                    </button>
+                @endif
+
+                <button
+                    type="button"
+                    wire:click="closeLostConfirmModal"
+                    class="w-full px-3 py-2 text-sm text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
+
 @push('scripts')
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
@@ -251,6 +340,7 @@ document.addEventListener('livewire:init', () => {
     window.addEventListener('show-map', (event) => {
         renderPetMap('map', event.detail.points);
     });
+
 });
 </script>
 

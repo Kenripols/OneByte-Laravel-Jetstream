@@ -13,17 +13,10 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
         abort_if(!$user || !$user->owner, 403);
-        $ownerId = $user->owner->id;
-        // Total de mascotas
-        $totalPets = Pet::where('owner_id', $ownerId)->count();
+        // pets.owner_id apunta a owners.user_id (mismo valor que users.id), no al id de la fila owners
+        $ownerId = $user->id;
 
-        // Mascotas perdidas (estado actual = PERDIDA)
-        $lostPets = Pet::where('owner_id', $ownerId)->whereHas('currentState', function ($q) {$q->where('state', 'LOST');})->count();
-        // Mascotas encontradas (estado actual = NORMAL)
-        $foundPets = Pet::where('owner_id', $ownerId)->whereHas('currentState', function ($q) {$q->where('state', 'NORMAL');})->count();
-        // Yo diría de no poner el indicador de mascotas fallecidas  (coincido, queda fiero)
-        
-        //acá se pica todo y te muestra datos de tus mascotas perdidas para que al entrar ya sepas que onda
+        // Datos para el mapa / carrusel de mascotas perdidas del dueño
         $lostPetsList = Pet::where('owner_id', $ownerId)
             ->whereHas('currentState', function ($q) {$q->where('state', 'LOST');})
             ->with(['qrPlate.lastReading'])
@@ -83,14 +76,15 @@ class DashboardController extends Controller
         ->latest()
         ->take(10)
         ->get();
-    // Cambios de estado (publicaciones creadas por estados de mascota)
+    // Cambios de estado: alertas lost de toda la comunidad
     $statusPosts = (clone $base)
         ->where('type', 'lost')
+        ->whereHas('pet')
         ->with('pet')
         ->latest()
         ->take(10)
         ->get();
 
-        return view('owner.dashboard', compact('totalPets','lostPets','foundPets','lostPetsData','lostPetsList','tips','news','statusPosts'));
+        return view('owner.dashboard', compact('lostPetsData', 'tips', 'news', 'statusPosts'));
         }
 }

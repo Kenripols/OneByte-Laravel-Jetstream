@@ -116,7 +116,7 @@
             {{-- CAMBIOS DE ESTADO --}}
             @if(isset($statusPosts) && count($statusPosts))
             <div class="bg-white rounded-xl shadow p-6">
-                <h2 class="text-lg font-bold mb-4">Cambios de estado</h2>
+                <h2 class="text-lg font-bold">Cambios de estado</h2>
 
                 <div class="space-y-4">
                     @foreach($statusPosts as $post)
@@ -126,6 +126,9 @@
                             </p>
                             @if($post->pet)
                                 <p class="text-sm text-gray-500">Mascota: {{ $post->pet->name }}</p>
+                                @if($post->pet->owner_id === auth()->id())
+                                    <p class="text-xs text-amber-700 font-medium">Tu publicación</p>
+                                @endif
                             @endif
                             <p class="text-sm text-gray-400">
                                 {{ $post->publish_at?->diffForHumans() ?? $post->created_at->diffForHumans() }}
