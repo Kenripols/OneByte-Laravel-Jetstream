@@ -26,48 +26,13 @@ class DatabaseSeeder extends Seeder
         $roleOwner = Role::firstOrCreate(['name' => 'owner']);
 
         // Creo usuario Admin precargado
-        $adminUser = User::firstOrCreate(
-            ['email' => 'ken.rip2@gmail.com'],
-            ['password' => bcrypt('12345678')]// Creo usuario Admin precargado
-        );
-
-        $adminUser->assignRole('admin');// Asigno el rol de admin al usuario creado
-
-        //Usuario Owner de prueba
-        $ownerUser = User::firstOrCreate(
-            ['email' => 'gvilarino1727@gmail.com'],
-            ['password' => bcrypt('12345678')]
-        );
-
-        $ownerUser->assignRole('owner');
-
-       
-
-        //QR DE REGISTRO         
-        $qr = QrPlate::create([
-            'code' => (string) Str::uuid(),
-            'batch_id' => 1,
+        $adminUser = User::factory()->create([
+            //'name' => 'Admin',
+            'email' => 'lean@gmail.com',
+            'password' => bcrypt('12345678'), // Contraseña por defecto
         ]);
-
-        $qr->addEvent(QrEventType::GENERATED, now()->subDays(10));
-        $qr->addEvent(QrEventType::DOWNLOADED, now()->subDays(5));
-        $qr->addEvent(QrEventType::CLAIMED, now(), [
-            'user_id' => $ownerUser->id,
-        ]);
-           
-         //Crear registro en owners
-       Owner::updateOrCreate([
-            'user_id' => $ownerUser->id],
-        [
-            'docType' => 1,
-            'docNum' => '12345678',
-            'fName1' => 'Gabriel',
-            'sName1' => 'Vila',
-            'registration_qr_id' => $qr->id//a mi owner le pongo un qr
-        ]
-        );
-
-        // Crear registro en owners
+        $adminUser->assignRole($roleAdmin); // Asigno el rol de admin al usuario creado
+        // Creo owners asociados a un usuario (Detallado en el ownerfactory )
         //Owner::factory(10)->create();
         User::factory(10)->create()->each(function ($user) {
             $user->assignRole('owner');
