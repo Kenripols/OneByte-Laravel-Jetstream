@@ -48,6 +48,7 @@
         {{ $pets->links() }}
     </div>
 @if($showModal && $selectedPet)
+
 <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
     <div class="bg-white rounded-lg p-6 w-96 shadow-lg">
         <h2 class="text-xl font-bold mb-2">{{ $selectedPet->name }}</h2>

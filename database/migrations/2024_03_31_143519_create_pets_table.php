@@ -20,7 +20,7 @@ return new class extends Migration
             // Clave foránea a la tabla breeds
             $table->foreignId('breed_id')->nullable()->constrained()->cascadeOnDelete();
 
-            // Clave foránea a la tabla owners (relacionada por user_id)
+            // Clave foránea a la tabla owners (mismo valor que owners.user_id; ver modelo Owner)
             $table->unsignedBigInteger('owner_id');
             $table->foreign('owner_id')->references('user_id')->on('owners')->onDelete('cascade');
 

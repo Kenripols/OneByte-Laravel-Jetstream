@@ -1,7 +1,7 @@
 <div>
 
     <!-- selector -->
-    <select wire:model="selectedBatch" class="border p-2 w-full mb-4">
+    <select wire:model.live="selectedBatch" class="border p-2 w-full mb-4">
 
     
    @foreach($batches as $batch)
