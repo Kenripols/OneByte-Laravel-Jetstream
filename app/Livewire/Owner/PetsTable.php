@@ -10,6 +10,7 @@ use App\Models\Pet;
 use App\Models\Breed;
 use App\Models\PetStateHistory;
 use App\Models\Reading;
+use App\Models\Post;
 
 class PetsTable extends Component
 {
@@ -29,9 +30,21 @@ class PetsTable extends Component
     public $editingPetId = null;
     public $editMode =false;
     public $readings = [];
+
     public $selectedPetIdForReadings = null;
 
-    public $points = []; //para el mapa
+    public $points = []; // para el mapa
+
+    /** Solo true cuando se abre el modal desde «Historial / Ubicaciones» (incluye mapa). */
+    public $showReadingsMap = false;
+
+    // Modal de confirmación para marcar como perdida
+    public $showLostConfirmModal = false;
+    public $petIdToMarkLost = null;
+    public $petNameToMarkLost = '';
+    public $descriptionLost = '';
+    public $showDescriptionForm = false;
+    
     // los updating funcionan para resetear en la medida que se va escribiendo
     public function updatingSearchId()
     {
@@ -55,7 +68,10 @@ class PetsTable extends Component
     $this->bDate = $pet->bDate?->format('Y-m-d');
     $this->breed_id = $pet->breed_id;
 
-    $this->editMode = false; // 
+    $this->editMode = false;
+
+    $this->readings = [];
+    $this->showReadingsMap = false;
 
     $this->showModal = true;
 }
@@ -64,7 +80,9 @@ class PetsTable extends Component
 {
     $this->showModal = false;
     $this->selectedPet = null;
-    $this->editMode = false; //
+    $this->editMode = false;
+    $this->readings = [];
+    $this->showReadingsMap = false;
 }
 //Modal de crear mascota
     public function openCreateModal()
@@ -211,13 +229,37 @@ $this->selectedPet = Pet::with(['breed', 'currentStateModel', 'owner.user'])->fi
 
     session()->flash('success', 'La mascota fue marcada como fallecida.');
 }
-//Marco la mascota como perdida
-public function markAsLost($petId)
-{
-    $pet = Pet::with('currentStateModel')->findOrFail($petId);
+// Marco la mascota como perdida - Abre modal de confirmación
+    // Nota: el método no puede llamarse igual que la propiedad $showLostConfirmModal (Livewire).
+    public function openLostConfirmModal($petId)
+    {
+        $pet = Pet::findOrFail($petId);
+        abort_unless(Auth::user()->can('update', $pet), 403);
 
+        $this->petIdToMarkLost = $petId;
+        $this->petNameToMarkLost = $pet->name;
+        $this->descriptionLost = '';
+        $this->showDescriptionForm = false;
+        $this->showLostConfirmModal = true;
+    }
+
+//Cerrar modal de confirmación
+public function closeLostConfirmModal()
+{
+    $this->showLostConfirmModal = false;
+    $this->petIdToMarkLost = null;
+    $this->petNameToMarkLost = '';
+    $this->descriptionLost = '';
+    $this->showDescriptionForm = false;
+    $this->resetValidation();
+}
+
+//Marcar como perdida SIN publicar
+public function markAsLostWithoutPost()
+{
+    $pet = Pet::with('currentStateModel')->findOrFail($this->petIdToMarkLost);
     abort_unless(Auth::user()->can('update', $pet), 403);
-// CurrentStateModel es el historial de estado actual, si existe, le pongo ended_at para cerrarlo porque se va a crear uno nuevo con estado perdido
+
     if ($pet->currentStateModel) {
         $pet->currentStateModel->update([
             'ended_at' => now(),
@@ -231,7 +273,49 @@ public function markAsLost($petId)
         'ended_at' => null,
     ]);
 
+    $this->closeLostConfirmModal();
     session()->flash('success', 'La mascota fue marcada como perdida.');
+}
+
+//Marcar como perdida Y publicar alerta
+public function markAsLostWithPost()
+{
+    $this->validate([
+        'descriptionLost' => ['required', 'string', 'max:80'],
+    ]);
+
+    $pet = Pet::with('currentStateModel')->findOrFail($this->petIdToMarkLost);
+    abort_unless(Auth::user()->can('update', $pet), 403);
+
+    if ($pet->currentStateModel) {
+        $pet->currentStateModel->update([
+            'ended_at' => now(),
+        ]);
+    }
+
+    PetStateHistory::create([
+        'pet_id' => $pet->id,
+        'state' => \App\Enums\PetState::LOST,
+        'started_at' => now(),
+        'ended_at' => null,
+    ]);
+
+    Post::create([
+        'pet_id' => $pet->id,
+        'title' => $this->descriptionLost,
+        'type' => 'lost',
+        'image' => null,
+        'is_active' => true,
+        'publish_at' => now(),
+    ]);
+
+    $this->closeLostConfirmModal();
+    session()->flash('success', 'La mascota fue marcada como perdida y la alerta fue publicada.');
+}
+
+public function markAsLost($petId)
+{
+    $this->openLostConfirmModal($petId);
 }
 
 //Marco la mascota como encontrada
@@ -254,10 +338,14 @@ public function markAsFound($petId)
         'ended_at' => null,
     ]);
 
+    // Desactivar posts de tipo 'lost' cuando la mascota se marca como encontrada
+    Post::where('pet_id', $petId)
+        ->where('type', 'lost')
+        ->update(['is_active' => false]);
+
     session()->flash('success', 'La mascota fue marcada como encontrada.');
 }
 
-    
     // esta funcion realiza una consulta cada vez que se escribe, usando el dato que se escribe, si se escriben ambos, cuenta como AND de los 2 datos
     // la busqueda de nombre es parcial (LIKE), pero la de ID es exacta, si se escribe 1, no encuentra 10 ni 501, solo 1
     // Solo muestra mascotas del owner autenticado
@@ -298,6 +386,8 @@ public function markAsFound($petId)
         $this->breed_id = $pet->breed_id;
 
         $this->editMode = false;
+        $this->showReadingsMap = true;
+
         $this->showModal = true;
 
         // Traer lecturas
@@ -307,6 +397,14 @@ public function markAsFound($petId)
         })
         ->orderBy('created_at')
         ->get();
+
+        $this->readings = $readings->map(function ($r) {
+            return [
+                'created_at' => $r->created_at->toDateTimeString(),
+                'lat' => $r->lat,
+                'lng' => $r->lng,
+            ];
+        })->values()->all();
 
         $points = $readings->map(function ($r) {
             $message = $r->messages->first();

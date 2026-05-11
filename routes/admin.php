@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PetController;
 use App\Http\Controllers\Admin\QRPlateController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 // Rutas de administracion con autenticacion y verificacion de rol admin
@@ -40,6 +41,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::resource('qrplates', QRPlateController::class)
     ->only(['index', 'show'])
     ->names('qrplates');
+
+    // Publicaciones (CRUD admin)
+    Route::resource('posts', PostController::class)->except(['show'])->names('posts');
 });
 
 

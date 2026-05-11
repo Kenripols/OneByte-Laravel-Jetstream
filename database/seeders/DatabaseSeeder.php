@@ -92,6 +92,7 @@ class DatabaseSeeder extends Seeder
         Owner::all()->each(function ($owner) use ($breeds) {
         // Creo 10 propietarios, cada uno con 3 mascotas
             Pet::factory(3)->create([
+                // owners.user_id es la PK; pets.owner_id guarda ese mismo id de usuario
                 'owner_id' => $owner->user_id,
                 'breed_id' => $breeds->random()->id,
             ])->each(function ($pet) {
@@ -149,7 +150,7 @@ class DatabaseSeeder extends Seeder
 
                     Reading::create([
                         'qr_plate_id' => $qrPlate->id,
-                        'user_id' => rand(0, 1) ? $pet->owner->user_id : null,
+                        'user_id' => rand(0, 1) ? ($pet->owner?->user_id ?? $pet->owner_id) : null,
                         'cell_phone' => rand(0, 1) ? '099'.rand(100000,999999) : null,
 
                         'ip' => fake()->ipv4(),

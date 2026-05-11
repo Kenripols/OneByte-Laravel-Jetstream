@@ -66,8 +66,16 @@
 
                 <div class="space-y-2">
                     @foreach($tips as $tip)
-                        <div class="text-gray-700 font-medium">
-                            {{ $tip->title }}
+                        <div class="text-gray-700 font-medium border-b pb-3">
+                            @if($tip->image)
+                                @php
+                                    $tipImageUrl = str_starts_with($tip->image, 'http')
+                                        ? $tip->image
+                                        : asset('storage/' . $tip->image);
+                                @endphp
+                                <img src="{{ $tipImageUrl }}" alt="Imagen tip" class="w-16 h-16 object-cover rounded mb-2">
+                            @endif
+                            <p>{{ $tip->title }}</p>
                         </div>
                     @endforeach
                 </div>
@@ -82,6 +90,14 @@
                 <div class="space-y-4">
                     @foreach($news as $post)
                         <div class="border-b pb-3">
+                            @if($post->image)
+                                @php
+                                    $newsImageUrl = str_starts_with($post->image, 'http')
+                                        ? $post->image
+                                        : asset('storage/' . $post->image);
+                                @endphp
+                                <img src="{{ $newsImageUrl }}" alt="Imagen novedad" class="w-16 h-16 object-cover rounded mb-2">
+                            @endif
 
                             <p class="font-semibold text-gray-800">
                                 {{ $post->title }}
@@ -91,6 +107,32 @@
                                 {{ $post->publish_at?->diffForHumans() ?? $post->created_at->diffForHumans() }}
                             </p>
 
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+            @endif
+
+            {{-- CAMBIOS DE ESTADO --}}
+            @if(isset($statusPosts) && count($statusPosts))
+            <div class="bg-white rounded-xl shadow p-6">
+                <h2 class="text-lg font-bold">Cambios de estado</h2>
+
+                <div class="space-y-4">
+                    @foreach($statusPosts as $post)
+                        <div class="border-b pb-3">
+                            <p class="font-semibold text-gray-800">
+                                {{ $post->title }}
+                            </p>
+                            @if($post->pet)
+                                <p class="text-sm text-gray-500">Mascota: {{ $post->pet->name }}</p>
+                                @if($post->pet->owner_id === auth()->id())
+                                    <p class="text-xs text-amber-700 font-medium">Tu publicación</p>
+                                @endif
+                            @endif
+                            <p class="text-sm text-gray-400">
+                                {{ $post->publish_at?->diffForHumans() ?? $post->created_at->diffForHumans() }}
+                            </p>
                         </div>
                     @endforeach
                 </div>
