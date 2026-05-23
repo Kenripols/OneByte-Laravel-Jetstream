@@ -9,23 +9,28 @@ use Illuminate\Support\Facades\Auth;
 class ScanController extends Controller
 {
     public function handle($code)
-{
-    $qr = QrPlate::where('code', $code)->first();
-//El qr flasho
-    if (!$qr) {
-        return view('qr.unavailable');
-    }
+    {
+        $qr = QrPlate::where('code', $code)->first();
 
-    if (!Auth::check()) {
-    return view('qr.public', compact('qr'));
-    }
+        if (!$qr) {
+            return view('qr.unavailable');
+        }
 
-    if (!$qr->canBeUsedBy(Auth::user())) {
-        return view('qr.unavailable');
-    }
+        if (!Auth::check()) {
+            if ($qr->pet_id) {
+                return view('qr.public', compact('qr'));
+            }
 
-    return redirect()->route('owner.qr.resolve', $qr->code);
-}
+            return redirect()->guest(route('login'));
+        }
+
+        if (!$qr->canBeUsedBy(Auth::user())) {
+            return view('qr.unavailable');
+        }
+        //return redirect()->route('owner.qr.resolve', $qr->code);
+
+        return view('qr.choose_action', compact('qr'));
+    }
 
     public function resolve($code)
     {

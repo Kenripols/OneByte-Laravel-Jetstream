@@ -28,6 +28,21 @@ public function mount()
         $this->showModal = false;
     }
 
+    public function forgetQr()
+    {
+        if (! $this->qr) {
+            return;
+        }
+
+        $this->qr->forget(auth()->id());
+        auth()->user()->update(['claimed_qr_id' => null]);
+
+        $this->qr = null;
+        $this->showModal = false;
+
+        session()->forget('claimed_qr_id');
+    }
+
     public function render()
     {
         return view('livewire.qr-pending-banner');

@@ -71,9 +71,10 @@
                                             Copiar
                                         </button>
 
-                                        <!-- FUTURO: botón timeline -->
-                                        <button wire:click="showTimeline({{ $qr->id }})"
-                                            class="bg-gray-600 text-white px-2 py-1 rounded text-xs">
+                                        <!-- FUTURO: botón timeline, pendiente de implementación -->
+                                        <button disabled
+                                            class="bg-gray-400 text-white px-2 py-1 rounded text-xs cursor-not-allowed"
+                                            title="Próximamente">
                                             Ver
                                         </button>
                                     </td>
