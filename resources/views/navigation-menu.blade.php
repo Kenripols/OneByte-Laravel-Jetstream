@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-[#F7F9FC] border-b border-[#DCE3EE]">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -6,13 +6,23 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-mark class="block h-9 w-auto" />
+                        <div class="admin-logo-container">
+                            <img src="{{ asset('images/paw.png') }}" class="admin-logo" alt="PetFinder">
+
+                            <div class="admin-logo-texts">
+                                <span class="admin-logo-titulo">PetFinder</span>
+                                <span class="admin-logo-subtitulo">Admin Panel</span>
+                            </div>
+                        </div>
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                <!-- Cambié el routeIs por admin.dashboard porque no estaba
+                funcionando el :active del Inicio -->
+                <div class="hidden space-x-1 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link href="{{ route('dashboard') }}" 
+                    :active="request()->routeIs('admin.dashboard*')">
                         {{ __('Inicio') }}
                     </x-nav-link>
                     <!-- Acceso Menú a funciones Dueño -->
@@ -25,22 +35,31 @@
                     </x-nav-link>
                     @endrole
                     <!-- Acceso Menú a funciones administrador -->
+                    <!-- Modifiqué el orden y tambien los active para que se vea bien
+                        cuando estamos en cada sección seleccionada -->
                     @role('admin')
-                    <x-nav-link href="{{ route('admin.breeds.index') }}" :active="request()->routeIs('dashboard')">
-                        {{ __('Razas') }}
-                    </x-nav-link>
-                    <x-nav-link href="{{ route('admin.users.index') }}" :active="request()->routeIs('dashboard')">
+                    <x-nav-link href="{{ route('admin.users.index') }}" 
+                    :active="request()->routeIs('admin.users.*')">
                         {{ __('Usuarios') }}
                     </x-nav-link>
 
-                    <x-nav-link href="{{ route('admin.pets.index') }}" :active="request()->routeIs('dashboard')">
+                    <x-nav-link href="{{ route('admin.pets.index') }}" 
+                    :active="request()->routeIs('admin.pets.*')">
                         {{ __('Mascotas') }}
                     </x-nav-link>
 
-                    <x-nav-link href="{{ route('admin.qrplates.index') }}" :active="request()->routeIs('dashboard')">
+                    <x-nav-link href="{{ route('admin.breeds.index') }}" 
+                    :active="request()->routeIs('admin.breeds.*')">
+                        {{ __('Razas') }}
+                    </x-nav-link>
+
+                    <x-nav-link href="{{ route('admin.qrplates.index') }}" 
+                    :active="request()->routeIs('admin.qrplates.*')">
                         {{ __('Placas QR') }}
                     </x-nav-link>
-                    <x-nav-link href="{{ route('admin.posts.index') }}" :active="request()->routeIs('admin.posts.*')">
+
+                    <x-nav-link href="{{ route('admin.posts.index') }}" 
+                    :active="request()->routeIs('admin.posts.*')">
                         {{ __('Publicaciones') }}
                     </x-nav-link>
                     
@@ -114,7 +133,7 @@
                             @else
                                 <span class="inline-flex rounded-md">
                                     <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
-                                        {{ Auth::user()->name }}
+                                        {{ Auth::user()->name ?: Auth::user()->email }}
 
                                         <svg class="ms-2 -me-0.5 size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
@@ -126,12 +145,8 @@
 
                         <x-slot name="content">
                             <!-- Account Management -->
-                            <div class="block px-4 py-2 text-xs text-gray-400">
-                                {{ __('Manage Account') }}
-                            </div>
-
                             <x-dropdown-link href="{{ route('profile.show') }}">
-                                {{ __('Profile') }}
+                                {{ __('Mi Perfil') }}
                             </x-dropdown-link>
 
                             @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
@@ -148,7 +163,7 @@
 
                                 <x-dropdown-link href="{{ route('logout') }}"
                                          @click.prevent="$root.submit();">
-                                    {{ __('Log Out') }}
+                                    {{ __('Cerrar Sesión') }}
                                 </x-dropdown-link>
                             </form>
                         </x-slot>
@@ -171,27 +186,38 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+            <x-responsive-nav-link href="{{ route('dashboard') }}" 
+            :active="request()->routeIs('admin.dashboard*')">
                 {{ __('Inicio') }}
             </x-responsive-nav-link>
+
             @role('admin')
-            <x-responsive-nav-link href="{{ route('admin.breeds.index') }}" :active="request()->routeIs('dashboard')">
-                {{ __('Razas') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('admin.users.index') }}" :active="request()->routeIs('dashboard')">
+            <x-responsive-nav-link href="{{ route('admin.users.index') }}" 
+            :active="request()->routeIs('admin.users.*')">
                 {{ __('Usuarios') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('admin.pets.index') }}" :active="request()->routeIs('dashboard')">
+
+            <x-responsive-nav-link href="{{ route('admin.pets.index') }}" 
+            :active="request()->routeIs('admin.pets.*')">
                 {{ __('Mascotas') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('admin.qrplates.index') }}" :active="request()->routeIs('dashboard')">
+
+            <x-responsive-nav-link href="{{ route('admin.breeds.index') }}" 
+            :active="request()->routeIs('admin.breeds.*')">
+                {{ __('Razas') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link href="{{ route('admin.qrplates.index') }}" 
+            :active="request()->routeIs('admin.qrplates.*')">
                 {{ __('Placas QR') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('admin.posts.index') }}" :active="request()->routeIs('admin.posts.*')">
+            <x-responsive-nav-link href="{{ route('admin.posts.index') }}" 
+            :active="request()->routeIs('admin.posts.*')">
                 {{ __('Publicaciones') }}
             </x-responsive-nav-link>
             @endrole
-               <!-- Agregar aca los elementos de la barra menu para que aparezcan responsive -->
+               <!-- Agregar aca los elementos de la barra menu para que aparezcan 
+                responsive -->
             
         </div>
 

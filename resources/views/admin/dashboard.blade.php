@@ -1,68 +1,122 @@
 <x-app-layout>
-    {{-- <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Bienvenido a PetFindr') }}
-        </h2>
-    </x-slot> --}}
+    <div class="py-8 px-4 sm:px-6 lg:px-8">
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <div class="py-8 space-y-8">
+        <div class="max-w-7xl mx-auto space-y-8">
 
-        <!-- Bienvenida -->
-        <div>
-            <h1 class="text-3xl font-bold text-gray-800 text-center">
-                Bienvenido: {{ Auth::user()->name }}
-            </h1>
-            <p class="text-2xl text-gray-500 mt-8 font-bold text-center">
-                Información General del Sistema
-            </p>
+            <!-- Bienvenida -->
+            <section class="bg-white rounded-2xl border border-blue-500 p-8">
+
+                <h1 class="text-3xl font-bold text-[#000066]">
+                    Bienvenido, {{ Auth::user()->name ?: Auth::user()->email }}
+                </h1>
+
+                <p class="mt-2 text-gray-500 text-lg">
+                    Resumen general del sistema PetFinder
+                </p>
+
+            </section>
+
+
+            <!-- CARRUSEL -->
+            <section class="bg-white rounded-2xl border border-blue-500 p-6">
+
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">
+                    Últimas publicaciones
+                </h2>
+
+                <div class="h-48 flex items-center justify-center rounded-xl bg-gray-100 text-gray-400">
+                    Carrusel próximamente
+                </div>
+
+            </section>
+
+
+            <!-- KPIs -->
+            <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+
+                <!-- Usuarios -->
+                <div class="bg-white rounded-2xl border border-blue-500 p-6">
+
+                    <p class="text-sm font-medium text-gray-500">
+                        Usuarios
+                    </p>
+
+                    <p class="mt-2 text-4xl font-bold text-blue-500">
+                        --
+                    </p>
+
+                </div>
+
+                <!-- Mascotas -->
+                <div class="bg-white rounded-2xl border border-blue-500 shadow-sm p-6">
+
+                    <p class="text-sm font-medium text-gray-500">
+                        Mascotas
+                    </p>
+
+                    <p class="mt-2 text-4xl font-bold text-[#000066]">
+                        {{ $totalPets }}
+                    </p>
+
+                </div>
+
+                <!-- Perdidas -->
+                <div class="bg-white rounded-2xl border border-blue-500 p-6">
+
+                    <p class="text-sm font-medium text-gray-500">
+                        Perdidas
+                    </p>
+
+                    <p class="mt-2 text-4xl font-bold text-yellow-500">
+                        {{ $lostPets }}
+                    </p>
+
+                </div>
+
+                <!-- Encontradas -->
+                <div class="bg-white rounded-2xl border border-blue-500 p-6">
+
+                    <p class="text-sm font-medium text-gray-500">
+                        Encontradas
+                    </p>
+
+                    <p class="mt-2 text-4xl font-bold text-green-500">
+                        {{ $foundPets }}
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <!-- GRÁFICA -->
+            <section class="bg-white rounded-2xl border border-blue-500 p-6">
+
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">
+                    Estadísticas
+                </h2>
+
+                <div class="h-72 flex items-center justify-center rounded-xl bg-gray-100 text-gray-400">
+                    Gráfica próximamente
+                </div>
+
+            </section>
+
+
+            <!-- ACTIVIDAD -->
+            <section class="bg-white rounded-2xl border border-blue-500 p-6">
+
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">
+                    Actividad reciente
+                </h2>
+
+                <div class="h-48 flex items-center justify-center rounded-xl bg-gray-100 text-gray-400">
+                    Tabla próximamente
+                </div>
+
+            </section>
+
         </div>
 
-        <!-- Tarjetas -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 m-6">
-
-            
-            <!-- Mascotas -->
-            <div class="bg-white rounded-xl shadow p-6 flex items-center space-x-4">
-                <div class="bg-purple-100 text-purple-600 p-3 rounded-full text-xl">
-                    &#128062;
-                </div>
-                <div>
-                    <p class="text-xl font-bold text-gray-500">Mascotas</p>
-                    <p class="text-3xl font-bold">{{ $totalPets }}</p>
-                </div>
-            </div>
-
-            <!-- Perdidas -->
-            <div class="bg-white rounded-xl shadow p-6 flex items-center space-x-4">
-                <div class="bg-yellow-100 text-yellow-600 p-3 rounded-full text-xl">
-                    &#128269;
-                </div>
-                <div>
-                    <p class="text-xl font-bold text-gray-500">Perdidas</p>
-                    <p class="text-3xl font-bold">{{ $lostPets }}</p>
-                </div>
-            </div>
-
-            <!-- Encontradas -->
-            <div class="bg-white rounded-xl shadow p-6 flex items-center space-x-4">
-                <div class="bg-green-100 text-green-600 p-3 rounded-full text-xl">
-                    &#10084;
-                </div>
-                <div>
-                    <p class="text-xl font-bold text-gray-500">Encontradas</p>
-                    <p class="text-3xl font-bold">{{ $foundPets }}</p>
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-                
-
-            </div>
-        </div>
     </div>
 </x-app-layout>

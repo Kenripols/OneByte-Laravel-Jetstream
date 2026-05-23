@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePetRequest;
 use App\Models\Pet;
 
-
 class PetController extends Controller
 {
 
