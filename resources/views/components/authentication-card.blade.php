@@ -1,13 +1,12 @@
-<div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-    <div>
-        <a href="/">
-            <img src="{{ asset('images/paw.png') }}" alt=""
-                style="width: 100px;
-                            margin:auto;">
+<div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0">
+ <!-- Logo -->    
+    <div class="mb-4">
+        <a href="{{ url('/') }}">
+            <img src="{{ asset('images/paw.png') }}" class="login-logo" alt="Logo PetFinder">
         </a>
     </div>
 
-    <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+    <div class="login-card">
         {{ $slot }}
     </div>
 </div>

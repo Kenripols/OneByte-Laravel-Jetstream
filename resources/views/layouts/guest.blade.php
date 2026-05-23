@@ -5,9 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $title ?? 'Petfindr' }}</title>
 
+    <!-- Estilos CSS -->
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-gray-100 text-gray-900">
+<body class="login-fondo text-gray-900">
 
     <div class="min-h-screen flex items-center justify-center">
         <div class="w-full max-w-xl p-4">

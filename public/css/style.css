@@ -1,11 +1,21 @@
+html {
+    width: 100%;
+    min-height: 100%;
+}
+
 body{
     margin: 0;
-    display: flex;
     min-height: 100vh;
-    flex-direction: column;
-    background-color: #e7e7e7;
-
+    background-color: #EEF2F7;
+    overflow-x: hidden;
+    font-family: 'Nunito', sans-serif;
 }
+
+*{
+    box-sizing: border-box;
+}
+
+
 
 main {
     display: block;
@@ -13,11 +23,15 @@ main {
 
 }
 
+header{
+    background-color: #F7F9FC;
+    border-bottom: 1px solid #DCE3EE;
+}
+
 footer{
-    position: fixed;
-    bottom: 0;
     width: 100%;
-    background-color: #fff;
+    background-color: #F7F9FC;
+    border-top: 1px solid #DCE3EE;
     padding-top: 10px;
     padding-right: 10px;
     padding-left: 10px;
@@ -27,48 +41,16 @@ footer{
 
 }
 
+
 .texto-footer {
   margin-bottom: 5px;
   margin-top: 5px;
 }
 
-*{
-
-    box-sizing: border-box;
+.logo-footer {
+    height: 40px;
 }
 
-header{
-    background-color: white
-}
-/*Dos columnas q flotan una dentro de la otra*/
-nav {
-    float: left;
-    width: 30%;
-    height: 300px;
-
-}
-/*Estilo de la lista dentro del menu (ul lista)*/
-nav ul{
-
-    list-style: none;
-    padding: 0;
-}
-
-article{
-    float: left;
-    width: 70%;
-
-    height: 300px;
-
-}   
-section::after{
-    content: "";
-    display: table;
-    clear: both;
-
-
-
-}
 
 /* Margenes */
 .mt-5 {margin-top: 5px !important;}
@@ -79,12 +61,18 @@ section::after{
 /* Fin de Margenes */
 
 
-@media (max-width: 600px){
-    nav,article{
-        width: 100%;
-        height: auto;
-    }
-    
+/* Menú */
+.icono-menu {
+    width: 25px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    filter: brightness(0) saturate(100%) invert(9%) sepia(92%) saturate(5032%) hue-rotate(238deg) 
+    brightness(78%) contrast(132%);
+    transition: 0.2s;
+}
+
+.icono-menu:hover {
+    opacity: 0.7;
 }
 
 .dropdown{
@@ -93,40 +81,74 @@ section::after{
 
 }
 
+
 .dropdown-options {
     display: none;
     position: fixed;
     overflow: auto;
-    background-color:#928D8D;
-    border-radius:5px;
-    box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.4);
-    right: 0px;
-    padding: 4px;
+    background-color: #F8FAFC;
+    border: 1px solid #DCE3EE;
+    border-radius:14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    right: 10px;
+    padding: 10px;
     margin-top: 0px;
     margin-right: 2px;
-  }
+}
 
-  .dropdown:hover .dropdown-options {
+.dropdown:hover .dropdown-options {
     display: block;
-  }
+}
   
-  .dropdown-options a {
+.dropdown-options a {
     display: block;
     color: white;
     padding-left: 3px;
     padding-right: 3px;
     text-decoration: none;
  
-  }
+}
   
-  .dropdown-options a:hover {
+.dropdown-options a:hover {
     color: #000000;
     border-radius:5px;
   }
 
+  /* Menu Welcome */
+
+.menu-dropdown {
+    display: inline-block;
+    position: relative;
+}
+
+.menu-dropdown-options {
+    display: none;
+    position: fixed;
+    overflow: auto;
+    background-color: #F8FAFC;
+    border: 1px solid #DCE3EE;
+    border-radius:5px;
+    box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.4);
+    right: 0px;
+    padding: 4px;
+    margin-top: 0px;
+    margin-right: 2px;
+}
+
+.menu-dropdown:hover .menu-dropdown-options {
+    display: block;
+}
+
+.menu-dropdown-options a {
+    display: block;
+    width: 100%;
+}
+
+
+  /* Botones */
   .boton-ini-se {
     margin-bottom: 5px;
-    padding-right: 40px !important;
+    padding-right: 0px !important;
   }
 
   .boton-perfil {
@@ -196,6 +218,45 @@ section::after{
     padding-right: 24px !important;
   }
 
+/* Botones Iniciar Sesion y Registrarse */
+
+.btn-login,
+.btn-register {
+    width: 170px;
+    height: 42px;
+    border-radius: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.btn-login {
+    background-color: #000066;
+    border: none;
+    color: white;
+    transition: 0.2s;
+}
+
+.btn-login:hover {
+    background-color: #16208A;
+    color: #FFFFFF;
+}
+
+.btn-register {
+    background-color: #E2E8F0;
+    border: none;
+    color: #1E293B;
+    transition: 0.2s;
+}
+
+.btn-register:hover {
+    background-color: #CBD5E1;
+    color: #000066;
+}
+
+  /* Iconos y Cards */
+
   .bi-person-circle {
     margin-bottom: 4px !important;
   }
@@ -227,38 +288,508 @@ section::after{
   border: 0px !important;
 }
 
-  .titulo-menu {
-    font-family: "Bebas Neue", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    margin-top: 5px;
-   
-  }
+/* Iconos Menu */
 
-  .titulo-menu-gr {
-    font-family: "Bebas Neue", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    margin-top: 15px;
-   
-  }
+.icono-menu {
+    width: 32px;
+    height: auto;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    cursor: pointer;
+}
 
-  .logo {
-    width: 70px;
-    position: fixed;
-    margin-top: -10px;
-  }
+.icono-home {
+    margin-right: 10px;
+}
 
-  .logogrande {
-    width: 100px;
-    position: fixed;
-    margin-top: -10px;
-  }
+.icono-usuario {
+    margin-left: 18px;
+    margin-right: 15px;
+}
 
-  .logo-footer {
+
+
+/* Header - Titulo - Logo */
+
+.fondo {
+    background-color: #F4F6FB;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+
+/* Titulo Escritorio */
+.titulo-escritorio {
+    font-family: 'Nunito', sans-serif;
+    font-size: 5rem;
+    font-weight: 900;
+    color: #000066;
+    margin-bottom: 0;
+    line-height: 1;
+}
+
+/* Subtitulo Escritorio */
+.subtitulo-escritorio {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.4rem;
+    color: #4B5563;
+    margin-top: 8px;
+}
+
+/* Titulo Movil */
+.titulo-movil {
+     font-family: 'Nunito', sans-serif;
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: #000066;
+    margin-bottom: 0;
+    line-height: 1;
+}
+
+/* Subtitulo Movil */
+.subtitulo-movil {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    color: #4B5563;
+    margin-top: 4px;
+}
+
+/* Logos */
+
+.logo-movil {
+    width: 65px;
+    height: auto;
+    margin-left: 10px;
+}
+
+.logo-escritorio {
+    width: 110px;
+    height: auto;
+    margin-left: 10px;
+}
+
+.logo-footer {
     height: 40px;
-  }
+}
 
-  .fondo {
-    background-color: #e7e7e7;
-  }
+
+/* Carrousel General */
+
+.carousel-control-prev,
+.carousel-control-next {
+    opacity: 0.7;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    opacity: 1;
+}
+
+.carousel-arrow {
+    font-size: 2.8rem;
+    color: #000066;
+    background-color: rgba(255,255,255,0.45);
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: 0.2s;
+}
+
+.carousel-arrow:hover {
+    transform: scale(1.06);
+}
+
+/* Indicadores del Carousel */
+.carousel-indicators [data-bs-target] {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: #C9D8F2;
+    border: none;
+    opacity: 1;
+    margin: 0 6px;
+    transition: 0.2s;
+}
+
+.carousel-indicators .active {
+    background-color: #000066;
+    width: 34px;
+    border-radius: 20px;
+}
+
+.carousel-inner {
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+}
+
+/* Imagen Carousel Escritorio */
+.slider-img-desktop {
+    height: 650px;
+    object-fit: cover;
+}
+
+/* Imagen Carousel Movil */
+.slider-img-mobile {
+    height: 65vh;
+    min-height: 320px;
+    max-height: 500px;
+    object-fit: cover;
+    object-position: 70% center;
+}
+
+/* Texto Escritorio */
+.caption-desktop {
+    bottom: 90px;
+    z-index: 2;
+}
+
+/* Texto Slide Escritorio */
+.slide-title-desktop {
+    font-family: 'Nunito', sans-serif;
+    font-size: 3rem;
+    font-weight: 900;
+    color: white;
+    text-shadow: 0 3px 12px rgba(0,0,0,0.5);
+}
+
+.slide-text-desktop {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.3rem;
+    color: white;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+/* Texto Movil */
+.caption-mobile {
+    position: absolute;
+    bottom: 60px;
+    left: 20px;
+    right: 20px;
+    text-align: left;
+    z-index: 2;
+}
+
+/* Texto Slide Movil */
+.slide-title-mobile {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color:white;
+    line-height: 1.1;
+    text-shadow: 0 3px 12px rgba(0,0,0,0.5);
+}
+
+.slide-text-mobile {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+     color:white;
+    margin-top: 10px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.slide-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(0,0,0,0.55) 0%,
+        rgba(0,0,0,0.25) 35%,
+        rgba(0,0,0,0.05) 60%,
+        rgba(0,0,0,0) 100%
+    );
+    z-index: 1;
+}
+
+
+/* Responsive Media Queris */
+
+@media (max-width: 600px){
+
+    nav,
+    article{
+        width: 100%;
+        height: auto;
+    }
+
+}
+
+/* Movil S (320px) */
+@media (max-width: 360px) {
+
+    .logo-movil {
+        width: 50px;
+        margin-left: 5px;
+    }
+
+    .titulo-movil {
+        font-size: 2rem;
+    }
+
+    .subtitulo-movil {
+        font-size: 0.72rem;
+    }
+
+    .fondo {
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+
+}
+
+
+
+/* Movil */
+@media (max-width: 576px) {
+
+    .icono-menu {
+        width: 30px;
+    }
+
+    .icono-home {
+        margin-right: 6px;
+    }
+
+    .icono-usuario {
+        margin-left: 12px;
+        margin-right: 10px;
+    }
+
+}
+
+@media (max-width: 360px) {
+
+    .carousel-arrow {
+        width: 32px;
+        height: 32px;
+        font-size: 1.5rem;
+    }
+
+    .caption-mobile {
+        bottom: 15px;
+        left: 18px;
+        right: 18px;
+    }
+
+    .slide-title-mobile {
+        font-size: 1.8rem;
+    }
+
+    .slide-text-mobile {
+        font-size: 0.95rem;
+        max-width: 220px;
+    }
+
+
+}
+
+/* Vista Login (authentication-card.blade.php  */
+
+.login-fondo {
+    min-height: 100vh;
+    width: 100%;
+    
+    background: linear-gradient(
+        180deg,
+        #d9dce8 0%,
+        #eef2f7 100%
+    );
+}
+
+/* Logo */
+
+.login-logo {
+    width: 200px;
+    max-width: 200px;
+    height: auto;
+    display: block;
+    margin-bottom: 25px;
+}
+
+
+/* Card */
+
+.login-card {
+    width: 100%;
+    max-width: 430px;
+    background-color: #f8f9fc;
+    padding: 35px;
+    border-radius: 22px;
+    border: 2px solid #000066;
+    box-shadow: 0 0 0 2px rgba(0, 0, 102, 0.45) !important;
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.08),
+        0 2px 8px rgba(0,0,0,0.04);
+}
+
+/* Boton Login */
+
+.login-card button {
+    width: 170px;
+    height: 42px;
+    background-color: #000066 !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 10px !important;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-transform: none !important;
+    justify-content: center !important;
+    letter-spacing: 0 !important;
+    transition: 0.2s;
+}
+
+/* Hover */
+
+.login-card button:hover {
+    background-color: #16208A !important;
+    color: white !important;
+}
+
+/* Focus */
+
+.login-card button:focus {
+    background-color: #16208A !important;
+    color: white !important;
+    box-shadow: none !important;
+}
+
+/* Inputs Login */
+
+.login-card input:focus {
+    border-color: #000066 !important;
+    box-shadow: 0 0 0 1px rgba(0, 0, 102, 0.75) !important;
+}
+
+/* Link Olvidaste tu Contraseña */
+
+.login-card a {
+    color: #4B5563;
+    transition: 0.2s;
+}
+
+.login-card a:hover {
+    color: #000066 !important;
+}
+
+/* Mobile */
+
+@media (max-width: 480px) {
+
+    .login-card {
+        padding: 25px 20px;
+        border-radius: 18px;
+    }
+
+    .login-logo {
+        width: 100px;
+        max-width: 100px;
+        margin-bottom: 20px;
+    }
+
+}
+
+
+
+
+
+
+
+
+
+/*Dos columnas q flotan una dentro de la otra*/
+/* nav {
+    float: left;
+    width: 30%;
+    height: 300px;
+
+} */
+/*Estilo de la lista dentro del menu (ul lista)*/
+/* nav ul{
+
+    list-style: none;
+    padding: 0;
+}
+
+article{
+    float: left;
+    width: 70%;
+
+    height: 300px;
+
+}   
+section::after{
+    content: "";
+    display: table;
+    clear: both;
+
+
+
+} */
+
+/* ACÁ COMIENZA TODO LO REFERENTE AL DASHBOARD */
+
+/* Dashboard Navbar */
+
+.admin-logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.admin-logo {
+    width: 42px;
+    height: auto;
+}
+
+.admin-logo-texts {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+}
+
+.admin-logo-titulo {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #000066;
+    font-family: 'Nunito', sans-serif;
+}
+
+.admin-logo-subtitulo {
+    font-size: 0.72rem;
+    color: #64748B;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+
+
+
+
+
+  
+
+  
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
