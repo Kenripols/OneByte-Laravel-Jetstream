@@ -6,6 +6,7 @@
 /storage/*.key
 /storage/pail
 /vendor
+/public/vendor/livewire/
 .env
 .env.backup
 .env.production
