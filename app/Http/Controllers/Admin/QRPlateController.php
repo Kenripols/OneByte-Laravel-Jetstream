@@ -88,7 +88,7 @@ $qr->addEvent('generated');
             );
 
             $writer = new Writer($renderer);
-
+// genero la url con el codigo qr 
             foreach ($qrs as $qr) {
 
                 $url = url('/qr/' . $qr->code);
@@ -124,7 +124,7 @@ $qr->addEvent('generated');
         }
         return response()->download($zipPath)->deleteFileAfterSend(true);
     }
-    //Contador de QRs disponibles
+    //Contador de QRs disponibles (No descargados)
     public function getDisponiblesCountProperty()
     {
         return QrPlate::where('status', QrPlate::STATUS_GENERATED)->count();

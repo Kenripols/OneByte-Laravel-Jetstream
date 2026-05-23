@@ -11,7 +11,7 @@ class ScanController extends Controller
     public function handle($code)
 {
     $qr = QrPlate::where('code', $code)->first();
-
+//El qr flasho
     if (!$qr) {
         return view('qr.unavailable');
     }

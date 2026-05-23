@@ -23,6 +23,7 @@ class PetAssign extends Component
     public $breed_id;
     public $showModal = false;
     protected $listeners = ['openQrModal' => 'openModal'];
+    public $qr;
     public function mount()
     {
         $this->pets = Pet::where('owner_id', auth()->id())->get();
