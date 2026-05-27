@@ -11,7 +11,12 @@
 
                             <div class="admin-logo-texts">
                                 <span class="admin-logo-titulo">PetFinder</span>
-                                <span class="admin-logo-subtitulo">Admin Panel</span>
+                                <!-- Cambia según quien se loguea owner o admin -->
+                                <span class="text-sm font-semibold text-[#000066]">
+                                    {{ auth()->user()->hasRole('admin') 
+                                        ? 'Admin Panel' 
+                                        : 'Owner Panel' }}
+                                </span>
                             </div>
                         </div>
                     </a>
