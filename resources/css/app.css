@@ -130,3 +130,18 @@
     font-weight: bold;
     line-height: 1;
 }
+
+/* Para carousel responsive de dashboard admin */
+@media (max-width: 768px) {
+
+    .carousel-control-prev,
+    .carousel-control-next {
+        width: 36px;
+        height: 36px;
+    }
+
+    .carousel-arrow {
+        font-size: 20px;
+    }
+
+}

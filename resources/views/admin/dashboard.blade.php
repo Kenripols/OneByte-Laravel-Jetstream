@@ -1,3 +1,7 @@
+@php
+    use Illuminate\Support\Str;
+@endphp
+
 <x-app-layout>
     <div class="py-8 px-4 sm:px-6 lg:px-8">
 
@@ -61,21 +65,26 @@
                 <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
 
                     <!-- Card -->
-                    <div class="bg-white border-2 border-[#000066] rounded-3xl py-6 pl-20 pr-16">
+                    <div class="bg-white border-2 border-[#000066] rounded-3xl py-6 px-6 md:pl-20 md:pr-16">
 
-                        <div class="flex gap-6 items-center">
+                        <div class="flex flex-col md:flex-row items-center gap-6">
 
 
                             <!-- Foto -->
 
-                            <div class="w-52 h-36 rounded-2xl overflow-hidden bg-gray-200 flex-shrink-0">
+                            <div class="w-full md:w-64 aspect-[4/3] md:h-40 rounded-2xl overflow-hidden bg-gray-200 flex-shrink-0 flex items-center justify-center">
 
                                 @if(!empty($pet->photo))
 
                                     <img
-                                        src="{{ asset('storage/' . $pet->photo) }}"
+                                        src="{{ Str::startsWith($pet->photo, 'http')
+                                            ? $pet->photo
+                                            : asset('storage/' . $pet->photo) }}"
+                                        onerror="this.src='{{ asset('images/imagen-no-disponible.png') }}'"
                                         alt="{{ $pet->name }}"
-                                        class="w-full h-full object-cover"
+                                        class="{{ Str::contains($pet->photo, 'no-image')
+                                            ? 'max-w-full max-h-full object-contain p-2'
+                                            : 'w-full h-full object-cover' }}"
                                     >
 
                                 @else
@@ -90,7 +99,7 @@
 
                             <!-- Información -->
 
-                            <div class="flex-1">
+                            <div class="flex-1 text-center md:text-left">
 
                                 <!-- Nombre -->
                                 <h3 class="text-3xl font-bold text-[#000066]">
@@ -175,7 +184,10 @@
             <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
 
                 <!-- Usuarios -->
-                <div class="bg-[#F8FAFC] rounded-3xl border-2 border-[#000066] p-6">
+                <div class="bg-[#F8FAFC] rounded-3xl border-2 border-[#000066] p-6
+                transition-all duration-300 ease-in-out
+                hover:-translate-y-1
+                hover:shadow-2xl">
 
                     <p class="text-sm font-medium text-center text-[#000066]">
                         Usuarios
@@ -200,7 +212,10 @@
                 </div>
 
                 <!-- Mascotas -->
-                <div class="bg-[#F8FAFC] rounded-3xl border-2 border-[#000066] p-6">
+                <div class="bg-[#F8FAFC] rounded-3xl border-2 border-[#000066] p-6
+                transition-all duration-300 ease-in-out
+                hover:-translate-y-1
+                hover:shadow-2xl">
                     
                     <p class="text-sm font-medium text-center text-[#000066]">
                         Mascotas
@@ -225,7 +240,10 @@
                 </div>
 
                 <!-- Perdidas -->
-                <div class="bg-[#F8FAFC] rounded-3xl border-2 border-[#000066] p-6">
+                <div class="bg-[#F8FAFC] rounded-3xl border-2 border-[#000066] p-6
+                transition-all duration-300 ease-in-out
+                hover:-translate-y-1
+                hover:shadow-2xl">
 
                     <p class="text-sm font-medium text-center text-[#000066]">
                         Perdidas
@@ -250,7 +268,10 @@
                 </div>
 
                 <!-- Encontradas -->
-                <div class="bg-[#F8FAFC] rounded-3xl border-2 border-[#000066] p-6">
+                <div class="bg-[#F8FAFC] rounded-3xl border-2 border-[#000066] p-6
+                transition-all duration-300 ease-in-out
+                hover:-translate-y-1
+                hover:shadow-2xl">
 
                     <p class="text-sm font-medium text-center text-[#000066]">
                         Encontradas
@@ -287,9 +308,41 @@
                     Estadísticas
                 </h2>
 
-                <div class="h-72 flex items-center justify-center rounded-2xl bg-gray-100 text-gray-400">
-                    Gráfica próximamente
+                <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+
+                <!-- Doughnut -->
+                <div class="bg-white rounded-3xl p-6 shadow-sm
+                transition-all duration-300 ease-in-out
+                hover:-translate-y-1
+                hover:shadow-2xl">
+
+                    <h3 class="text-lg font-semibold text-center text-[#000066] mb-4">
+                        Mascotas perdidas vs encontradas
+                    </h3>
+
+                    <div class="h-72">
+                        <canvas id="petsChart"></canvas>
+                    </div>
+
                 </div>
+
+                <!-- Barras -->
+                <div class="bg-white rounded-3xl p-6 shadow-sm
+                transition-all duration-300 ease-in-out
+                hover:-translate-y-1
+                hover:shadow-2xl">
+
+                    <h3 class="text-lg font-semibold text-center text-[#000066] mb-4">
+                        Mascotas registradas por mes
+                    </h3>
+
+                    <div class="h-72">
+                        <canvas id="monthlyPetsChart"></canvas>
+                    </div>
+
+                </div>
+
+            </div>
 
             </section>
 
@@ -310,4 +363,104 @@
         </div>
 
     </div>
+
+    <!-- script para graficas de estadisticas -->
+    <!-- script para graficas de estadisticas -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    // Doughnut chart
+    const ctx = document.getElementById('petsChart');
+
+            new Chart(ctx, {
+                type: 'doughnut',
+
+                data: {
+                    labels: ['Perdidas', 'Encontradas'],
+
+                    datasets: [{
+                        data: [
+                            {{ $lostPets }},
+                            {{ $foundPets }}
+                        ],
+
+                        backgroundColor: [
+                            '#EAB308',
+                            '#22C55E'
+                        ],
+
+                        borderWidth: 0
+                    }]
+                },
+
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+
+                            labels: {
+                                padding: 20,
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        }
+                    },
+
+                    cutout: '70%'
+                }
+            });
+
+
+            // Bar chart
+            const monthlyCtx = document.getElementById('monthlyPetsChart');
+
+            new Chart(monthlyCtx, {
+
+                type: 'bar',
+
+                data: {
+                    labels: @json($months),
+
+                    datasets: [{
+                        label: 'Mascotas registradas',
+
+                        data: @json($totals),
+
+                        borderRadius: 12,
+
+                        backgroundColor: '#000066'
+                    }]
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+
+                    scales: {
+
+                        y: {
+                            beginAtZero: true,
+
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+
+        });
+        </script>
 </x-app-layout>
