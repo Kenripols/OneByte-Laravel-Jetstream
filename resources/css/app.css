@@ -5,3 +5,128 @@
 [x-cloak] {
     display: none;
 }
+
+/* Carrousel */
+
+.carousel {
+    position: relative;
+}
+
+.carousel-inner {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 1.5rem;
+}
+
+/* Slides */
+.carousel-item {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+
+    opacity: 0;
+
+    transition: opacity 0.7s ease-in-out;
+
+    z-index: 1;
+}
+
+/* Slide activo */
+.carousel-item.active {
+    position: relative;
+
+    opacity: 1;
+
+    z-index: 2;
+}
+
+.carousel-inner {
+    position: relative;
+    overflow: hidden;
+}
+
+
+/* Indicators */
+.carousel-indicators {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    z-index: 20;
+
+    display: flex;
+    gap: 10px;
+
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+}
+
+.carousel-indicators button {
+    width: 12px;
+    height: 12px;
+
+    border-radius: 9999px;
+    border: none;
+
+    background-color: rgba(255,255,255,0.5);
+
+    transition: all 0.3s ease;
+}
+
+.carousel-indicators .active {
+    background-color: #000066;
+    transform: scale(1.2);
+}
+
+/* Controls */
+.carousel-control-prev,
+.carousel-control-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+
+    z-index: 30;
+
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+
+    background: rgba(255,255,255,0.75);
+
+    border-radius: 9999px;
+
+    backdrop-filter: blur(6px);
+
+    transition: all 0.3s ease;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    background: white;
+    transform: translateY(-50%) scale(1.08);
+}
+
+.carousel-control-prev {
+    left: 16px;
+}
+
+.carousel-control-next {
+    right: 16px;
+}
+
+.carousel-arrow {
+    font-size: 28px;
+    color: #000066;
+    font-weight: bold;
+    line-height: 1;
+}

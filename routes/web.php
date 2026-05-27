@@ -17,13 +17,14 @@ Route::middleware([
     'verified',
 ])->group(function () {
 
-    // Inicio de agregado 16-12-25
     Route::get('/dashboard', function () {
-            if (auth()->user()->hasRole('admin')) {return redirect()->route('admin.dashboard');}
-            return redirect()->route('owner.dashboard');
-        })->name('dashboard');
-    }   
-);
+        if (auth()->user()->hasRole('admin')) {
+            return redirect()->route('admin.dashboard');
+        }
+        return redirect()->route('owner.dashboard');
+    })->name('dashboard');
+
+});
 
 //Route::get('/qr/{code}', [QrController::class, 'handle']);
 
