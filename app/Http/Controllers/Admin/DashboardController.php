@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Enums\PetState;
 // Importo Post para el carrousel
 use App\Models\Post;
+// Importo para las graficas
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -40,12 +42,34 @@ class DashboardController extends Controller
                 ->take(5)
                 ->get();
 
+        // Para seleccionar las mascotas registradas por mes 
+        $monthlyPets = Pet::select(
+            DB::raw('MONTH(created_at) as month'),
+            DB::raw('COUNT(*) as total')
+        )
+        ->groupBy('month')
+        ->orderBy('month')
+        ->get();
+
+    $months = [];
+    $totals = [];
+
+    foreach ($monthlyPets as $item) {
+
+        $months[] = date('M', mktime(0, 0, 0, $item->month, 1));
+
+        $totals[] = $item->total;
+    }    
+
+
         return view('admin.dashboard', compact(
             'totalPets',
             'lostPets',
             'foundPets',
             'totalUsers',
-            'latestPets'
+            'latestPets',
+            'months',
+            'totals'
         ));
     }
 }
