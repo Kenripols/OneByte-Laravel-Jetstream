@@ -6,15 +6,6 @@
     </div>
 
 
-    <!-- Botón crear (esto permite crear mascota sin QR, con el modelo actual es veneno)
-    <div class="mb-4">
-        <button type="button"
-            wire:click="openCreateModal"
-            class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
-            + Nueva mascota
-        </button>
-    </div>
--->
     <!-- Tabla -->
     <table class="min-w-full border border-gray-200 rounded-lg overflow-hidden">
 

@@ -175,4 +175,3 @@
     </script>
 
 </x-app-layout>
-<livewire:qr.pet-assign />
