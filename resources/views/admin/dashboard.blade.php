@@ -65,7 +65,7 @@
                 <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
 
                     <!-- Card -->
-                    <div class="bg-white border-2 border-[#000066] rounded-3xl py-6 px-6 md:pl-20 md:pr-16">
+                    <div class="bg-[#F8FAFC] border-2 border-[#000066] rounded-3xl py-6 px-6 md:pl-20 md:pr-16">
 
                         <div class="flex flex-col md:flex-row items-center gap-6">
 
@@ -181,13 +181,15 @@
 
 
             <!-- Estadisticas Generales -->
-            <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+            <section id="estadisticas" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
 
                 <!-- Usuarios -->
-                <div class="bg-[#F8FAFC] rounded-3xl border-2 border-[#000066] p-6
-                transition-all duration-300 ease-in-out
-                hover:-translate-y-1
-                hover:shadow-2xl">
+                <a href="{{ route('admin.users.index') }}"
+                    class="block bg-[#F8FAFC] rounded-3xl border-2 border-[#000066] p-6
+                    transition-all duration-300 ease-in-out
+                    hover:-translate-y-1
+                    hover:shadow-2xl
+                    cursor-pointer">
 
                     <p class="text-sm font-medium text-center text-[#000066]">
                         Usuarios
@@ -209,13 +211,15 @@
                     "x-text="count" class="mt-2 text-4xl font-bold text-center text-[#000066]">
                 </p>
 
-                </div>
+                </a>
 
                 <!-- Mascotas -->
-                <div class="bg-[#F8FAFC] rounded-3xl border-2 border-[#000066] p-6
-                transition-all duration-300 ease-in-out
-                hover:-translate-y-1
-                hover:shadow-2xl">
+                <a href="{{ route('admin.pets.index') }}"
+                    class="block bg-[#F8FAFC] rounded-3xl border-2 border-[#000066] p-6
+                    transition-all duration-300 ease-in-out
+                    hover:-translate-y-1
+                    hover:shadow-2xl
+                    cursor-pointer">
                     
                     <p class="text-sm font-medium text-center text-[#000066]">
                         Mascotas
@@ -237,13 +241,15 @@
                     "x-text="count" class="mt-2 text-4xl font-bold text-center text-[#000066]">
                     </p>
         
-                </div>
+                </a>
 
                 <!-- Perdidas -->
-                <div class="bg-[#F8FAFC] rounded-3xl border-2 border-[#000066] p-6
-                transition-all duration-300 ease-in-out
-                hover:-translate-y-1
-                hover:shadow-2xl">
+                <a href="#estadisticas"
+                    class="block bg-[#F8FAFC] rounded-3xl border-2 border-[#000066] p-6
+                    transition-all duration-300 ease-in-out
+                    hover:-translate-y-1
+                    hover:shadow-2xl
+                    cursor-pointer">
 
                     <p class="text-sm font-medium text-center text-[#000066]">
                         Perdidas
@@ -265,13 +271,15 @@
                     "x-text="count" class="mt-2 text-4xl font-bold text-center text-[#000066]">
                     </p>
 
-                </div>
+                </a>
 
                 <!-- Encontradas -->
-                <div class="bg-[#F8FAFC] rounded-3xl border-2 border-[#000066] p-6
-                transition-all duration-300 ease-in-out
-                hover:-translate-y-1
-                hover:shadow-2xl">
+                <a href="#estadisticas"
+                    class="block bg-[#F8FAFC] rounded-3xl border-2 border-[#000066] p-6
+                    transition-all duration-300 ease-in-out
+                    hover:-translate-y-1
+                    hover:shadow-2xl
+                    cursor-pointer">
 
                     <p class="text-sm font-medium text-center text-[#000066]">
                         Encontradas
@@ -296,7 +304,7 @@
                         
                     </p>
 
-                </div>
+                </a>
 
             </section>
 
@@ -307,17 +315,17 @@
                 <h2 class="text-xl font-semibold text-center text-[#000066] mb-4">
                     Estadísticas
                 </h2>
-
+                <!-- Inicio de Grid de 4 gráficas -->
                 <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
 
-                <!-- Doughnut -->
-                <div class="bg-white rounded-3xl p-6 shadow-sm
+                <!-- Doughnut mascotas perdidas y encontradas -->
+                <div class="bg-[#F8FAFC] rounded-3xl p-6 shadow-sm
                 transition-all duration-300 ease-in-out
                 hover:-translate-y-1
                 hover:shadow-2xl">
 
                     <h3 class="text-lg font-semibold text-center text-[#000066] mb-4">
-                        Mascotas perdidas vs encontradas
+                        Mascotas perdidas y encontradas
                     </h3>
 
                     <div class="h-72">
@@ -326,8 +334,8 @@
 
                 </div>
 
-                <!-- Barras -->
-                <div class="bg-white rounded-3xl p-6 shadow-sm
+                <!-- Barras Mascotas registradas por mes -->
+                <div class="bg-[#F8FAFC] rounded-3xl p-6 shadow-sm
                 transition-all duration-300 ease-in-out
                 hover:-translate-y-1
                 hover:shadow-2xl">
@@ -342,20 +350,293 @@
 
                 </div>
 
-            </div>
+                <!-- Barras Usuarios registrados por mes -->
+                <div class="bg-[#F8FAFC] rounded-3xl p-6 shadow-sm
+                transition-all duration-300 ease-in-out
+                hover:-translate-y-1
+                hover:shadow-2xl">
+
+                    <h3 class="text-lg font-semibold text-center text-[#000066] mb-4">
+                        Usuarios registrados por mes
+                    </h3>
+
+                    <div class="h-72">
+                        <canvas id="usersChart"></canvas>
+                    </div>
+
+                </div>
+
+                <!-- Gráfica para QR Registrados -->
+                <div class="bg-[#F8FAFC] rounded-3xl p-6 shadow-sm
+                transition-all duration-300 ease-in-out
+                hover:-translate-y-1
+                hover:shadow-2xl">
+
+                    <h3 class="text-lg font-semibold text-center text-[#000066] mb-4">
+                        QR registrados por mes
+                    </h3>
+
+                    <div class="h-72">
+                        <canvas id="qrChart"></canvas>
+                    </div>
+
+                </div>
+
+                </div>
+                <!-- Fin de sección de 4 gráficas -->
+
+                <!-- Inicio de sección de la gráfica de qr escaneados por mes -->
+
+                <!-- Gráfica de escaneos QR por mes -->
+
+                <div class="mt-8 bg-[#F8FAFC] rounded-3xl p-6 shadow-sm
+                transition-all duration-300 ease-in-out
+                hover:-translate-y-1
+                hover:shadow-2xl">
+
+                <h3 class="text-lg font-semibold text-center text-[#000066] mb-4">
+                    Escaneos QR por mes
+                </h3>
+
+                <!-- Total de escaneos por mes -->
+                <div class="mt-4 text-center">
+
+                    <p
+                        x-data="{ count: 0, target: {{ $totalScans }} }"
+                        x-init="
+                            let step = Math.ceil(target / 50);
+
+                            let interval = setInterval(() => {
+
+                                count += step;
+
+                                if (count >= target) {
+                                    count = target;
+                                    clearInterval(interval);
+                                }
+
+                            }, 30);
+                        "
+                        x-text="count"
+                        class="text-6xl font-bold text-[#000066]">
+                    </p>
+
+                    <p class="text-gray-500 text-sm mt-2">
+                        Escaneos totales registrados
+                    </p>
+
+                </div>
+
+                <!-- Grafica de escaneos QR por mes -->
+                <div class="h-96">
+                    <canvas id="qrScansChart"></canvas>
+                </div>
+
+                </div>
+                <!-- Fin de sección de la gráfica de qr escaneados por mes -->
 
             </section>
 
 
-            <!-- Actividad -->
+            <!-- Sección Actividad Reciente -->
             <section class="bg-[#F8FAFC] rounded-3xl border-2 border-[#000066] p-6">
 
-                <h2 class="text-xl font-semibold text-center text-[#000066] mb-4">
+                <h2 class="text-xl font-semibold text-center text-[#000066] mb-6">
                     Actividad reciente
                 </h2>
 
-                <div class="h-48 flex items-center justify-center rounded-2xl bg-gray-100 text-gray-400">
-                    Tabla próximamente
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-4">
+
+                    <!-- Usuarios -->
+                    @foreach($recentUsers as $user)
+
+                        <div class="bg-[#F8FAFC] rounded-2xl border-2 border-[#000066] p-4
+                            transition-all duration-300 ease-in-out
+                            hover:-translate-y-1
+                            hover:shadow-2xl">
+
+                            <h3 class="font-semibold text-[#000066]">
+                                Usuario registrado
+                            </h3>
+
+                            <p class="text-gray-700">
+                                {{ $user->name ?? $user->email }}
+                            </p>
+
+                            <p class="text-sm text-gray-400 mt-2">
+                                {{ $user->created_at->diffForHumans() }}
+                            </p>
+
+                        </div>
+
+                    @endforeach
+
+                    <!-- Mascotas -->
+                    @foreach($recentPets as $pet)
+
+                        <div class="bg-[#F8FAFC] rounded-2xl border-2 border-[#000066] p-4
+                            transition-all duration-300 ease-in-out
+                            hover:-translate-y-1
+                            hover:shadow-2xl">
+
+                            <h3 class="font-semibold text-[#000066] mb-3">
+                                Mascota registrada
+                            </h3>
+
+                            <div class="flex items-center gap-3">
+
+                            <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-[#000066] flex-shrink-0">
+
+                                <img
+                                    src="{{ !empty($pet->photo)
+                                        ? (Str::startsWith($pet->photo, 'http')
+                                            ? $pet->photo
+                                            : asset('storage/' . $pet->photo))
+                                        : asset('images/imagen-no-disponible.png') }}"
+                                    onerror="this.src='{{ asset('images/imagen-no-disponible.png') }}'"
+                                    alt="{{ $pet->name }}"
+                                    class="w-full h-full object-cover"
+                                >
+
+                            </div>
+
+                            <div>
+
+                                <p class="font-medium text-gray-700">
+                                    {{ $pet->name }}
+                                </p>
+
+                                <p class="text-sm text-gray-400">
+                                    {{ $pet->created_at->diffForHumans() }}
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        </div>
+
+                    @endforeach
+
+                    <!-- Escaneos -->
+                    @foreach($recentReadings as $reading)
+
+                        <div class="bg-[#F8FAFC] rounded-2xl border-2 border-[#000066] p-4
+                            transition-all duration-300 ease-in-out
+                            hover:-translate-y-1
+                            hover:shadow-2xl">
+
+                            <h3 class="font-semibold text-[#000066]">
+                                QR escaneado
+                            </h3>
+
+                            <p class="text-gray-700">
+                                {{ $reading->qrPlate?->code ?? 'QR' }}
+                            </p>
+
+                            <p class="text-sm text-gray-400 mt-2">
+                                {{ $reading->created_at->diffForHumans() }}
+                            </p>
+
+                        </div>
+
+                    @endforeach
+
+                    <!-- Perdidas -->
+                    @foreach($recentLostPets as $lost)
+
+                        <div class="bg-[#F8FAFC] rounded-2xl border-2 border-[#000066] p-4
+                            transition-all duration-300 ease-in-out
+                            hover:-translate-y-1
+                            hover:shadow-2xl">
+
+                            <h3 class="font-semibold text-[#000066] mb-3">
+                                Mascota perdida
+                            </h3>
+
+                            <div class="flex items-center gap-3">
+
+                                <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-[#000066] flex-shrink-0">
+
+                                    <img
+                                        src="{{ !empty($lost->pet?->photo)
+                                            ? (Str::startsWith($lost->pet->photo, 'http')
+                                                ? $lost->pet->photo
+                                                : asset('storage/' . $lost->pet->photo))
+                                            : asset('images/imagen-no-disponible.png') }}"
+                                        onerror="this.src='{{ asset('images/imagen-no-disponible.png') }}'"
+                                        alt="{{ $lost->pet?->name }}"
+                                        class="w-full h-full object-cover"
+                                    >
+
+                                </div>
+
+                                <div>
+
+                                    <p class="font-medium text-gray-700">
+                                        {{ $lost->pet?->name }}
+                                    </p>
+
+                                    <p class="text-sm text-gray-400">
+                                        {{ $lost->started_at?->diffForHumans() }}
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    @endforeach
+
+                    <!-- Encontradas -->
+                    @foreach($recentFoundPets as $found)
+
+                        <div class="bg-[#F8FAFC] rounded-2xl border-2 border-[#000066] p-4
+                            transition-all duration-300 ease-in-out
+                            hover:-translate-y-1
+                            hover:shadow-2xl">
+
+                            <h3 class="font-semibold text-[#000066] mb-3">
+                                Mascota encontrada
+                            </h3>
+
+                            <div class="flex items-center gap-3">
+
+                                <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-[#000066] flex-shrink-0">
+
+                                    <img
+                                        src="{{ !empty($found->pet?->photo)
+                                            ? (Str::startsWith($found->pet->photo, 'http')
+                                                ? $found->pet->photo
+                                                : asset('storage/' . $found->pet->photo))
+                                            : asset('images/imagen-no-disponible.png') }}"
+                                        onerror="this.src='{{ asset('images/imagen-no-disponible.png') }}'"
+                                        alt="{{ $found->pet?->name }}"
+                                        class="w-full h-full object-cover"
+                                    >
+
+                                </div>
+
+                                <div>
+
+                                    <p class="font-medium text-gray-700">
+                                        {{ $found->pet?->name }}
+                                    </p>
+
+                                    <p class="text-sm text-gray-400">
+                                        {{ $found->started_at?->diffForHumans() }}
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    @endforeach
+
                 </div>
 
             </section>
@@ -364,8 +645,8 @@
 
     </div>
 
-    <!-- script para graficas de estadisticas -->
-    <!-- script para graficas de estadisticas -->
+
+<!-- script para graficas de estadisticas -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -415,8 +696,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
 
-            // Bar chart
-            const monthlyCtx = document.getElementById('monthlyPetsChart');
+    // Bar chart
+    const monthlyCtx = document.getElementById('monthlyPetsChart');
 
             new Chart(monthlyCtx, {
 
@@ -461,6 +742,146 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
+
+    // Barra Usuarios 
+    const usersCtx = document.getElementById('usersChart');
+
+        new Chart(usersCtx, {
+
+            type: 'line',
+
+            data: {
+                labels: @json($userMonths),
+
+                datasets: [{
+                    label: 'Usuarios registrados',
+
+                    data: @json($userTotals),
+
+                    borderColor: '#000066',
+
+                    backgroundColor: 'rgba(0,0,102,0.1)',
+
+                    tension: 0.4,
+
+                    fill: true
+                }]
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+    // Gráfica QR Registrados
+    const qrCtx = document.getElementById('qrChart');
+
+        new Chart(qrCtx, {
+
+            type: 'bar',
+
+            data: {
+                labels: @json($qrMonths),
+
+                datasets: [{
+                    label: 'QR registrados',
+
+                    data: @json($qrTotals),
+
+                    backgroundColor: '#2563EB',
+
+                    borderRadius: 12
+                }]
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        }); 
+        
+    // Gráfica de QRs escaneados por mes
+    const scansCtx = document.getElementById('qrScansChart');
+
+    new Chart(scansCtx, {
+
+        type: 'line',
+
+        data: {
+            labels: @json($scanMonths),
+
+            datasets: [{
+                label: 'Escaneos QR',
+
+                data: @json($scanTotals),
+
+                tension: 0.4,
+
+                fill: true,
+
+                borderColor: '#000066',
+
+                backgroundColor: 'rgba(0,0,102,0.12)',
+
+                pointRadius: 5,
+
+                pointHoverRadius: 8
+            }]
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            plugins: {
+
+                legend: {
+                    display: false
+                }
+            },
+
+            scales: {
+
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
         });
         </script>
+
+        
 </x-app-layout>

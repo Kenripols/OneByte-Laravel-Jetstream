@@ -74,14 +74,39 @@
                 </div>
             @endif
 
-            <div class="flex items-center justify-end mt-4">
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                    {{ __('¿Ya estas registrado?') }}
+            <!-- Botones Registrarse, Cancelar y ya estas registrado -->
+            <div class="flex justify-center gap-4 mt-6">
+
+                <a href="{{ url('/') }}"
+                class="w-40 inline-flex items-center justify-center
+                px-4 py-2
+                bg-[#F8FAFC]
+                border-2 border-[#000066]
+                rounded-md
+                font-semibold
+                text-sm
+                text-[#000066]
+                tracking-widest
+                hover:bg-[#F8FAFC]
+                hover:text-white
+                hover:scale-105
+                transition-all duration-200">
+                Cancelar
                 </a>
 
-                <x-button class="ms-4">
-                    {{ __('Registrar') }}
+                <x-button class="w-40 justify-center">
+                    {{ __('Registrarse') }}
                 </x-button>
+
+            </div>
+
+            <div class="text-center mt-4">
+
+                <a href="{{ route('login') }}"
+                class="underline text-sm text-gray-600 hover:text-gray-900">
+                    ¿Ya estás registrado?
+                </a>
+
             </div>
         </form>
     </x-authentication-card>

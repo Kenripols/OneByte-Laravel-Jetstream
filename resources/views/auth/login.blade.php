@@ -34,18 +34,42 @@
                 </label>
             </div>
 
-            <div class="flex items-center justify-end mt-4">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        href="{{ route('password.request') }}">
-                        {{ __('¿Olvidaste tu contraseña?') }}
+           
+
+                <div class="flex justify-center gap-4 mt-6">
+
+                    <a href="{{ url('/') }}"
+                    class="w-40 inline-flex items-center justify-center
+                            px-4 py-2
+                            bg-white
+                            border-2 border-[#000066]
+                            rounded-md
+                            font-semibold
+                            text-sm
+                            text-[#000066]
+                            tracking-widest
+                            hover:bg-[#F3F4F6]
+                            hover:scale-105
+                            transition-all duration-200">
+                        Cancelar
                     </a>
+
+                    <x-button class="w-40 justify-center">
+                        {{ __('Iniciar sesión') }}
+                    </x-button>
+
+                </div>
+
+                @if (Route::has('password.request'))
+                    <div class="text-center mt-4">
+                        <a class="underline text-sm text-gray-600 hover:text-gray-900"
+                        href="{{ route('password.request') }}">
+                            ¿Olvidaste tu contraseña?
+                        </a>
+                    </div>
                 @endif
 
-                <x-button class="ms-4">
-                    {{ __('Iniciar Sesión') }}
-                </x-button>
-            </div>
+            
         </form>
     </x-authentication-card>
 </x-guest-layout>
