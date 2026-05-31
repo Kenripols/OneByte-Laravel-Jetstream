@@ -145,3 +145,8 @@
     }
 
 }
+
+/* Para que cuando se selecciona encontradas o perdidas el scroll sea suave */
+html {
+    scroll-behavior: smooth;
+}
