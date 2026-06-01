@@ -15,7 +15,6 @@ class ScanController extends Controller
         if (!$qr) {
             return view('qr.unavailable');
         }
-
         if (!Auth::check()) {
             if ($qr->pet_id) {
                 return view('qr.public', compact('qr'));

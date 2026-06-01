@@ -102,7 +102,7 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-        @if(!$qr) //vine hasta aca por una lectura de QR no quiero esta camara universal Quantica todo poderosa, porque ya tengo un codigo
+                @if(!$qr) //vine hasta aca por una lectura de QR no quiero esta camara universal Quantica todo poderosa, porque ya tengo un codigo
             if (document.getElementById('reader')) {
                 const scanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 });
                 scanner.render((decodedText, decodedResult) => {// Mostrar el resultado
