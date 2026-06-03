@@ -4,7 +4,7 @@
     </x-slot>
 
     <x-slot name="description">
-        {{ __('Update your account\'s profile information and email address.') }}
+        {{ __('Update your account email address.') }}
     </x-slot>
 
     <x-slot name="form">
@@ -28,7 +28,7 @@
 
                 <!-- Current Profile Photo -->
                 <div class="mt-2" x-show="! photoPreview">
-                    <img src="{{ $this->user->profile_photo_url }}" alt="{{ $this->user->name }}" class="rounded-full size-20 object-cover">
+                    <img src="{{ $this->user->profile_photo_url }}" alt="{{ $this->user->name ?: $this->user->email }}" class="rounded-full size-20 object-cover">
                 </div>
 
                 <!-- New Profile Photo Preview -->
@@ -51,13 +51,7 @@
                 <x-input-error for="photo" class="mt-2" />
             </div>
         @endif
-
-        <!-- Name -->
-        <div class="col-span-6 sm:col-span-4">
-            <x-label for="name" value="{{ __('Name') }}" />
-            <x-input id="name" type="text" class="mt-1 block w-full" wire:model="state.name" required autocomplete="name" />
-            <x-input-error for="name" class="mt-2" />
-        </div>
+ 
 
         <!-- Email -->
         <div class="col-span-6 sm:col-span-4">
