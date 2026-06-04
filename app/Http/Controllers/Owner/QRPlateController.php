@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 use App\Models\QrPlate;
 use App\Models\Pet;
+use App\Services\QrAssignmentService;
 
 class QrPlateController extends Controller
 {
@@ -101,8 +102,10 @@ class QrPlateController extends Controller
             }
         }
 
-        // 🔥 SOLO EVENTOS
+        // Usar el servicio para hacer la asignación segura y luego registrar el evento
         DB::transaction(function () use ($qr, $pet, $user) {
+
+            app(QrAssignmentService::class)->assignToPet($qr, $pet);
 
             $qr->addEvent('assigned', now(), [
                 'pet_id' => $pet->id,
