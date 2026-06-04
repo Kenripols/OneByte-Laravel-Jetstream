@@ -15,13 +15,12 @@ class ScanController extends Controller
         if (!$qr) {
             return view('qr.unavailable');
         }
-
         if (!Auth::check()) {
             if ($qr->pet_id) {
                 return view('qr.public', compact('qr'));
             }
 
-            return redirect()->guest(route('login'));
+            return redirect()->guest(route('register'));
         }
 
         if (!$qr->canBeUsedBy(Auth::user())) {
@@ -37,7 +36,7 @@ class ScanController extends Controller
         $qr = QrPlate::where('code', $code)->firstOrFail();
 
         if (!Auth::check()) {
-            return redirect()->route('login');
+            return redirect()->route('register');
         }
 
         if (!$qr->canBeUsedBy(Auth::user())) {
