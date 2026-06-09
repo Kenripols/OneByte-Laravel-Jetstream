@@ -24,6 +24,24 @@ class QrPlateController extends Controller
 
     public function create(Request $request)
     {   
+        $user = Auth::user();
+
+        // Si se recibe un código QR público, y el QR está en estado "claimed",
+        // evitar que usuarios no dueños (incluyendo invitados y admins) lo vean.
+        if ($request->has('qr')) {
+            $maybeQr = QrPlate::where('code', $request->qr)->first();
+
+            if ($maybeQr && $maybeQr->status === QrPlate::STATUS_CLAIMED) {
+                // si no está logueado o no es el dueño que lo reservó, mostrar 'no disponible'
+                if (!Auth::check() || (
+                    Auth::id() !== $maybeQr->owner_user_id
+                    && (! $user || $user->claimed_qr_id !== $maybeQr->id)
+                )) {
+                    return view('qr.unavailable');
+                }
+            }
+        }
+
         $this->authorize('create', QrPlate::class);
 
         $pets = Pet::with(['breed', 'owner'])
@@ -105,7 +123,13 @@ class QrPlateController extends Controller
         // Usar el servicio para hacer la asignación segura y luego registrar el evento
         DB::transaction(function () use ($qr, $pet, $user) {
 
-            app(QrAssignmentService::class)->assignToPet($qr, $pet);
+            // Actualizo pet_id y status explicitamente para evitar inconsistencias en la vista
+            $qr->update([
+                'pet_id' => $pet->id,
+                'status' => QrPlate::STATUS_ASSIGNED,
+            ]);
+
+            $qr->refresh();
 
             $qr->addEvent('assigned', now(), [
                 'pet_id' => $pet->id,
@@ -115,8 +139,11 @@ class QrPlateController extends Controller
             $user->update(['claimed_qr_id' => null]);
         });
 
+        // Asegurar que el objeto esté sincronizado
+        $qr->refresh();
+
         return redirect()
-            ->route('owner.qrplates.index')
+            ->route('owner.pets.index')
             ->with('success', 'QR asignado correctamente a la mascota.');
     }
 
@@ -149,6 +176,8 @@ class QrPlateController extends Controller
             $qr->addEvent('claimed', now(), [
                 'user_id' => $user->id
             ]);
+
+            $qr->update(['owner_user_id' => $user->id]);
 
             $user->update([
                 'claimed_qr_id' => $qr->id
