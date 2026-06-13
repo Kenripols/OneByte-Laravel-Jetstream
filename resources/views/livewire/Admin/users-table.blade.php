@@ -5,7 +5,7 @@
 @endif
 <div>
     <!-- Filtros -->
-    <div class="flex space-x-4 mb-4">
+    {{-- <div class="flex space-x-4 mb-4">
         <input type="text" wire:model.live="searchId" placeholder="Buscar por ID" class="border p-2" />
         <input type="text" wire:model.live="searchEmail" placeholder="Buscar por email" class="border p-2" />
         <!-- Botón para ver usuarios borrados lógicamente -->
@@ -13,23 +13,78 @@
                 Ver Usuarios Eliminados
             </a>
         
+    </div> --}}
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+
+    <div class="flex flex-wrap gap-3">
+
+        <input
+            type="text"
+            wire:model.live="searchId"
+            placeholder="ID"
+            class="w-24 rounded-xl border border-gray-300 px-3 py-2
+                   focus:ring-1 focus:ring-[#000066] focus:border-[#000066]"
+        />
+
+        <input
+            type="text"
+            wire:model.live="searchEmail"
+            placeholder="Correo electrónico"
+            class="w-72 rounded-xl border border-gray-300 px-3 py-2
+                   focus:ring-1 focus:ring-[#000066] focus:border-[#000066]"
+        />
+
     </div>
 
+    <a href="{{ route('admin.users.trashed') }}"
+       class="inline-flex items-center justify-center
+              px-4 py-2
+              bg-[#ffffff]
+              text-[#000066]
+              border-2 border-[#000066]
+              rounded-xl
+              font-semibold
+              hover:bg-[#F1F5F9]
+              transition">
+        Ver Usuarios Eliminados
+    </a>
+    
+
+</div>
+
+    
     <!-- Tabla -->
-    <table class="min-w-full divide-y divide-gray-200 border border-gray-300">
-        <thead class="bg-gray-100">
-        <tr>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID </th>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Correo Electrónico</th>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha de Creación</th>           
-        </tr>
+    <div class="border-2 border-[#000066] rounded-2xl overflow-hidden">
+
+    <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-[#F1F5F9] border-b-2 border-[#000066]">
+            <tr class="hover:bg-[#EEF4FF] transition-colors duration-200">
+                <th class="px-6 py-4 text-left text-xs font-semibold text-[#000066] uppercase tracking-wider">
+                    ID
+                </th>
+
+                <th class="px-6 py-4 text-left text-xs font-semibold text-[#000066] uppercase tracking-wider">
+                    Correo Electrónico
+                </th>
+
+                <th class="px-6 py-4 text-left text-xs font-semibold text-[#000066] uppercase tracking-wider">
+                    Fecha de Creación
+                </th>
+
+                <th class="px-6 py-4 text-center text-xs font-semibold text-[#000066] uppercase tracking-wider w-96">
+                    Acciones
+                </th>
+            </tr>
         </thead>
-       <tbody>
+       <tbody class="divide-y divide-gray-200">
     @forelse ($users as $user)
-        <tr>
+
+        <tr class="hover:bg-[#F8FAFC] transition-all duration-200">
+
             <td class="px-6 py-4 whitespace-nowrap">
                 {{ $user->id }}
             </td>
+
             <td class="px-6 py-4 whitespace-nowrap">
                 {{ $user->email }}
             </td>
@@ -38,33 +93,62 @@
                 {{ $user->created_at->format('d/m/Y') }}
             </td>
 
-            <td class="px-6 py-4 whitespace-nowrap">
-                <button wire:click="openModal({{ $user->id }})"
-                        class="text-blue-600 hover:text-blue-900">
-                    Ver Datos
-                </button>
+            <td class="px-6 py-4">
+                <div class="flex justify-evenly items-center">
+
+                    <button
+                        wire:click="openModal({{ $user->id }})"
+                        class="w-24 px-3 py-1 text-sm
+                            border-2 border-[#000066]
+                            text-[#000066]
+                            rounded-lg
+                            hover:bg-[#F1F5F9]
+                            transition">
+                        Ver
+                    </button>
+
+                    <button
+                        wire:click="openEditModal({{ $user->id }})"
+                        class="w-24 px-3 py-1 text-sm
+                            border-2 border-[#000066]
+                            text-[#000066]
+                            rounded-lg
+                            hover:bg-[#F1F5F9]
+                            transition">
+                        Editar
+                    </button>
+
+                    <button
+                        wire:click="openDeleteModal({{ $user->id }})"
+                        class="w-24 px-3 py-1 text-sm
+                            border-2 border-[#000066]
+                            text-[#000066]
+                            rounded-lg
+                            hover:bg-[#ff5555]
+                            transition">
+                        Eliminar
+                    </button>
+
+                </div>
             </td>
-            <td>
-                <button wire:click="openEditModal({{ $user->id }})"
-        class="text-yellow-600 hover:text-yellow-900">
-    Editar
-</button>   
-            </td>
-            <td>
-<button wire:click="openDeleteModal({{ $user->id }})" class="bg-red-500 hover:bg-red-700 text-white py-1 px-3 rounded"> Eliminar </button>
-            </td>
-            
+
         </tr>
+
     @empty
         <tr>
-            <td colspan="4" class="text-center py-4">No se encontraron usuarios</td>
+            <td colspan="4" class="text-center py-6 text-gray-500">
+                No se encontraron usuarios
+            </td>
         </tr>
+
     @endforelse
 </tbody>
     </table>
-    <div class="mt-4">
+</div>
+<!-- Cambios de pagina con reborde azul -->
+    <div class="mt-6 border-2 border-[#000066] rounded-2xl p-4 bg-[#F8FAFC]">
         {{ $users->links() }}
-    </div>
+    </div>  
 @if($showModal && $selectedUser)
 <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
     <div class="bg-white rounded-lg p-6 w-96 shadow-lg">

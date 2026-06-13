@@ -206,10 +206,10 @@
                     <!-- Texto Slide 3 Escritorio -->    
                         <div class="carousel-caption d-none d-md-block caption-desktop">
                             <h3 class="slide-title-desktop">
-                                Escaneo rápido
+                                Aviso Instantaneo
                             </h3>
                             <p class="slide-text-desktop">
-                            Cualquier persona puede escanear el QR desde su celular.
+                            En el momento que el QR de tu mascota sea escaneado, podrás ver donde
                             </p>
                         </div>
 
@@ -222,10 +222,10 @@
                     <!-- Texto Slide 3 Movil -->
                         <div class="d-block d-md-none caption-mobile">
                             <h3 class="slide-title-mobile">
-                                Escaneo rápido
+                                Aviso Instantaneo
                             </h3>
                             <p class="slide-text-mobile">
-                                Cualquier persona puede escanear el QR desde su celular.
+                                En el momento que el QR de tu mascota sea escaneado, podrás ver donde.
                             </p>
                         </div>
                     </div>
@@ -241,10 +241,10 @@
                     <!-- Texto Slide 4 Escritorio -->    
                         <div class="carousel-caption d-none d-md-block caption-desktop">
                             <h3 class="slide-title-desktop">
-                                Escaneo rápido
+                                Reencontrate con tu mascota
                             </h3>
                             <p class="slide-text-desktop">
-                            Cualquier persona puede escanear el QR desde su celular.
+                                Podrás encontrarla facilmente gracias a las personas que escanearon el QR.
                             </p>
                         </div>
 
@@ -257,10 +257,10 @@
                     <!-- Texto Slide 4 Movil -->
                         <div class="d-block d-md-none caption-mobile">
                             <h3 class="slide-title-mobile">
-                                Escaneo rápido
+                                Reencontrate con tu mascota
                             </h3>
                             <p class="slide-text-mobile">
-                                Cualquier persona puede escanear el QR desde su celular.
+                                Podrás encontrarla facilmente gracias a las personas que escanearon el QR.
                             </p>
                         </div>
                     </div>
