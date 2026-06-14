@@ -47,13 +47,13 @@
                     <div id="new-pet-fields" class="mt-4 p-4 border rounded bg-gray-50">
                         <h3 class="font-bold mb-2">Nueva mascota</h3>
 
-                        <input type="text" name="new_name" placeholder="Nombre"
+                        <input type="text" name="new_name" id="new_name" placeholder="Nombre"
                             class="border rounded w-full mb-2 p-2">
 
-                        <input type="date" name="new_bDate"
+                        <input type="date" name="new_bDate" id="new_bDate"
                             class="border rounded w-full mb-2 p-2">
 
-                        <select name="new_breed_id" class="border rounded w-full mb-2 p-2">
+                        <select name="new_breed_id" id="new_breed_id" class="border rounded w-full mb-2 p-2">
                             <option value="">Seleccione raza</option>
                             @foreach($pets->first()?->breed?->all() ?? [] as $breed)
                                 <option value="{{ $breed->id }}">{{ $breed->breedName }}</option>
@@ -152,7 +152,7 @@
             if (petSelect.value) {
                 // llenar datos
                 nameInput.value = selected.dataset.name || '';
-                bdateInput.value = selected.dataset.bdate || '';
+                bdateInput.value = (selected.dataset.bdate || '').split(' ')[0];
                 breedSelect.value = selected.dataset.breed || '';
 
                 // bloquear

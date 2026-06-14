@@ -26,7 +26,14 @@ class ScanController extends Controller
         if (!$qr->canBeUsedBy(Auth::user())) {
             return view('qr.unavailable');
         }
-        //return redirect()->route('owner.qr.resolve', $qr->code);
+
+        if ($qr->status === QrPlate::STATUS_CLAIMED) {
+            if ($qr->owner_user_id === Auth::id()) {
+                return redirect()->route('owner.qrplates.create', ['qr' => $qr->code]);
+            }
+
+            return view('qr.unavailable');
+        }
 
         return view('qr.choose_action', compact('qr'));
     }

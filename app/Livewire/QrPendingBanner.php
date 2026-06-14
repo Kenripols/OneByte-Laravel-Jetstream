@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use Illuminate\Support\Facades\Redirect;
 
 class QrPendingBanner extends Component
 {
@@ -20,7 +21,9 @@ public function mount()
 
     public function openModal()
     {
-        $this->showModal = true;
+        if ($this->qr) {
+            return Redirect::route('owner.qrplates.create', ['qr' => $this->qr->code]);
+        }
     }
 
     public function closeModal()
