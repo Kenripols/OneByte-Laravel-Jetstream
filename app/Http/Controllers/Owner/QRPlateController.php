@@ -63,7 +63,8 @@ class QrPlateController extends Controller
         }
         // QR por query
         elseif ($request->has('qr')) {
-            $qr = QrPlate::where('code', $request->qr)->first();
+            $code = trim($request->input('qr'));
+            $qr = QrPlate::where('code', $code)->first();
 
             if ($qr && $qr->owner_user_id && $qr->owner_user_id !== $user->id) {
                 abort(403);
@@ -81,7 +82,8 @@ class QrPlateController extends Controller
 
             'new_name' => 'required_without:pet_id',
             'new_bDate' => 'nullable|date',
-            'new_breed_id' => 'nullable|exists:breeds,id',
+            // hacer obligatoria la raza cuando se está creando una nueva mascota
+            'new_breed_id' => 'required_with:new_name|exists:breeds,id',
         ]);
 
         $user = Auth::user();

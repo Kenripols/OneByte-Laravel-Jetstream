@@ -23,10 +23,6 @@ class QrAssignmentController extends Controller
 
         $pets = Pet::where('owner_id', $owner->user_id)->get();
 
-        // si no tiene mascotas -> crear directamente
-        if ($pets->isEmpty()) {
-            return redirect()->route('owner.pets.create');
-        }
 
         return view('owner.qrplates.assign', compact('pets'));
     }

@@ -33,23 +33,13 @@
 
             <hr class="my-6">
 
-        @endif
+        @else
 
-        <!-- Crear nueva mascota -->
-        <h2 class="text-xl font-bold mb-4">O crear nueva mascota</h2>
-
-        <form method="POST" action="{{ route('owner.pets.store') }}">
-            @csrf
-
-            <div class="mb-4">
-                <label class="block font-bold mb-2">Nombre</label>
-                <input type="text" name="name" class="w-full border rounded p-2" required>
+            <div class="bg-yellow-100 p-3 mb-4 rounded">
+                No tenés mascotas registradas. Podés crear una luego de escanear un QR.
             </div>
 
-            <button class="bg-green-500 text-white px-4 py-2 rounded">
-                Crear y asociar
-            </button>
-        </form>
+        @endif
 
     </div>
 </x-app-layout>

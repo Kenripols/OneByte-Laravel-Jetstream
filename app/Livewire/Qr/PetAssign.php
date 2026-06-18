@@ -53,6 +53,12 @@ class PetAssign extends Component
                 ->where('owner_id', auth()->id())
                 ->firstOrFail();
         } else {
+            $this->validate([
+                'name' => 'required|string|max:255',
+                'bDate' => 'nullable|date',
+                'breed_id' => 'required|exists:breeds,id',
+            ]);
+
             $pet = Pet::create([
                 'user_id' => auth()->id(),
                 'name' => $this->name,
