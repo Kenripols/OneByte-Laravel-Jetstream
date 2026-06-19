@@ -32,7 +32,14 @@
             <div class="row">
                 <div class="col-12">
                     @if (Route::has('login'))
-                        <div class="menu-dropdown float-end ">
+                        <div class="login-desktop float-end me-3 mt-1 mb-1 login-header-container">
+                            <a href="{{ route('login') }}"
+                            class="login-header-btn">
+                                Iniciar Sesión
+                            </a>
+                        </div>
+                    
+                        {{-- <div class="menu-dropdown float-end ">
                             <img src="{{ asset('images/user.png') }}"
                             alt="Icono Usuario"
                             class="icono-menu icono-usuario">
@@ -49,16 +56,16 @@
                                 @endif
 
                             </div>
-                        </div>
+                        </div> --}}
                     @endif
 
 
-                    <div class="float-end">
+                    {{-- <div class="float-end">
                         <a href="{{ url('/') }}"><img src="{{ asset('images/home.png') }}"
                             alt="Icono Home"
                             class="icono-menu icono-home">
                         </a>
-                    </div>
+                    </div> --}}
 
                 </div>
             </div>
@@ -77,7 +84,7 @@
                 </div>
 
                 <!-- Titulo Movil -->
-                <div class="col-9 d-sm-none">
+                <div class="col-9 d-sm-none text-center">
                     <h1 class="titulo-movil">
                         PetFinder
                     </h1>
@@ -86,6 +93,15 @@
                         Sistema de Mascotas Perdidas
                     </p>
                 </div>
+
+                <!-- Login boton de movil -->
+                <div class="login-movil mt-1">
+                    <a href="{{ route('login') }}" class="login-header-btn">
+                        Iniciar Sesión
+                    </a>
+                </div>
+                
+                
 
                 <!-- Logo Escritorio -->
                 <div class="col-sm-2 d-none d-sm-flex justify-content-start">

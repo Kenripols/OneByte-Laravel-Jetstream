@@ -255,6 +255,42 @@ footer{
     color: #000066;
 }
 
+.login-header-container {
+    float: right;
+    margin-right: 1rem;
+}
+
+.login-header-btn {
+    width: 133px;
+    height: 25px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FFFFFF;
+    color: #000066 !important;
+    border: 2px solid #000066;
+    border-radius: 7px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none !important;
+    transition: 0.2s;
+}
+
+.login-header-btn:hover {
+    background-color: #000066;
+    color: #FFFFFF !important;
+    text-decoration: none !important;
+}
+
+.login-desktop {
+    display: flex;
+}
+
+.login-movil {
+    display: none;
+}
+
   /* Iconos y Cards */
 
   .bi-person-circle {
@@ -378,6 +414,7 @@ footer{
 .carousel-control-prev,
 .carousel-control-next {
     opacity: 0.7;
+    z-index: 10;
 }
 
 .carousel-control-prev:hover,
@@ -519,6 +556,43 @@ footer{
 
 }
 
+@media (max-width: 576px) {
+
+    .login-header-btn {
+      width: 95px;
+      height: 27px;
+      font-size: 0.85rem;
+      display: flex;
+      margin: 0 auto;
+      border-radius: 7px;
+    }
+
+}
+
+@media (max-width: 576px) {
+
+    .login-header-container {
+        float: none !important;
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+        margin-bottom: 15px;
+    }
+
+     .login-desktop {
+        display: none;
+    }
+
+    .login-movil {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+        margin-bottom: 15px;
+    }
+
+}
+
+
 /* Movil S (320px) */
 @media (max-width: 360px) {
 
@@ -533,11 +607,12 @@ footer{
 
     .subtitulo-movil {
         font-size: 0.72rem;
+        margin-bottom: 6px;
     }
 
     .fondo {
         padding-top: 12px;
-        padding-bottom: 12px;
+        padding-bottom: 1px;
     }
 
 }
