@@ -36,15 +36,16 @@
                                 <option value="{{ $breed->id }}">{{ $breed->breedName }} ({{ $breed->animalType }})</option>
                             @endforeach
                         </select>
-                        Subir una foto de la mascota:
+                    </div>
+                    <div class="mb-4">
+                        <label for="photo" class="block text-gray-700 font-bold mb-2">Foto de la mascota (opcional):</label>
                         <input type="file" name="photo" id="photo" class="mt-2 block w-full text-sm text-gray-500
                         file:mr-4 file:py-2 file:px-4
                         file:rounded-full file:border-0
                         file:text-sm file:font-semibold
                         file:bg-blue-50 file:text-blue-700
-                        hover:file:bg-blue-100" required>
-
-                        
+                        hover:file:bg-blue-100" accept="image/*">
+                        @error('photo') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                     </div>
                     <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                         Guardar

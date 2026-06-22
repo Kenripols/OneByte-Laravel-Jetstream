@@ -65,6 +65,18 @@
             @error('breed_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
         </div>
 
+        <div class="mb-4">
+            <label class="block mb-1">Foto (opcional)</label>
+            <input type="file" wire:model="photo" accept="image/*" class="w-full border p-2 rounded">
+            @error('photo') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            
+            @if($photo)
+                <div class="mt-2">
+                    <img src="{{ $photo->temporaryUrl() }}" class="max-w-xs rounded">
+                </div>
+            @endif
+        </div>
+
     @endif
 
     <!-- BOTÓN -->

@@ -64,7 +64,10 @@ class QrAssignmentController extends Controller
 
             $qr->update([
                 'pet_id' => $pet->id,
+                'status' => QrPlate::STATUS_ASSIGNED,
             ]);
+
+            $qr->refresh();
 
             $qr->addEvent('assigned', now(), [
                 'pet_id' => $pet->id,
@@ -102,7 +105,10 @@ class QrAssignmentController extends Controller
             // asignar QR
             $qr->update([
                 'pet_id' => $pet->id,
+                'status' => QrPlate::STATUS_ASSIGNED,
             ]);
+
+            $qr->refresh();
 
             // evento
             $qr->addEvent('assigned', now(), [

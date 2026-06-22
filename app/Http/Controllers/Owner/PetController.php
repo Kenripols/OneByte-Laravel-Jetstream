@@ -51,17 +51,6 @@ class PetController extends Controller
 
         $data['owner_id'] = $owner->user_id; // Asigno el owner_id
 
-
-        if (session('claimed_qr_id')) {
-            $qr = QrPlate::find(session('claimed_qr_id'));
-
-            app(QrAssignmentService::class)->assignToPet($qr, $pet);
-
-            session()->forget('claimed_qr_id');
-        }
-
-
-
         //Si sube una foto, la guardo en storage
         if ($request->hasFile('photo')) {
             $data['photo'] = $request->file('photo')->store('pets', 'public');
@@ -69,7 +58,17 @@ class PetController extends Controller
             $data['photo'] = null;
         }
 
-        Pet::create($data);
+        $pet = Pet::create($data);
+
+        if (session('claimed_qr_id')) {
+            $qr = QrPlate::find(session('claimed_qr_id'));
+
+            if ($qr) {
+                app(QrAssignmentService::class)->assignToPet($qr, $pet);
+            }
+
+            session()->forget('claimed_qr_id');
+        }
 
         return redirect()->route('owner.pets.index')
             ->with('success', 'Mascota creada correctamente');
