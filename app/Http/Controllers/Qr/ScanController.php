@@ -23,6 +23,10 @@ class ScanController extends Controller
             return redirect()->guest(route('register'));
         }
 
+        if (Auth::user()->hasRole('admin')) {
+            return view('qr.admin_status', compact('qr'));
+        }
+
         if (!$qr->canBeUsedBy(Auth::user())) {
             return view('qr.unavailable');
         }

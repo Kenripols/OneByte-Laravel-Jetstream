@@ -120,19 +120,26 @@
 
                 <div class="space-y-4">
                     @foreach($statusPosts as $post)
-                        <div class="border-b pb-3">
-                            <p class="font-semibold text-gray-800">
-                                {{ $post->title }}
-                            </p>
-                            @if($post->pet)
-                                <p class="text-sm text-gray-500">Mascota: {{ $post->pet->name }}</p>
-                                @if($post->pet->owner_id === auth()->id())
-                                    <p class="text-xs text-amber-700 font-medium">Tu publicación</p>
-                                @endif
+                        <div class="border-b pb-3 flex gap-3 items-start">
+                            @if($post->pet?->photo_url)
+                                <img src="{{ $post->pet->photo_url }}"
+                                     alt="{{ $post->pet->name }}"
+                                     class="w-7 h-7 rounded object-cover flex-shrink-0">
                             @endif
-                            <p class="text-sm text-gray-400">
-                                {{ $post->publish_at?->diffForHumans() ?? $post->created_at->diffForHumans() }}
-                            </p>
+                            <div>
+                                <p class="font-semibold text-gray-800">
+                                    {{ $post->title }}
+                                </p>
+                                @if($post->pet)
+                                    <p class="text-sm text-gray-500">Mascota: {{ $post->pet->name }}</p>
+                                    @if($post->pet->owner_id === auth()->id())
+                                        <p class="text-xs text-amber-700 font-medium">Tu publicación</p>
+                                    @endif
+                                @endif
+                                <p class="text-sm text-gray-400">
+                                    {{ $post->publish_at?->diffForHumans() ?? $post->created_at->diffForHumans() }}
+                                </p>
+                            </div>
                         </div>
                     @endforeach
                 </div>

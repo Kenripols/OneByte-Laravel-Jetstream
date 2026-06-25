@@ -46,7 +46,7 @@
                         </div>
                     @endif
                 @else
-                    <form action="{{ route('owner.qrplates.store') }}" method="POST">
+                    <form action="{{ route('owner.qrplates.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
                         <div class="mb-4">

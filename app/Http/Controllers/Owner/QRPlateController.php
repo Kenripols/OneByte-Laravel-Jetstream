@@ -82,8 +82,8 @@ class QrPlateController extends Controller
 
             'new_name' => 'required_without:pet_id',
             'new_bDate' => 'nullable|date',
-            // hacer obligatoria la raza cuando se está creando una nueva mascota
             'new_breed_id' => 'required_with:new_name|exists:breeds,id',
+            'new_photo' => 'nullable|image|max:2048',
         ]);
 
         $user = Auth::user();
@@ -96,11 +96,16 @@ class QrPlateController extends Controller
                 ->whereHas('owner', fn($q) => $q->where('user_id', $user->id))
                 ->firstOrFail();
         } else {
+            $photoPath = $request->hasFile('new_photo')
+                ? $request->file('new_photo')->store('pets', 'public')
+                : null;
+
             $pet = Pet::create([
                 'name' => $request->new_name,
                 'bDate' => $request->new_bDate,
                 'breed_id' => $request->new_breed_id,
                 'owner_id' => $user->id,
+                'photo' => $photoPath,
             ]);
         }
 
