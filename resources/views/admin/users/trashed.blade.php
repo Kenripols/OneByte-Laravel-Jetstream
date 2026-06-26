@@ -1,48 +1,101 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Usuarios Eliminados') }}
-        </h2>
-    </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
+    <div class="py-8 px-4 sm:px-6 lg:px-8">
 
-                <table class="min-w-full divide-y divide-gray-200">
-                   <thead>
-    <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Email</th>
-        <th>Fecha de Eliminación</th>
-        <th>Acciones</th> {{-- Nueva columna --}}
-    </tr>
-</thead>
-<tbody>
-    @foreach ($users as $user)
-        <tr>
-            <td>{{ $user->id }}</td>
-            <td>{{ $user->name }}</td>
-            <td>{{ $user->email }}</td>
-            <td>{{ $user->deleted_at->format('d/m/Y H:i') }}</td>
-           <td>
-    <form action="{{ route('admin.users.restore', $user->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de restaurar este usuario?')">
-        @csrf
-        @method('PATCH')
-        <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-semibold py-1 px-3 rounded">
-            Restaurar
-        </button>
-    </form>
-</td>
-        </tr>
-    @endforeach
-</tbody>
-                </table>
+        <div class="max-w-7xl mx-auto space-y-8">
 
-                {{ $users->links() }}
+            <!-- Encabezado -->
+            <section class="bg-[#F8FAFC] rounded-3xl border-2 border-[#000066] p-8">
 
-            </div>
+                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-center text-[#000066]">
+                    Usuarios eliminados
+                </h1>
+
+                <p class="mt-3 text-gray-500 text-center text-base sm:text-lg lg:text-xl leading-relaxed">
+                    Gestión de usuarios eliminados del sistema
+                </p>
+
+            </section>
+
+            <!-- Contenido -->
+            <section class="bg-[#F8FAFC] rounded-3xl border-2 border-[#000066] p-6 sm:p-8 shadow-sm">
+
+                <!-- Tabla -->
+                <div class="border-2 border-[#000066] rounded-2xl overflow-hidden">
+
+                    <div class="overflow-x-auto">
+
+                        <table class="min-w-[850px] w-full divide-y divide-gray-200">
+                            <thead class="bg-[#F1F5F9] border-b-2 border-[#000066]">
+                                <tr>
+                                    <th class="px-3 sm:px-6 py-3 sm:py-4 text-left text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider">
+                                        ID
+                                    </th>
+                                    <th class="px-3 sm:px-6 py-3 sm:py-4 text-left text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider">
+                                        Nombre
+                                    </th>
+                                    <th class="px-3 sm:px-6 py-3 sm:py-4 text-left text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider">
+                                        Email
+                                    </th>
+                                    <th class="px-3 sm:px-6 py-3 sm:py-4 text-left text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider">
+                                        Fecha de eliminación
+                                    </th>
+                                    <th class="px-3 sm:px-6 py-3 sm:py-4 text-center text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider w-64">
+                                        Acciones
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody class="divide-y divide-gray-200">
+                                @foreach ($users as $user)
+                                    <tr class="hover:bg-[#F8FAFC] transition-all duration-200">
+                                        <td class="px-3 sm:px-6 py-3 sm:py-4 text-[11px] sm:text-xs sm:text-sm whitespace-nowrap">
+                                            {{ $user->id }}
+                                        </td>
+                                        <td class="px-3 sm:px-6 py-3 sm:py-4 text-[11px] sm:text-xs sm:text-sm whitespace-nowrap">
+                                            {{ $user->name }}
+                                        </td>
+                                        <td class="px-3 sm:px-6 py-3 sm:py-4 text-[11px] sm:text-xs sm:text-sm whitespace-nowrap">
+                                            {{ $user->email }}
+                                        </td>
+                                        <td class="px-3 sm:px-6 py-3 sm:py-4 text-[11px] sm:text-xs sm:text-sm whitespace-nowrap">
+                                            {{ $user->deleted_at->format('d/m/Y H:i') }}
+                                        </td>
+                                        <td class="px-3 sm:px-6 py-3 sm:py-4">
+                                            <div class="flex justify-center">
+                                                <form action="{{ route('admin.users.restore', $user->id) }}"
+                                                      method="POST"
+                                                      onsubmit="return confirm('¿Estás seguro de restaurar este usuario?')">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <button type="submit"
+                                                            class="w-24 px-3 py-1 text-xs sm:text-sm
+                                                                   border-2 border-[#000066]
+                                                                   text-[#000066]
+                                                                   rounded-lg
+                                                                   hover:bg-[#F1F5F9]
+                                                                   transition">
+                                                        Restaurar
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Paginación -->
+                <div class="mt-6 border-2 border-[#000066] rounded-2xl p-4 bg-[#F8FAFC]">
+                    {{ $users->links() }}
+                </div>
+
+            </section>
+
         </div>
+
     </div>
+
 </x-app-layout>

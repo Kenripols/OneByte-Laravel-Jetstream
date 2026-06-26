@@ -139,7 +139,7 @@
 
                 <div class="relative">
                     <input type="checkbox"
-                        wire:model="editMode"
+                        wire:model.live="editMode"
                         class="sr-only">
 
                     <div class="w-10 h-5 bg-gray-300 rounded-full shadow-inner"></div>
@@ -161,7 +161,7 @@
             @if(!$this->editMode)
                 <p class="font-semibold">{{ $selectedPet->name }}</p>
             @else
-                <input type="text" wire:model.defer="name"
+                <input type="text" wire:model="name"
                     class="w-full border p-2 rounded">
             @endif
         </div>
@@ -173,7 +173,7 @@
             @if(!$this->editMode)
                 <p>{{ $selectedPet->bDate?->format('d/m/Y') ?? '-' }}</p>
             @else
-                <input type="date" wire:model.defer="bDate"
+                <input type="date" wire:model="bDate"
                     class="w-full border p-2 rounded">
             @endif
         </div>
@@ -185,7 +185,7 @@
             @if(!$this->editMode)
                 <p>{{ $selectedPet->breed?->breedName ?? '-' }}</p>
             @else
-                <select wire:model.defer="breed_id"
+                <select wire:model="breed_id"
                     class="w-full border p-2 rounded">
                     @foreach($breeds as $breed)
                         <option value="{{ $breed->id }}">
@@ -265,7 +265,7 @@
                         Mensaje de la alerta
                     </label>
                     <textarea
-                        wire:model="descriptionLost"
+                        wire:model.live="descriptionLost"
                         id="descriptionLost"
                         rows="3"
                         maxlength="80"

@@ -1,18 +1,29 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Mascotas') }}
-        </h2>
-    </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4">
-               @livewire('admin.pets-table')
+    <div class="py-8 px-4 sm:px-6 lg:px-8">
 
+        <div class="max-w-7xl mx-auto space-y-8">
 
-                
-            </div>
+            <section class="bg-[#F8FAFC] rounded-3xl border-2 border-[#000066] p-8">
+
+                <h1 class="text-3xl font-bold text-center text-[#000066]">
+                    Mascotas
+                </h1>
+
+                <p class="mt-3 text-gray-500 text-center text-lg leading-relaxed">
+                    Administra las Mascotas del sistema
+                </p>
+
+            </section>
+
+            <section class="bg-[#F8FAFC] rounded-3xl border-2 border-[#000066] p-6">
+
+                @livewire('admin.pets-table')
+
+            </section>
+
         </div>
+
     </div>
+
 </x-app-layout>

@@ -1,50 +1,93 @@
 <div>
     <!-- Filtros -->
-    <div class="flex space-x-4 mb-4">
-        <input type="text" wire:model.live="searchId" placeholder="Buscar por ID" class="border p-2" />
-        <input type="text" wire:model.live="searchName" placeholder="Buscar por Nombre" class="border p-2" />
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+        <div class="flex flex-wrap gap-3">
+            <input
+                type="text"
+                wire:model.live="searchId"
+                placeholder="ID"
+                class="w-full sm:w-24 rounded-xl border border-gray-300 px-3 py-2
+                    focus:ring-1 focus:ring-[#000066] focus:border-[#000066]"/>
+            <input
+                type="text"
+                wire:model.live="searchName"
+                placeholder="Nombre"
+                class="w-full sm:w-72 rounded-xl border border-gray-300 px-3 py-2
+                    focus:ring-1 focus:ring-[#000066] focus:border-[#000066]"/>
+        </div>
     </div>
 
     <!-- Tabla -->
-    <table class="min-w-full divide-y divide-gray-200 border border-gray-300">
-        <thead class="bg-gray-100">
-        <tr>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID </th>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha de Nacimiento</th>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>           
-        </tr>
-        </thead>
-       <tbody>
-    @forelse ($pets as $pet)
-        <tr>
-            <td class="px-6 py-4 whitespace-nowrap">{{ $pet->id }}</td>
+    <div class="border-2 border-[#000066] rounded-2xl overflow-hidden">
 
-            <!-- Nombre clickeable -->
-            <td class="px-6 py-4 whitespace-nowrap text-blue-600 cursor-pointer"
-                wire:click="openModal({{ $pet->id }})">
-                {{ $pet->name }}
-            </td>
+    <div class="overflow-x-auto">
 
-            <td class="px-6 py-4 whitespace-nowrap">
-                {{ $pet->bDate->format('d/m/Y') }}
-            </td>
+        <table class="min-w-[850px] w-full divide-y divide-gray-200">
+            <thead class="bg-[#F1F5F9] border-b-2 border-[#000066]">
+            <tr class="hover:bg-[#F8FAFC] transition-all duration-200">
+                <th class="px-3 sm:px-6 py-3 sm:py-4 text-left text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider">ID </th>
+                <th class="px-3 sm:px-6 py-3 sm:py-4 text-left text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider">Nombre</th>
+                <th class="px-3 sm:px-6 py-3 sm:py-4 text-left text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider">Fecha de Nacimiento</th>
+                <th class="px-3 sm:px-6 py-3 sm:py-4 text-center text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider w-64">Acciones</th>           
+            </tr>
+            </thead>
+        <tbody class="divide-y divide-gray-200">
+            @forelse ($pets as $pet)
+            <tr>
+                <td class="px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm whitespace-nowrap">{{ $pet->id }}</td>
 
-            <td class="px-6 py-4 whitespace-nowrap">
-                <button wire:click="openModal({{ $pet->id }})"
-                        class="text-blue-600 hover:text-blue-900">
-                    Ver Detalles
-                </button>
-            </td>
-        </tr>
-    @empty
-        <tr>
-            <td colspan="4" class="text-center py-4">No se encontraron mascotas</td>
-        </tr>
-    @endforelse
-</tbody>
-    </table>
-    <div class="mt-4">
+                <!-- Nombre clickeable -->
+                <td class="px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm whitespace-nowrap text-blue-600 cursor-pointer"
+                    wire:click="openModal({{ $pet->id }})">
+                    {{ $pet->name }}
+                </td>
+
+                <td class="px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm whitespace-nowrap">
+                    {{ $pet->bDate->format('d/m/Y') }}
+                </td>
+
+                <td class="px-3 sm:px-6 py-3 sm:py-4 w-64">
+                <div class="flex items-center justify-center gap-2 sm:gap-4">
+
+                        {{-- Botón Ver (por ahora comentado) --}}
+                        {{--
+                        <button
+                            wire:click="openModal({{ $pet->id }})"
+                            class="w-24 px-3 py-1 text-sm
+                                border-2 border-[#000066]
+                                text-[#000066]
+                                rounded-lg
+                                hover:bg-[#F1F5F9]
+                                transition">
+                            Ver
+                        </button>
+                        --}}
+
+                        <button
+                            wire:click="openDeleteModal({{ $pet->id }})"
+                            class="w-24 px-3 py-1 text-xs sm:text-sm
+                                border-2 border-[#000066]
+                                text-[#000066]
+                                rounded-lg
+                                hover:bg-[#ff5555]
+                                transition">
+                            Eliminar
+                        </button>
+
+                    </div>
+
+                </td>
+            </tr>
+            @empty
+            <tr>
+                <td colspan="4" class="text-center py-4">No se encontraron mascotas</td>
+            </tr>
+            @endforelse
+            </tbody>
+        </table>
+    </div>
+</div>
+    <div class="mt-6 border-2 border-[#000066] rounded-2xl p-4 bg-[#F8FAFC]">
         {{ $pets->links() }}
     </div>
 @if($showModal && $selectedPet)

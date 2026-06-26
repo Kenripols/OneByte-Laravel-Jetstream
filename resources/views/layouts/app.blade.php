@@ -53,7 +53,7 @@
 
         @stack('scripts')
         <script>
-            document.addEventListener('livewire:load', function () {
+            document.addEventListener('livewire:init', function () {
                 @if(request()->has('qr'))
                     Livewire.emit('openQrModal');
                 @endif
