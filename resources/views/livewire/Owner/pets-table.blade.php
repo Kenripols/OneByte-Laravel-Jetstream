@@ -120,121 +120,174 @@
         {{ $pets->links() }}
     </div>
 
-    <!-- MODAL DETALLE -->
+    <!-- MODAL DETALLE / EDICIÓN -->
     @if($showModal && $selectedPet)
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+        <div class="bg-white rounded-2xl w-full max-w-sm max-h-[90vh] overflow-y-auto shadow-2xl">
 
-<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-
-    <div class="bg-white rounded-xl p-5 w-full max-w-md max-h-[90vh] overflow-y-auto shadow-xl transition-all">
-
-        <!-- HEADER -->
-        <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-bold">
-                {{ $selectedPet->name }}
-            </h2>
-
-            <!-- SWITCH -->
-            <label class="flex items-center cursor-pointer">
-                <span class="mr-2 text-sm text-gray-500">Editar</span>
-
-                <div class="relative">
-                    <input type="checkbox"
-                        wire:model="editMode"
-                        class="sr-only">
-
-                    <div class="w-10 h-5 bg-gray-300 rounded-full shadow-inner"></div>
-
-                    <div class="dot absolute left-0 top-0 w-5 h-5 bg-white rounded-full shadow transition
-                        @if($this->editMode) translate-x-full bg-blue-500 @endif">
-                    </div>
-                </div>
-            </label>
-        </div>
-
-        <!-- FOTO -->
-       
-
-        <!-- NOMBRE -->
-        <div class="mb-3">
-            <label class="text-xs text-gray-500">Nombre</label>
-
-            @if(!$this->editMode)
-                <p class="font-semibold">{{ $selectedPet->name }}</p>
-            @else
-                <input type="text" wire:model.defer="name"
-                    class="w-full border p-2 rounded">
-            @endif
-        </div>
-
-        <!-- FECHA -->
-        <div class="mb-3">
-            <label class="text-xs text-gray-500">Nacimiento</label>
-
-            @if(!$this->editMode)
-                <p>{{ $selectedPet->bDate?->format('d/m/Y') ?? '-' }}</p>
-            @else
-                <input type="date" wire:model.defer="bDate"
-                    class="w-full border p-2 rounded">
-            @endif
-        </div>
-
-        <!-- RAZA -->
-        <div class="mb-3">
-            <label class="text-xs text-gray-500">Raza</label>
-
-            @if(!$this->editMode)
-                <p>{{ $selectedPet->breed?->breedName ?? '-' }}</p>
-            @else
-                <select wire:model.defer="breed_id"
-                    class="w-full border p-2 rounded">
-                    @foreach($breeds as $breed)
-                        <option value="{{ $breed->id }}">
-                            {{ $breed->breedName }}
-                        </option>
-                    @endforeach
-                </select>
-            @endif
-        </div>
-
-        @if($showReadingsMap)
-            <div class="mt-4 border-t pt-4">
-                <h3 class="text-sm font-semibold text-gray-700 mb-2">Mapa de lecturas QR</h3>
-                <div id="map" wire:ignore class="w-full rounded-lg border border-gray-200" style="height: 220px;"></div>
+            <!-- HEADER -->
+            <div class="flex items-center justify-between px-5 pt-5 pb-3 border-b">
+                <h2 class="text-lg font-bold text-gray-800">
+                    @if($showReadingsMap)
+                        Historial de {{ $selectedPet->name }}
+                    @elseif($editMode)
+                        Editar mascota
+                    @else
+                        {{ $selectedPet->name }}
+                    @endif
+                </h2>
+                <button wire:click="closeModal" class="text-gray-400 hover:text-gray-600 text-xl leading-none">&times;</button>
             </div>
-            @if(!empty($readings))
-                <div class="mt-3 p-3 bg-gray-50 rounded-lg text-sm max-h-40 overflow-y-auto">
-                    <p class="font-semibold text-gray-700 mb-2">Historial</p>
-                    @foreach($readings as $r)
-                        <div class="text-xs text-gray-600 mb-1 border-b border-gray-100 pb-1 last:border-0">
-                            {{ $r['created_at'] ?? '' }} → {{ $r['lat'] ?? '' }}, {{ $r['lng'] ?? '' }}
+
+            <div class="px-5 py-4 space-y-4">
+
+                @if(!$showReadingsMap)
+                <!-- FOTO -->
+                <div class="flex justify-center">
+                    @if($editMode)
+                        <div class="text-center">
+                            @if($selectedPet->photo_url)
+                                <img src="{{ $selectedPet->photo_url }}"
+                                     class="w-20 h-20 rounded-full object-cover mx-auto mb-2 border-2 border-gray-200">
+                            @else
+                                <div class="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-2 border-2 border-dashed border-gray-300">
+                                    <span class="text-gray-400 text-xs">Sin foto</span>
+                                </div>
+                            @endif
+                            <label class="text-xs text-blue-600 cursor-pointer hover:underline">
+                                Cambiar foto
+                                <input type="file" wire:model="photo" accept="image/*" class="hidden">
+                            </label>
+                            @error('photo') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
                         </div>
-                    @endforeach
+                    @else
+                        @if($selectedPet->photo_url)
+                            <img src="{{ $selectedPet->photo_url }}"
+                                 class="w-24 h-24 rounded-full object-cover border-2 border-gray-200">
+                        @else
+                            <div class="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center border-2 border-dashed border-gray-300">
+                                <span class="text-gray-400 text-sm">Sin foto</span>
+                            </div>
+                        @endif
+                    @endif
                 </div>
-            @endif
-        @endif
 
-        <!-- FOOTER -->
-        <div class="flex justify-between mt-6">
+                <!-- CAMPOS -->
+                <div class="space-y-3">
 
-            <button wire:click="closeModal"
-                class="px-4 py-2 bg-gray-300 rounded">
-                Cerrar
-            </button>
+                    <!-- Nombre -->
+                    <div>
+                        <label class="block text-xs font-medium text-gray-500 mb-1">Nombre</label>
+                        @if($editMode)
+                            <input type="text" wire:model="name"
+                                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300">
+                            @error('name') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
+                        @else
+                            <p class="text-sm font-semibold text-gray-800">{{ $selectedPet->name }}</p>
+                        @endif
+                    </div>
 
-            @if($this->editMode)
-                <button wire:click="updatePet"
-                    class="px-4 py-2 bg-green-600 text-white rounded">
-                    Guardar cambios
-                </button>
-            @endif
+                    <!-- Fecha de nacimiento -->
+                    <div>
+                        <label class="block text-xs font-medium text-gray-500 mb-1">Fecha de nacimiento</label>
+                        @if($editMode)
+                            <input type="date" wire:model="bDate"
+                                max="{{ now()->format('Y-m-d') }}"
+                                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300">
+                            @error('bDate') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
+                        @else
+                            <p class="text-sm text-gray-800">{{ $selectedPet->bDate?->format('d/m/Y') ?? '-' }}</p>
+                        @endif
+                    </div>
+
+                    <!-- Raza -->
+                    <div>
+                        <label class="block text-xs font-medium text-gray-500 mb-1">Raza</label>
+                        @if($editMode)
+                            <select wire:model="breed_id"
+                                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300">
+                                @foreach($breeds as $breed)
+                                    <option value="{{ $breed->id }}">{{ $breed->breedName }}</option>
+                                @endforeach
+                            </select>
+                            @error('breed_id') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
+                        @else
+                            <p class="text-sm text-gray-800">{{ $selectedPet->breed?->breedName ?? '-' }}</p>
+                        @endif
+                    </div>
+
+                    <!-- Estado -->
+                    @if(!$editMode)
+                    <div>
+                        <label class="block text-xs font-medium text-gray-500 mb-1">Estado</label>
+                        @php
+                            $stateClass = $selectedPet->isLost()
+                                ? 'bg-red-100 text-red-600'
+                                : ($selectedPet->current_state === \App\Enums\PetState::DEAD
+                                    ? 'bg-gray-200 text-gray-600'
+                                    : 'bg-green-100 text-green-600');
+                        @endphp
+                        <span class="inline-block px-2 py-1 text-xs rounded-full {{ $stateClass }}">
+                            {{ $selectedPet->current_state?->label() ?? 'Sin estado' }}
+                        </span>
+                    </div>
+                    @endif
+
+                </div>
+
+                @endif {{-- !showReadingsMap --}}
+
+                <!-- MAPA DE LECTURAS -->
+                @if($showReadingsMap)
+                    <div class="border-t pt-4">
+                        <h3 class="text-sm font-semibold text-gray-700 mb-2">Mapa de lecturas QR</h3>
+                        <div id="map" wire:ignore class="w-full rounded-lg border border-gray-200" style="height: 220px;"></div>
+                    </div>
+                    @if(!empty($readings))
+                        <div class="mt-3 p-3 bg-gray-50 rounded-lg text-sm max-h-40 overflow-y-auto">
+                            <p class="font-semibold text-gray-700 mb-2">Historial</p>
+                            @foreach($readings as $r)
+                                <div class="text-xs text-gray-600 mb-1 border-b border-gray-100 pb-1 last:border-0">
+                                    {{ $r['created_at'] ?? '' }} — {{ $r['lat'] ?? '' }}, {{ $r['lng'] ?? '' }}
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+                @endif
+
+            </div>
+
+            <!-- FOOTER -->
+            <div class="px-5 pb-5 border-t pt-4 flex justify-between items-center gap-3">
+                @if($showReadingsMap)
+                    <button wire:click="closeModal"
+                        class="px-4 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200">
+                        Cerrar
+                    </button>
+                @elseif($editMode)
+                    <button wire:click="$set('editMode', false)"
+                        class="px-4 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200">
+                        Cancelar
+                    </button>
+                    <button wire:click="updatePet"
+                        class="px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium">
+                        Guardar cambios
+                    </button>
+                @else
+                    <button wire:click="closeModal"
+                        class="px-4 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200">
+                        Cerrar
+                    </button>
+                    <button wire:click="$set('editMode', true)"
+                        class="px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium">
+                        Editar
+                    </button>
+                @endif
+            </div>
 
         </div>
-
     </div>
-
-</div>
-
-@endif
+    @endif
 
 <!-- MODAL DE CONFIRMACIÓN PARA MARCAR COMO PERDIDA -->
 @if($showLostConfirmModal)
@@ -329,9 +382,8 @@
 <script>
 document.addEventListener('livewire:init', () => {
     window.addEventListener('show-map', (event) => {
-        renderPetMap('map', event.detail.points);
+        setTimeout(() => renderPetMap('map', event.detail.points), 150);
     });
-
 });
 </script>
 

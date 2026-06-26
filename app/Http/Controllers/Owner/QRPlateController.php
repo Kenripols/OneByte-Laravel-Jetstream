@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+use App\Models\Breed;
 use App\Models\QrPlate;
 use App\Models\Pet;
 use App\Services\QrAssignmentService;
@@ -71,7 +72,9 @@ class QrPlateController extends Controller
             }
         }
 
-        return view('owner.qrplates.create', compact('pets', 'qr'));
+        $breeds = Breed::orderBy('breedName')->get();
+
+        return view('owner.qrplates.create', compact('pets', 'qr', 'breeds'));
     }
 
     public function store(Request $request)
@@ -81,7 +84,7 @@ class QrPlateController extends Controller
             'pet_id' => 'nullable|exists:pets,id',
 
             'new_name' => 'required_without:pet_id',
-            'new_bDate' => 'nullable|date',
+            'new_bDate' => 'nullable|date|before_or_equal:today',
             'new_breed_id' => 'required_with:new_name|exists:breeds,id',
             'new_photo' => 'nullable|image|max:2048',
         ]);

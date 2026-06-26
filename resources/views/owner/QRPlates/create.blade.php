@@ -71,11 +71,12 @@
                                 class="border rounded w-full mb-2 p-2" required>
 
                             <input type="date" name="new_bDate" id="new_bDate"
+                                max="{{ now()->format('Y-m-d') }}"
                                 class="border rounded w-full mb-2 p-2">
 
                             <select name="new_breed_id" id="new_breed_id" class="border rounded w-full mb-2 p-2" required>
                                 <option value="">Seleccione raza</option>
-                                @foreach($pets->first()?->breed?->all() ?? [] as $breed)
+                                @foreach($breeds as $breed)
                                     <option value="{{ $breed->id }}">{{ $breed->breedName }}</option>
                                 @endforeach
                             </select>
