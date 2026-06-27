@@ -98,7 +98,7 @@
             <td class="px-3 sm:px-6 py-3 sm:py-4">
                 <div class="flex items-center justify-center gap-2 sm:gap-4flex items-center justify-center gap-2 sm:gap-4">
 
-                <!--    <button
+                <button
                         wire:click="openModal({{ $user->id }})"
                         class="w-24 px-3 py-1 text-sm
                             border-2 border-[#000066]
@@ -118,7 +118,7 @@
                             hover:bg-[#F1F5F9]
                             transition">
                         Editar
-                    </button> -->
+                    </button>
 
                     <button
                         wire:click="openDeleteModal({{ $user->id }})"
