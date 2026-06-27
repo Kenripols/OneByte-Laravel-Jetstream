@@ -63,6 +63,7 @@ class PetsTable extends Component
         ->findOrFail($petId);
 
     $this->selectedPet = $pet;
+    $this->editingPetId = $pet->id;
 
     $this->name = $pet->name;
     $this->bDate = $pet->bDate?->format('Y-m-d');
@@ -146,7 +147,7 @@ public function updatePet()
 
     $pet->update($updateData);
 
-    $this->closeEditModal();
+    $this->closeModal();
     session()->flash('success', 'Mascota actualizada correctamente.');
 }
 //Reglas para validar el formulario de creación de mascota
@@ -164,7 +165,7 @@ public function updatePet()
 {
     return [
         'name' => ['required', 'string', 'max:255'],
-        'bDate' => ['nullable', 'date'],
+        'bDate' => ['nullable', 'date', 'before_or_equal:today'],
         'breed_id' => ['required', 'exists:breeds,id'],
         'photo' => ['nullable', 'image', 'max:2048'],
     ];

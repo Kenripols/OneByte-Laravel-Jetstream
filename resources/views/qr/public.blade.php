@@ -8,16 +8,23 @@
                  {{ $qr->pet->name ?? 'Mascota' }}
             </h1>
 
-            @if($qr->pet?->photo)
-    <img src="{{ str_starts_with($qr->pet->photo, 'http') 
-        ? $qr->pet->photo 
-        : asset('storage/' . $qr->pet->photo) }}"
-        class="mx-auto rounded mb-4 max-h-60">
-@else
-    <div class="mx-auto mb-4 w-48 h-48 bg-gray-200 rounded flex items-center justify-center">
-        <span class="text-gray-500"> Sin foto</span>
-    </div>
-@endif
+            @php
+                $petPhotoUrl = null;
+                if ($qr->pet?->photo) {
+                    $petPhotoUrl = str_starts_with($qr->pet->photo, 'http')
+                        ? $qr->pet->photo
+                        : asset('storage/' . $qr->pet->photo);
+                }
+            @endphp
+
+            @if($petPhotoUrl)
+                <img src="{{ $petPhotoUrl }}"
+                    class="mx-auto rounded mb-4 max-h-60">
+            @else
+                <div class="mx-auto mb-4 w-48 h-48 bg-gray-200 rounded flex items-center justify-center">
+                    <span class="text-gray-500"> Sin foto</span>
+                </div>
+            @endif
 
             <p class="text-gray-600 mb-4">
                 Si encontraste esta mascota, podés avisarle al dueño

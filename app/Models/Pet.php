@@ -75,4 +75,18 @@ class Pet extends Model
     public function currentState(){
         return $this->hasOne(PetStateHistory::class)->latestOfMany();
     }
+
+    // Devuelve la URL pública de la foto si existe
+    public function getPhotoUrlAttribute(): ?string
+    {
+        if (!$this->photo) {
+            return null;
+        }
+
+        if (str_starts_with($this->photo, 'http')) {
+            return $this->photo;
+        }
+
+        return asset('storage/' . $this->photo);
+    }
 }

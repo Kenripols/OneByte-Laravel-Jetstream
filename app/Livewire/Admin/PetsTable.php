@@ -4,18 +4,27 @@ namespace App\Livewire\Admin;
 
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\WithFileUploads;
+use App\Models\Breed;
 use App\Models\Pet;
 
 class PetsTable extends Component
 {
-    use WithPagination;
+    use WithPagination, WithFileUploads;
 
     public $searchId = '';
     public $searchName = '';
 
     public $selectedPet = null;
     public $showModal = false;
-// los updating funcionan para resetear en la medida que se va escribiendo
+    public $editMode = false;
+
+    public $editingPetId = null;
+    public $name = '';
+    public $bDate = '';
+    public $breed_id = '';
+    public $photo;
+
     public function updatingSearchId()
     {
         $this->resetPage();
@@ -25,25 +34,60 @@ class PetsTable extends Component
     {
         $this->resetPage();
     }
-// esta funcion abre el modal, se la llama cuando se hace clic en el nombre de la mascota 
-//Modal se actualiza cada vez que se abre 
+
     public function openModal($petId)
-{
-    $this->reset('selectedPet');
+    {
+        $pet = Pet::with(['breed', 'currentState', 'owner.user'])->findOrFail($petId);
 
-    $this->selectedPet = Pet::with(['breed', 'currentState', 'owner.user'])
-        ->findOrFail($petId);
+        $this->selectedPet  = $pet;
+        $this->editingPetId = $pet->id;
+        $this->name         = $pet->name;
+        $this->bDate        = $pet->bDate?->format('Y-m-d');
+        $this->breed_id     = $pet->breed_id;
+        $this->photo        = null;
+        $this->editMode     = false;
 
-    $this->showModal = true;
-}
-// cerrar modal
+        $this->resetValidation();
+        $this->showModal = true;
+    }
+
     public function closeModal()
     {
-        $this->showModal = false;
-        $this->selectedPet = null;
+        $this->showModal    = false;
+        $this->selectedPet  = null;
+        $this->editMode     = false;
+        $this->editingPetId = null;
+        $this->reset(['name', 'bDate', 'breed_id', 'photo']);
+        $this->resetValidation();
     }
-// esta funcion realiza una consulta cada vez que se escribe, usando el datoq que se escribe, si se escriben ambos, cuenta como AND de los 2 datos
-//la busqueda de nombre es parcial (LIKE), pero la de ID es exacta, si se escribe 1, no encuentra 10 ni 501, solo 1
+
+    public function updatePet()
+    {
+        $this->validate([
+            'name'     => ['required', 'string', 'max:255'],
+            'bDate'    => ['nullable', 'date', 'before_or_equal:today'],
+            'breed_id' => ['required', 'exists:breeds,id'],
+            'photo'    => ['nullable', 'image', 'max:2048'],
+        ]);
+
+        $pet = Pet::findOrFail($this->editingPetId);
+
+        $data = [
+            'name'     => $this->name,
+            'bDate'    => $this->bDate ?: null,
+            'breed_id' => $this->breed_id,
+        ];
+
+        if ($this->photo) {
+            $data['photo'] = $this->photo->store('pets', 'public');
+        }
+
+        $pet->update($data);
+
+        $this->closeModal();
+        session()->flash('success', 'Mascota actualizada correctamente.');
+    }
+
     public function render()
     {
         $query = Pet::with(['breed', 'owner.user']);
@@ -56,8 +100,9 @@ class PetsTable extends Component
             $query->where('name', 'like', '%' . $this->searchName . '%');
         }
 
-        $pets = $query->orderBy('id')->paginate(10);
+        $pets   = $query->orderBy('id')->paginate(10);
+        $breeds = Breed::orderBy('breedName')->get();
 
-        return view('livewire.admin.pets-table', compact('pets'));
+        return view('livewire.admin.pets-table', compact('pets', 'breeds'));
     }
 }

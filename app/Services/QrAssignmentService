@@ -1,4 +1,10 @@
-<?php 
+<?php
+
+namespace App\Services;
+
+use App\Models\QrPlate;
+use App\Models\Pet;
+use Illuminate\Support\Facades\DB;
 
 class QrAssignmentService
 {
@@ -8,20 +14,22 @@ class QrAssignmentService
 
             $qr = QrPlate::lockForUpdate()->find($qr->id);
 
-            if ($qr->status >= 4) {
+            if ($qr->status >= QrPlate::STATUS_ASSIGNED) {
                 throw new \Exception('QR no disponible');
             }
 
+            // Reemplazar QR anterior de la mascota
             QrPlate::where('pet_id', $pet->id)
-                ->where('status', 4)
+                ->where('status', QrPlate::STATUS_ASSIGNED)
                 ->update([
-                    'status' => 6,
+                    'status' => QrPlate::STATUS_REPLACED,
                     'replaced_at' => now()
                 ]);
 
+            // Asignar el nuevo QR a la mascota
             $qr->update([
                 'pet_id' => $pet->id,
-                'status' => 4,
+                'status' => QrPlate::STATUS_ASSIGNED,
                 'assigned_at' => now()
             ]);
         });

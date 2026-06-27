@@ -5,8 +5,8 @@
 <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
     <div class="bg-white rounded-lg p-6 w-[500px] shadow-lg">
         <h2 class="text-xl font-bold mb-4">{{ $pet->name }}</h2>
-@if($pet->photo)
-    <img src="{{ asset('storage/' . $pet->photo) }}"
+@if($pet->photo_url)
+    <img src="{{ $pet->photo_url }}"
          alt="Foto de {{ $pet->name }}"
          class="w-40 h-40 object-cover rounded mb-4">
 @else

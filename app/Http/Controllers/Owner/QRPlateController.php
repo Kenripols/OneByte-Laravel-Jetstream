@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+use App\Models\Breed;
 use App\Models\QrPlate;
 use App\Models\Pet;
 use App\Services\QrAssignmentService;
@@ -63,14 +64,17 @@ class QrPlateController extends Controller
         }
         // QR por query
         elseif ($request->has('qr')) {
-            $qr = QrPlate::where('code', $request->qr)->first();
+            $code = trim($request->input('qr'));
+            $qr = QrPlate::where('code', $code)->first();
 
             if ($qr && $qr->owner_user_id && $qr->owner_user_id !== $user->id) {
                 abort(403);
             }
         }
 
-        return view('owner.qrplates.create', compact('pets', 'qr'));
+        $breeds = Breed::orderBy('breedName')->get();
+
+        return view('owner.qrplates.create', compact('pets', 'qr', 'breeds'));
     }
 
     public function store(Request $request)
@@ -80,8 +84,9 @@ class QrPlateController extends Controller
             'pet_id' => 'nullable|exists:pets,id',
 
             'new_name' => 'required_without:pet_id',
-            'new_bDate' => 'nullable|date',
-            'new_breed_id' => 'nullable|exists:breeds,id',
+            'new_bDate' => 'nullable|date|before_or_equal:today',
+            'new_breed_id' => 'required_with:new_name|exists:breeds,id',
+            'new_photo' => 'nullable|image|max:2048',
         ]);
 
         $user = Auth::user();
@@ -94,11 +99,16 @@ class QrPlateController extends Controller
                 ->whereHas('owner', fn($q) => $q->where('user_id', $user->id))
                 ->firstOrFail();
         } else {
+            $photoPath = $request->hasFile('new_photo')
+                ? $request->file('new_photo')->store('pets', 'public')
+                : null;
+
             $pet = Pet::create([
                 'name' => $request->new_name,
                 'bDate' => $request->new_bDate,
                 'breed_id' => $request->new_breed_id,
                 'owner_id' => $user->id,
+                'photo' => $photoPath,
             ]);
         }
 

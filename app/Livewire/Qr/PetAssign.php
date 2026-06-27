@@ -3,16 +3,15 @@
 namespace App\Livewire\Qr;
 
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use App\Models\Pet;
 use App\Models\Breed;
 use App\Models\QrPlate;
 
-
-
-
-
 class PetAssign extends Component
 {
+    use WithFileUploads;
+
     public $pets;
     public $breeds;
 
@@ -21,9 +20,11 @@ class PetAssign extends Component
     public $name;
     public $bDate;
     public $breed_id;
+    public $photo;
     public $showModal = false;
     protected $listeners = ['openQrModal' => 'openModal'];
     public $qr;
+    
     public function mount()
     {
         $this->pets = Pet::where('owner_id', auth()->id())->get();
@@ -33,7 +34,7 @@ class PetAssign extends Component
     public function updatedSelectedPetId($value)
     {
         if (!$value) {
-            $this->reset(['name', 'bDate', 'breed_id']);
+            $this->reset(['name', 'bDate', 'breed_id', 'photo']);
             return;
         }
 
@@ -43,6 +44,7 @@ class PetAssign extends Component
             $this->name = $pet->name;
             $this->bDate = $pet->bDate;
             $this->breed_id = $pet->breed_id;
+            $this->photo = null;
         }
     }
 
@@ -53,12 +55,26 @@ class PetAssign extends Component
                 ->where('owner_id', auth()->id())
                 ->firstOrFail();
         } else {
-            $pet = Pet::create([
-                'user_id' => auth()->id(),
+            $this->validate([
+                'name' => 'required|string|max:255',
+                'bDate' => 'nullable|date',
+                'breed_id' => 'required|exists:breeds,id',
+                'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
+
+            $data = [
+                'owner_id' => auth()->id(),
                 'name' => $this->name,
                 'bDate' => $this->bDate,
                 'breed_id' => $this->breed_id,
-            ]);
+            ];
+
+            // Manejar la foto
+            if ($this->photo) {
+                $data['photo'] = $this->photo->store('pets', 'public');
+            }
+
+            $pet = Pet::create($data);
         }
 
         $qr = QrPlate::findOrFail(session('claimed_qr_id'));
@@ -76,8 +92,9 @@ class PetAssign extends Component
     {
         return view('livewire.qr.pet-assign');
     }
+
     public function openModal()
-        {
+    {
         $this->showModal = true;
     }
 }
