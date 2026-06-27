@@ -15,7 +15,7 @@
     <div class="mb-4">
         <label class="block font-bold mb-2">Mascota</label>
 
-        <select wire:model="selectedPetId" class="w-full border p-2 rounded">
+        <select wire:model.live="selectedPetId" class="w-full border p-2 rounded">
             <option value="">-- Nueva mascota --</option>
 
             @foreach($pets as $pet)
@@ -41,19 +41,19 @@
 
         <div class="mb-4">
             <label class="block mb-1">Nombre</label>
-            <input type="text" wire:model="name" class="w-full border p-2 rounded">
+            <input type="text" wire:model.live="name" class="w-full border p-2 rounded">
             @error('name') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
         </div>
 
         <div class="mb-4">
             <label class="block mb-1">Fecha de nacimiento</label>
-            <input type="date" wire:model="bDate" class="w-full border p-2 rounded">
+            <input type="date" wire:model.live="bDate" class="w-full border p-2 rounded">
             @error('bDate') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
         </div>
 
         <div class="mb-4">
             <label class="block mb-1">Raza</label>
-            <select wire:model="breed_id" class="w-full border p-2 rounded">
+            <select wire:model.live="breed_id" class="w-full border p-2 rounded">
                 <option value="">Seleccione</option>
 
                 @foreach($breeds as $breed)

@@ -1,48 +1,165 @@
 <x-app-layout>
-    
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Razas') }}
-        </h2>
-    </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="block mb-8">
-                <a href="{{ route('admin.breeds.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Agregar raza</a>
-            </div>
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead>
-                        <tr>
-                            <!-- Nombre de columnas -->
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipo de animal</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Raza</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tamaño</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        <!-- Para cada raza crear una fila donde las columnas sean los atributos ID , Tipo de Animal y nombre de la raza -->
-                        @foreach ($breeds as $breed)
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $breed->id }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $breed->animalType }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $breed->breedName }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $breed->size }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <!-- Agrego botones para editar o borrar la raza -->
-                                    <a href="{{ route('admin.breeds.edit', $breed) }}" class="text-blue-600 hover:text-blue-900">Editar</a>  |  <a href="{{ route('admin.breeds.drop', $breed) }}" class="text-blue-600 hover:text-blue-900">Eliminar</a>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+    <div class="py-8 px-4 sm:px-6 lg:px-8">
 
-                {{ $breeds->links() }} <!-- Paginación -->
-            </div>
+        <div class="max-w-7xl mx-auto space-y-8">
+
+            <!-- Encabezado -->
+            <section class="bg-[#F8FAFC] rounded-3xl border-2 border-[#000066] p-8">
+
+                <h1 class="text-3xl font-bold text-center text-[#000066]">
+                    Razas
+                </h1>
+
+                <p class="mt-3 text-gray-500 text-center text-lg leading-relaxed">
+                    Administra Especies y Razas del sistema
+                </p>
+
+            </section>
+
+            <!-- Contenido -->
+            <section class="bg-[#F8FAFC] rounded-3xl border-2 border-[#000066] p-6">
+
+                <!-- Botón agregar -->
+                <div class="flex justify-end mb-6">
+
+                    <a href="{{ route('admin.breeds.create') }}"
+                        class="w-full sm:w-56 inline-flex items-center justify-center
+                               px-4 py-2
+                               bg-white
+                               text-[#000066]
+                               border-2 border-[#000066]
+                               rounded-xl
+                               font-semibold
+                               hover:bg-[#F1F5F9]
+                               transition">
+
+                        Agregar Raza
+
+                    </a>
+
+                </div>
+
+                <!-- Tabla -->
+                <div class="border-2 border-[#000066] rounded-2xl overflow-hidden">
+
+                    <div class="overflow-x-auto">
+
+                        <table class="min-w-[850px] w-full divide-y divide-gray-200">
+
+                            <thead class="bg-[#F1F5F9] border-b-2 border-[#000066]">
+
+                                <tr>
+
+                                    <th class="px-3 sm:px-6 py-3 sm:py-4 text-left text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider">
+                                        ID
+                                    </th>
+
+                                    <th class="px-3 sm:px-6 py-3 sm:py-4 text-left text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider">
+                                        Especie
+                                    </th>
+
+                                    <th class="px-3 sm:px-6 py-3 sm:py-4 text-left text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider">
+                                        Raza
+                                    </th>
+
+                                    <th class="px-3 sm:px-6 py-3 sm:py-4 text-left text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider">
+                                        Tamaño
+                                    </th>
+
+                                    <th class="px-3 sm:px-6 py-3 sm:py-4 text-center text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider w-64">
+                                        Acciones
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody class="divide-y divide-gray-200">
+
+                                @foreach ($breeds as $breed)
+
+                                    <tr class="hover:bg-[#F8FAFC] transition-all duration-200">
+
+                                        <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm">
+                                            {{ $breed->id }}
+                                        </td>
+
+                                        <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm">
+                                            {{ $breed->animalType }}
+                                        </td>
+
+                                        <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm">
+                                            {{ $breed->breedName }}
+                                        </td>
+
+                                        <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm">
+                                            {{ $breed->size }}
+                                        </td>
+
+                                        <td class="px-3 sm:px-6 py-3 sm:py-4">
+
+                                            <div class="flex justify-center gap-3">
+
+                                                <a href="{{ route('admin.breeds.edit', $breed) }}"
+                                                   class="w-20 sm:w-24
+                                                          text-center
+                                                          px-2 sm:px-3
+                                                          py-1
+                                                          text-xs sm:text-sm
+                                                          border-2 border-[#000066]
+                                                          text-[#000066]
+                                                          rounded-lg
+                                                          hover:bg-[#F1F5F9]
+                                                          transition">
+
+                                                    Editar
+
+                                                </a>
+
+                                                <a href="{{ route('admin.breeds.drop', $breed) }}"
+                                                   class="w-20 sm:w-24
+                                                          text-center
+                                                          px-2 sm:px-3
+                                                          py-1
+                                                          text-xs sm:text-sm
+                                                          border-2 border-[#000066]
+                                                          text-[#000066]
+                                                          rounded-lg
+                                                          hover:bg-[#ff5555]
+                                                          transition">
+
+                                                    Eliminar
+
+                                                </a>
+
+                                            </div>
+
+                                        </td>
+
+                                    </tr>
+
+                                @endforeach
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+                <!-- Paginación -->
+                <div class="mt-6 border-2 border-[#000066] rounded-2xl p-4 bg-[#F8FAFC]">
+
+                    {{ $breeds->links() }}
+
+                </div>
+
+            </section>
+
         </div>
+
     </div>
+
 </x-app-layout>

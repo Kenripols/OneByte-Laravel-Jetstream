@@ -22,7 +22,7 @@
             type="text"
             wire:model.live="searchId"
             placeholder="ID"
-            class="w-24 rounded-xl border border-gray-300 px-3 py-2
+            class="w-full sm:w-24 rounded-xl border border-gray-300 px-3 py-2
                    focus:ring-1 focus:ring-[#000066] focus:border-[#000066]"
         />
 
@@ -30,7 +30,7 @@
             type="text"
             wire:model.live="searchEmail"
             placeholder="Correo electrónico"
-            class="w-72 rounded-xl border border-gray-300 px-3 py-2
+            class="w-full sm:w-72 rounded-xl border border-gray-300 px-3 py-2
                    focus:ring-1 focus:ring-[#000066] focus:border-[#000066]"
         />
 
@@ -56,22 +56,24 @@
     <!-- Tabla -->
     <div class="border-2 border-[#000066] rounded-2xl overflow-hidden">
 
-    <table class="min-w-full divide-y divide-gray-200">
+    <div class="overflow-x-auto">
+
+        <table class="min-w-[850px] w-full divide-y divide-gray-200">
         <thead class="bg-[#F1F5F9] border-b-2 border-[#000066]">
             <tr class="hover:bg-[#EEF4FF] transition-colors duration-200">
-                <th class="px-6 py-4 text-left text-xs font-semibold text-[#000066] uppercase tracking-wider">
+                <th class="px-3 sm:px-6 py-3 sm:py-4 text-left text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider">
                     ID
                 </th>
 
-                <th class="px-6 py-4 text-left text-xs font-semibold text-[#000066] uppercase tracking-wider">
+                <th class="px-3 sm:px-6 py-3 sm:py-4 text-left text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider">
                     Correo Electrónico
                 </th>
 
-                <th class="px-6 py-4 text-left text-xs font-semibold text-[#000066] uppercase tracking-wider">
+                <th class="px-3 sm:px-6 py-3 sm:py-4 text-left text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider">
                     Fecha de Creación
                 </th>
 
-                <th class="px-6 py-4 text-center text-xs font-semibold text-[#000066] uppercase tracking-wider w-96">
+                <th class="px-3 sm:px-6 py-3 sm:py-4 text-center text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider w-96">
                     Acciones
                 </th>
             </tr>
@@ -81,22 +83,22 @@
 
         <tr class="hover:bg-[#F8FAFC] transition-all duration-200">
 
-            <td class="px-6 py-4 whitespace-nowrap">
+            <td class="px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm whitespace-nowrap">
                 {{ $user->id }}
             </td>
 
-            <td class="px-6 py-4 whitespace-nowrap">
+            <td class="px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm whitespace-nowrap">
                 {{ $user->email }}
             </td>
 
-            <td class="px-6 py-4 whitespace-nowrap">
+            <td class="px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm whitespace-nowrap">
                 {{ $user->created_at->format('d/m/Y') }}
             </td>
 
-            <td class="px-6 py-4">
-                <div class="flex justify-evenly items-center">
+            <td class="px-3 sm:px-6 py-3 sm:py-4">
+                <div class="flex items-center justify-center gap-2 sm:gap-4flex items-center justify-center gap-2 sm:gap-4">
 
-                    <button
+                <!--    <button
                         wire:click="openModal({{ $user->id }})"
                         class="w-24 px-3 py-1 text-sm
                             border-2 border-[#000066]
@@ -116,11 +118,11 @@
                             hover:bg-[#F1F5F9]
                             transition">
                         Editar
-                    </button>
+                    </button> -->
 
                     <button
                         wire:click="openDeleteModal({{ $user->id }})"
-                        class="w-24 px-3 py-1 text-sm
+                        class="w-24 px-3 py-1 text-xs sm:text-sm
                             border-2 border-[#000066]
                             text-[#000066]
                             rounded-lg
@@ -144,6 +146,7 @@
     @endforelse
 </tbody>
     </table>
+</div>
 </div>
 <!-- Cambios de pagina con reborde azul -->
     <div class="mt-6 border-2 border-[#000066] rounded-2xl p-4 bg-[#F8FAFC]">
@@ -215,19 +218,19 @@
         <div class="space-y-3">
             <div>
                 <label class="block text-sm font-medium">Email</label>
-                <input type="email" wire:model="editEmail" class="border p-2 w-full rounded">
+                <input type="email" wire:model.live="editEmail" class="border p-2 w-full rounded">
                 @error('editEmail') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
             </div>
 
             <div>
                 <label class="block text-sm font-medium">Teléfono</label>
-                <input type="text" wire:model="editPhone" class="border p-2 w-full rounded">
+                <input type="text" wire:model.live="editPhone" class="border p-2 w-full rounded">
                 @error('editPhone') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
             </div>
 
             <div>
     <label class="block text-sm font-medium">Tipo de documento</label>
-    <select wire:model="editDocType" class="border p-2 w-full rounded">
+    <select wire:model.live="editDocType" class="border p-2 w-full rounded">
         <option value="">Seleccione...</option>
         <option value="1">Cédula</option>
         <option value="2">Pasaporte</option>
@@ -237,27 +240,27 @@
 
 <div>
     <label class="block text-sm font-medium">Número de documento</label>
-    <input type="number" wire:model="editDocNum" class="border p-2 w-full rounded">
+    <input type="number" wire:model.live="editDocNum" class="border p-2 w-full rounded">
     @error('editDocNum') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
 </div>
             <div>
                 <label class="block text-sm font-medium">Primer nombre</label>
-                <input type="text" wire:model="editFName1" class="border p-2 w-full rounded">
+                <input type="text" wire:model.live="editFName1" class="border p-2 w-full rounded">
             </div>
 
             <div>
                 <label class="block text-sm font-medium">Segundo nombre</label>
-                <input type="text" wire:model="editFName2" class="border p-2 w-full rounded">
+                <input type="text" wire:model.live="editFName2" class="border p-2 w-full rounded">
             </div>
 
             <div>
                 <label class="block text-sm font-medium">Primer apellido</label>
-                <input type="text" wire:model="editSName1" class="border p-2 w-full rounded">
+                <input type="text" wire:model.live="editSName1" class="border p-2 w-full rounded">
             </div>
 
             <div>
                 <label class="block text-sm font-medium">Segundo apellido</label>
-                <input type="text" wire:model="editSName2" class="border p-2 w-full rounded">
+                <input type="text" wire:model.live="editSName2" class="border p-2 w-full rounded">
             </div>
         </div>
 
