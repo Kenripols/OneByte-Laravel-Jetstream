@@ -76,6 +76,6 @@ class User extends Authenticatable
     }
     public function qrPending()
     {
-        return $this->belongsTo(QRPlate::class, 'claimed_qr_id');
+        return $this->belongsTo(QrPlate::class, 'claimed_qr_id');
     }
 }

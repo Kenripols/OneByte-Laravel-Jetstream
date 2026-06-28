@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Enums\QREventType;
+use App\Enums\QrEventType;
 use Illuminate\Support\Facades\DB;
 
 class QrPlate extends Model
@@ -95,9 +95,9 @@ class QrPlate extends Model
 
     
 //add event para ponerle estados con fecha
-  public function addEvent(string|QREventType $type, $date = null, array $metadata = [])
+  public function addEvent(string|QrEventType $type, $date = null, array $metadata = [])
         {
-            if ($type instanceof QREventType) {
+            if ($type instanceof QrEventType) {
                 $type = $type->value;
             }
 

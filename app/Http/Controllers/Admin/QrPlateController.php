@@ -46,7 +46,7 @@ class QrPlateController extends Controller
         }
 
         for ($i = 0; $i < $amount; $i++) {
-            $qr = QRPlate::create([
+            $qr = QrPlate::create([
                 'code' => (string) Str::uuid(),
                 'batch_id' => null,
             ]);

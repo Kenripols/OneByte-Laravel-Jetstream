@@ -7,7 +7,7 @@ use App\Models\Owner;
 use App\Models\Breed;
 use App\Models\Pet;
 use App\Models\Reading;
-use App\Models\QRPlate;
+use App\Models\QrPlate;
 use App\Models\QrMessage;
 use App\Models\Post;
 
@@ -100,7 +100,7 @@ class DatabaseSeeder extends Seeder
                 // Creo la placa QR para la mascota
                 $qrPlate = QrPlate::create([
                     'code' => (string) Str::uuid(),
-                    'status' => QRPlate::STATUS_ASSIGNED,
+                    'status' => QrPlate::STATUS_ASSIGNED,
                     'pet_id' => $pet->id,
                     //'owner_user_id' => $pet->owner->user_id,
                     'batch_id' => rand(1, 3),
@@ -112,7 +112,7 @@ class DatabaseSeeder extends Seeder
 
                 // Creo entre 1 estado para cada mascota
                 $isLost = rand(0, 1); // 50% probabilidad
-                PetStateHistory::create([ 'pet_id' => $pet->id,'state' => $isLost ? 'LOST' : 'NORMAL','created_at' => now()->subDays(rand(0, 5)),]);
+                PetStateHistory::create([ 'pet_id' => $pet->id,'state' => $isLost ? 'LOST' : 'NORMAL', 'started_at' => now()->subDays(2),'created_at' => now()->subDays(rand(0, 5)),]);
 
                 if ($isLost) {//aca si hay una perdida la muestra en el feed de todos
                     Post::create([

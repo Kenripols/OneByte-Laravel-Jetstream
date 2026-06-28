@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Qr\ScanController;
 use App\Http\Controllers\Qr\QrAssignmentController;
-use App\Http\Controllers\Owner\QRPlateController;
+use App\Http\Controllers\Owner\QrPlateController;
 use App\Http\Controllers\PublicQrController;
 
 Route::get('/', function () {
@@ -33,14 +33,14 @@ Route::get('/qr/assign', [QrAssignmentController::class, 'form'])
 
 Route::get('/qr/{code}', [ScanController::class, 'handle']);
 
-Route::get('/qr/{code}/claim', [QRPlateController::class, 'claim'])
+Route::get('/qr/{code}/claim', [QrPlateController::class, 'claim'])
     ->middleware('auth')
     ->name('qr.claim');
 
 Route::get('/qr/{code}/resolve', [ScanController::class, 'resolve'])
     ->name('owner.qr.resolve'); //te logueas, te registras, ya estas logueado, etc.
 
-Route::post('/qr/{code}/claim', [QRPlateController::class, 'claim'])
+Route::post('/qr/{code}/claim', [QrPlateController::class, 'claim'])
     ->name('owner.qr.claim'); //trancar QR para usaurio
 
 Route::post('/qr/{code}/location', [PublicQrController::class, 'sendLocation'])

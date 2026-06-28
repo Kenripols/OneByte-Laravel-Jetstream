@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum QREventType: string
+enum QrEventType: string
 {
     case GENERATED  = 'generated';  //1 Flujo 3 HECHO
     case DOWNLOADED = 'downloaded'; //2 Flujo 4 HECHO (no admin)
