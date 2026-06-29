@@ -127,6 +127,36 @@
     </div>
 
     <!-- MODAL -->
+    <!-- MODAL CONFIRMAR BORRADO -->
+    @if($showDeleteModal)
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+        <div class="bg-white rounded-2xl w-full max-w-sm shadow-2xl">
+
+            <div class="flex items-center justify-between px-5 pt-5 pb-3 border-b">
+                <h2 class="text-lg font-bold text-gray-800">Eliminar mascota</h2>
+                <button wire:click="closeDeleteModal" class="text-gray-400 hover:text-gray-600 text-xl leading-none">&times;</button>
+            </div>
+
+            <div class="px-5 py-5 text-sm text-gray-600">
+                ¿Estás seguro de que querés eliminar a <span class="font-semibold text-gray-800">{{ $deletingPetName }}</span>?
+                Esta acción puede revertirse más adelante.
+            </div>
+
+            <div class="px-5 pb-5 border-t pt-4 flex justify-end gap-3">
+                <button wire:click="closeDeleteModal"
+                    class="px-4 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200">
+                    Cancelar
+                </button>
+                <button wire:click="deletePet"
+                    class="px-4 py-2 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600 font-medium">
+                    Eliminar
+                </button>
+            </div>
+
+        </div>
+    </div>
+    @endif
+
     @if($showModal && $selectedPet)
     <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
         <div class="bg-white rounded-2xl w-full max-w-sm max-h-[90vh] overflow-y-auto shadow-2xl">
