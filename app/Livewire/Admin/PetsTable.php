@@ -25,6 +25,10 @@ class PetsTable extends Component
     public $breed_id = '';
     public $photo;
 
+    public $showDeleteModal = false;
+    public $deletingPetId = null;
+    public $deletingPetName = '';
+
     public function updatingSearchId()
     {
         $this->resetPage();
@@ -86,6 +90,29 @@ class PetsTable extends Component
 
         $this->closeModal();
         session()->flash('success', 'Mascota actualizada correctamente.');
+    }
+
+    public function openDeleteModal($petId)
+    {
+        $pet = Pet::findOrFail($petId);
+        $this->deletingPetId   = $pet->id;
+        $this->deletingPetName = $pet->name;
+        $this->showDeleteModal = true;
+    }
+
+    public function closeDeleteModal()
+    {
+        $this->showDeleteModal = false;
+        $this->deletingPetId   = null;
+        $this->deletingPetName = '';
+    }
+
+    public function deletePet()
+    {
+        $pet = Pet::findOrFail($this->deletingPetId);
+        $pet->delete(); // soft delete — usa deleted_at, no borra el registro
+        $this->closeDeleteModal();
+        session()->flash('success', 'Mascota eliminada correctamente.');
     }
 
     public function render()

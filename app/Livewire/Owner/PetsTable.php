@@ -16,7 +16,6 @@ class PetsTable extends Component
 {
    use WithPagination, WithFileUploads;
 
-    public $searchId = '';
     public $searchName = '';
     public $selectedPet = null;
     public $showModal = false;
@@ -356,9 +355,7 @@ public function markAsFound($petId)
 
         $query = Pet::with(['breed', 'owner'])->where('owner_id', $ownerId); 
 
-        if (!empty($this->searchId)) {
-            $query->where('id', $this->searchId);
-        }
+
 
         if (!empty($this->searchName)) {
             $query->where('name', 'like', '%' . $this->searchName . '%');

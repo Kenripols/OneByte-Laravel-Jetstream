@@ -7,6 +7,14 @@ npm install
 
 npm run build 
 
+(Si explota el programa luego de un merge)
+composer install
+php artisan optimize:clear
+php artisan view:clear
+php artisan config:clear
+php artisan route:clear
+php artisan cache:clear
+
 En cmd o powershell, probar donde funcionen
 
 2)

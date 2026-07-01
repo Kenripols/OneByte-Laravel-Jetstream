@@ -117,21 +117,35 @@
 
                                                 </a>
 
-                                                <a href="{{ route('admin.breeds.drop', $breed) }}"
-                                                   class="w-20 sm:w-24
-                                                          text-center
-                                                          px-2 sm:px-3
-                                                          py-1
-                                                          text-xs sm:text-sm
-                                                          border-2 border-[#000066]
-                                                          text-[#000066]
-                                                          rounded-lg
-                                                          hover:bg-[#ff5555]
-                                                          transition">
-
-                                                    Eliminar
-
-                                                </a>
+                                                @if ($breed->pets_count > 0)
+                                                    <span class="w-20 sm:w-24
+                                                                 text-center
+                                                                 px-2 sm:px-3
+                                                                 py-1
+                                                                 text-xs sm:text-sm
+                                                                 border-2 border-gray-300
+                                                                 text-gray-400
+                                                                 rounded-lg
+                                                                 cursor-not-allowed
+                                                                 inline-block"
+                                                          title="Esta raza tiene {{ $breed->pets_count }} mascota(s) asignada(s)">
+                                                        Eliminar
+                                                    </span>
+                                                @else
+                                                    <a href="{{ route('admin.breeds.drop', $breed) }}"
+                                                       class="w-20 sm:w-24
+                                                              text-center
+                                                              px-2 sm:px-3
+                                                              py-1
+                                                              text-xs sm:text-sm
+                                                              border-2 border-[#000066]
+                                                              text-[#000066]
+                                                              rounded-lg
+                                                              hover:bg-[#ff5555]
+                                                              transition">
+                                                        Eliminar
+                                                    </a>
+                                                @endif
 
                                             </div>
 
