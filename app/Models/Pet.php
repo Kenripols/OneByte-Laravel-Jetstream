@@ -51,6 +51,16 @@ class Pet extends Model
     public function getCurrentStateAttribute(): ?PetState{
             return $this->currentStateModel?->state;
         }
+    protected static function booted(): void
+    {
+        static::deleting(function (Pet $pet) {
+            $pet->qrPlates()->whereNotIn('status', [
+                QrPlate::STATUS_EXPIRED,
+                QrPlate::STATUS_REPLACED,
+            ])->each(fn ($qr) => $qr->addEvent('expired'));
+        });
+    }
+
     public function hasQR(): bool{
         return $this->qrPlates()->exists();
     }

@@ -27,8 +27,6 @@ class QrPlateController extends Controller
     {   
         $user = Auth::user();
 
-        // Si se recibe un código QR público, y el QR está en estado "claimed",
-        // evitar que usuarios no dueños (incluyendo invitados y admins) lo vean.
         if ($request->has('qr')) {
             $maybeQr = QrPlate::where('code', $request->qr)->first();
 
@@ -130,10 +128,20 @@ class QrPlateController extends Controller
             }
         }
 
-        // Usar el servicio para hacer la asignación segura y luego registrar el evento
         DB::transaction(function () use ($qr, $pet, $user) {
 
-            // Actualizo pet_id y status explicitamente para evitar inconsistencias en la vista
+            // Si la mascota ya tiene un QR activo, marcarlo como reemplazado
+            $oldQr = QrPlate::where('pet_id', $pet->id)
+                ->where('status', QrPlate::STATUS_ASSIGNED)
+                ->first();
+
+            if ($oldQr) {
+                $oldQr->addEvent('replaced', now(), [
+                    'replaced_by_qr_id' => $qr->id,
+                    'user_id' => $user->id,
+                ]);
+            }
+
             $qr->update([
                 'pet_id' => $pet->id,
                 'status' => QrPlate::STATUS_ASSIGNED,

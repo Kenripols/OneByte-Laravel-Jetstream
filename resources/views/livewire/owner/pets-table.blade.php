@@ -4,13 +4,6 @@
     <div class="flex flex-wrap gap-3">
         <input
             type="text"
-            wire:model.live="searchId"
-            placeholder="ID"
-            class="w-full sm:w-24 rounded-xl border border-gray-300 px-3 py-2 text-sm
-                focus:ring-1 focus:ring-[#000066] focus:border-[#000066]" />
-
-        <input
-            type="text"
             wire:model.live="searchName"
             placeholder="Nombre"
             class="w-full sm:w-72 rounded-xl border border-gray-300 px-3 py-2 text-sm
@@ -26,10 +19,6 @@
         <table class="min-w-[1050px] w-full divide-y divide-gray-200">
             <thead class="bg-[#F1F5F9] border-b-2 border-[#000066]">
                 <tr>
-                    <th class="px-3 sm:px-6 py-3 sm:py-4 text-left text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider">
-                        ID
-                    </th>
-
                     <th class="px-3 sm:px-6 py-3 sm:py-4 text-left text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider">
                         Nombre
                     </th>
@@ -59,11 +48,6 @@
             <tbody class="bg-white divide-y divide-gray-200">
                 @forelse ($pets as $pet)
                     <tr class="hover:bg-[#F8FAFC] transition-all duration-200">
-
-                        <!-- ID -->
-                        <td class="px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm text-gray-600 whitespace-nowrap">
-                            {{ $pet->id }}
-                        </td>
 
                         <!-- Nombre -->
                         <td wire:click="openModal({{ $pet->id }})"
@@ -162,7 +146,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="7" class="text-center py-6 text-gray-400">
+                        <td colspan="6" class="text-center py-6 text-gray-400">
                             No se encontraron mascotas
                         </td>
                     </tr>

@@ -13,9 +13,7 @@ class BreedController extends Controller
     
     public function index()
     {
-        //Devuelve la vista del index de breeds
-        // Paginamos los resultados
-    $breeds = Breed::paginate(10); //  10 por página
+    $breeds = Breed::withCount('pets')->paginate(10);
 
     return view('admin.breeds.index', compact('breeds'));
     }
@@ -66,9 +64,13 @@ class BreedController extends Controller
 
     public function destroy(Breed $breed)
     {
+        if ($breed->pets()->exists()) {
+            return redirect()->route('admin.breeds.index')
+                ->with('error', 'No se puede eliminar la raza porque tiene mascotas asignadas.');
+        }
+
         $breed->delete();
         return redirect()->route('admin.breeds.index')
         ->with('success', 'Raza eliminada correctamente');
-        // Elimina la raza específica de la base de datos
     }
 }
