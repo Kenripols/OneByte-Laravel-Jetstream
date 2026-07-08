@@ -39,22 +39,24 @@
 
                     @csrf
 
-                    <input type="number" name="amount" min="1" required placeholder="Cantidad"
-                    class="w-full sm:w-36 rounded-xl border border-gray-300 px-3 py-2
-                    focus:ring-1 focus:ring-[#000066] focus:border-[#000066]">
+                    <div class="flex flex-wrap items-center gap-3">
+                        <input type="number" name="amount" min="1" required placeholder="Cantidad"
+                        class="w-20 rounded-xl border border-gray-300 px-3 py-2 focus:ring-1 focus:ring-[#000066] focus:border-[#000066]">
 
-                    <button type="submit" class="w-full sm:w-auto px-5 py-2 rounded-xl
-                    border-2 border-[#000066] bg-white text-[#000066] font-semibold
-                    hover:bg-[#F1F5F9] transition">
-                    Generar QR
-                    </button>
+                        <button type="submit" class="px-5 py-2 rounded-xl border-2 border-[#000066] bg-white text-[#000066] font-semibold hover:bg-[#F1F5F9] transition">
+                        Generar QR
+                        </button>
 
-                    <button type="submit" formaction="{{ route('admin.qrplates.download') }}"
-                    class="w-full sm:w-auto px-5 py-2 rounded-xl border-2 border-[#000066]
-                    bg-white text-[#000066] font-semibold hover:bg-[#F1F5F9] transition">
-                    Descargar lote
-                    </button>
+                        <button type="submit" formaction="{{ route('admin.qrplates.download') }}"
+                        class="px-5 py-2 rounded-xl border-2 border-[#000066] bg-white text-[#000066] font-semibold hover:bg-[#F1F5F9] transition">
+                        Descargar lote
+                        </button>
 
+                        <button type="submit" formaction="{{ route('admin.qrplates.generateAndDownload') }}"
+                        class="px-5 py-2 rounded-xl border-2 border-[#7c3aed] bg-white text-[#7c3aed] font-semibold hover:bg-purple-50 transition">
+                        Generar y descargar
+                        </button>
+                    </div>
                 </form>
 
             </div>
