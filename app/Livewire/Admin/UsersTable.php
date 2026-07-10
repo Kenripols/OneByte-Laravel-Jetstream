@@ -45,9 +45,11 @@ class UsersTable extends Component
 //Modal se actualiza cada vez que se abre 
     public function openModal($userId)
 {
+
     $this->reset('selectedUser');
 
-    $this->selectedUser = User::with(['owner.user',
+    $this->selectedUser = User::with(
+    ['owner.user',
     'owner.pets.breed',
     'owner.pets.currentState',
     'owner.pets.qrPlate',])->findOrFail($userId);
@@ -64,20 +66,19 @@ class UsersTable extends Component
 // esta función abre el modal de edición, se la llama cuando se hace clic en el botón editar, se carga la información del usuario a editar en las variables correspondientes para mostrarla en el modal
 public function openEditModal($userId)
 {
-    $user = User::with('owner')->findOrFail($userId);
+    $query = User::with(['owner.user']);
 
-    $this->editingUserId = $user->id;
-    $this->editEmail = $user->email;
-    $this->editPhone = $user->phone;
+    if (!empty($this->searchId)) {
+        $query->where('id', $this->searchId);
+    }
 
-    $this->editDocType = (string) ($user->owner?->docType ?? '');
-    $this->editDocNum = (string) ($user->owner?->docNum ?? '');
-    $this->editFName1 = $user->owner?->fName1 ?? '';
-    $this->editFName2 = $user->owner?->fName2 ?? '';
-    $this->editSName1 = $user->owner?->sName1 ?? '';
-    $this->editSName2 = $user->owner?->sName2 ?? '';
+    if (!empty($this->searchEmail)) {
+        $query->where('email', 'like', '%' . $this->searchEmail . '%');
+    }
 
-    $this->showEditModal = true;
+    $users = $query->orderBy('id')->paginate(10);
+
+    return view('livewire.admin.users-table', compact('users'));
 }
 
 public function closeEditModal()
@@ -172,6 +173,7 @@ public function openPetFromUser($petId)
         }
 
         $users = $query->orderBy('id')->paginate(10);
+
 
         return view('livewire.admin.users-table', compact('users'));
     }
