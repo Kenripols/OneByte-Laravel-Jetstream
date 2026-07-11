@@ -171,7 +171,7 @@
                                 Registrá tu mascota
                             </h3>
                             <p class="slide-text-mobile">
-                                Asociá un QR al collar para encontrarla más rápido.
+                                Asociá un código QR único al collar de tu mascota.
                             </p>
                         </div>
 

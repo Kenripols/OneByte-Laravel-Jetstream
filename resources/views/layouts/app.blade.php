@@ -55,7 +55,7 @@
         <script>
             document.addEventListener('livewire:init', function () {
                 @if(request()->has('qr'))
-                    Livewire.emit('openQrModal');
+                    Livewire.dispatch('openQrModal');
                 @endif
             });
         </script>
