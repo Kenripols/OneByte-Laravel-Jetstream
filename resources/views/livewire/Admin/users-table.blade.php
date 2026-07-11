@@ -79,6 +79,7 @@
             </tr>
         </thead>
        <tbody class="divide-y divide-gray-200">
+        <!-- Modal de visualización de datos de usuario activo por clickear en el mail -->
     @forelse ($users as $user)
 
         <tr class="hover:bg-[#F8FAFC] transition-all duration-200">
@@ -88,7 +89,13 @@
             </td>
 
             <td class="px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm whitespace-nowrap">
-                {{ $user->email }}
+                <button
+                    type="button"
+                    wire:click="openModal({{ $user->id }})"
+                    class="text-gray-700 hover:text-[#000066] font-medium cursor-pointer transition-colors text-left"
+                >
+                    {{ $user->email }}
+                </button>
             </td>
 
             <td class="px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm whitespace-nowrap">
@@ -96,31 +103,10 @@
             </td>
 
             <td class="px-3 sm:px-6 py-3 sm:py-4">
-                <div class="flex items-center justify-center gap-2 sm:gap-4flex items-center justify-center gap-2 sm:gap-4">
-
-                <button
-                        wire:click="openModal({{ $user->id }})"
-                        class="w-24 px-3 py-1 text-sm
-                            border-2 border-[#000066]
-                            text-[#000066]
-                            rounded-lg
-                            hover:bg-[#F1F5F9]
-                            transition">
-                        Ver
-                    </button>
-
+                <div class="flex items-center justify-center gap-2 sm:gap-4">
+<!-- Activo modal de borrado lógico -->
                     <button
-                        wire:click="openEditModal({{ $user->id }})"
-                        class="w-24 px-3 py-1 text-sm
-                            border-2 border-[#000066]
-                            text-[#000066]
-                            rounded-lg
-                            hover:bg-[#F1F5F9]
-                            transition">
-                        Editar
-                    </button>
-
-                    <button
+                        type="button"
                         wire:click="openDeleteModal({{ $user->id }})"
                         class="w-24 px-3 py-1 text-xs sm:text-sm
                             border-2 border-[#000066]
@@ -154,83 +140,188 @@
     </div>  
 @if($showModal && $selectedUser)
 <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div class="bg-white rounded-lg p-6 w-96 shadow-lg">
-        <h2 class="text-xl font-bold mb-2">{{ $selectedUser->owner?->fName1 }}</h2>
-        <p><strong>ID:</strong> {{ $selectedUser->id }}</p>
-        <p><strong>Correo Electrónico:</strong> {{ $selectedUser->email }}</p>
-        <p><strong>Fecha de Creación:</strong> {{ $selectedUser->created_at->format('d/m/Y') }}</p>
 
-@if($selectedUser->owner)
-    <p><strong>Nombre Completo:</strong> {{ $selectedUser->owner->fName1 }} {{ $selectedUser->owner->fName2 }} {{$selectedUser->owner->sName1}} {{ $selectedUser->owner->sName2 }}</p>
-    
-    <p>
-        <strong>Email:</strong>
-        <a href="mailto:{{ $selectedUser->owner?->user?->email }}" class="text-blue-600 hover:underline">
-            {{ $selectedUser->owner?->user?->email ?? 'No disponible' }}
-        </a>
-    </p>
-    <p>
-        <strong>Teléfono:</strong>
-        <a href="https://wa.me/598{{ $selectedUser->owner?->user?->phone }}" target="_blank" class="text-green-600 hover:underline">
-            {{ $selectedUser->owner?->user?->phone ?? 'No disponible' }}
-        </a>
-    </p>
-    <p><strong>Tipo de Documento:</strong> {{ $selectedUser->owner->docType == 1 ? 'Cédula' : 'Pasaporte' }}</p>
-    <p><strong>Número de Documento:</strong> {{ $selectedUser->owner->docNum }}</p>
+    <div class="bg-white rounded-3xl w-[450px] max-w-[90vw] max-h-[90vh] shadow-lg border-2 border-[#000066] relative overflow-hidden">
 
-@else
-    <p><strong>Dueño:</strong> Este usuario no está registrado como dueño</p>
-@endif
-@if($selectedUser->owner?->pets?->count())
-    <div class="mt-4">
-        <h3 class="font-bold mb-2">Mascotas</h3>
+        <div class="p-6 max-h-[90vh] overflow-y-auto">
 
-        <ul class="list-disc pl-5 space-y-1">
-            @foreach($selectedUser->owner->pets as $pet)
-                <li>
-                    <button
-                        wire:click="openPetFromUser({{ $pet->id }})"
-                        class="text-blue-600 hover:underline">
-                        {{ $pet->name }}
-                    </button>
-                </li>
-            @endforeach
-        </ul>
+            <img src="{{ asset('images/paw.png') }}"
+                 alt="PetFinder"
+                 class="w-10 h-10 mb-3">
+
+            <h2 class="text-xl font-bold mb-2">
+                {{ $selectedUser->owner?->fName1 }}
+            </h2>
+
+            <div class="divide-y divide-gray-200">
+
+                <p><strong>ID:</strong> {{ $selectedUser->id }}</p>
+
+                <p><strong>Correo Electrónico:</strong> {{ $selectedUser->email }}</p>
+
+                <p><strong>Fecha de Creación:</strong> {{ $selectedUser->created_at->format('d/m/Y') }}</p>
+
+                @if($selectedUser->owner)
+
+                    <p>
+                        <strong>Nombre Completo:</strong>
+                        {{ $selectedUser->owner->fName1 }}
+                        {{ $selectedUser->owner->fName2 }}
+                        {{ $selectedUser->owner->sName1 }}
+                        {{ $selectedUser->owner->sName2 }}
+                    </p>
+
+                    <p>
+                        <strong>Email:</strong>
+                        <a href="mailto:{{ $selectedUser->owner?->user?->email }}"
+                           class="text-blue-600 hover:underline">
+                            {{ $selectedUser->owner?->user?->email ?? 'No disponible' }}
+                        </a>
+                    </p>
+
+                    <p>
+                        <strong>Teléfono:</strong>
+                        <a href="https://wa.me/598{{ $selectedUser->owner?->user?->phone }}"
+                           target="_blank"
+                           class="text-green-600 hover:underline">
+                            {{ $selectedUser->owner?->user?->phone ?? 'No disponible' }}
+                        </a>
+                    </p>
+
+                    <p>
+                        <strong>Tipo de Documento:</strong>
+                        {{ $selectedUser->owner->docType == 1 ? 'Cédula' : 'Pasaporte' }}
+                    </p>
+
+                    <p>
+                        <strong>Número de Documento:</strong>
+                        {{ $selectedUser->owner->docNum }}
+                    </p>
+
+                @else
+
+                    <p>
+                        <strong>Dueño:</strong>
+                        Este usuario no está registrado como dueño
+                    </p>
+
+                @endif
+
+            </div>
+
+
+            @if($selectedUser->owner?->pets?->count())
+
+                <div class="mt-1 pt-1 border-t border-gray-200">
+                    <h3 class="font-bold mb-2">
+                        Mascotas
+                    </h3>
+
+                    <ul class="list-disc pl-5 space-y-1">
+
+                        @foreach($selectedUser->owner->pets as $pet)
+
+                            <li>
+                                <button
+                                    wire:click="openPetFromUser({{ $pet->id }})"
+                                    class="text-blue-600 hover:underline">
+                                    {{ $pet->name }}
+                                </button>
+                            </li>
+
+                        @endforeach
+
+                    </ul>
+
+                </div>
+
+            @elseif($selectedUser->owner)
+
+                <p class="mt-4 text-gray-500">
+                    Este propietario no tiene mascotas registradas.
+                </p>
+
+            @endif
+
+
+            <div class="flex justify-end gap-3 mt-4">
+
+                <button
+                    wire:click="openEditModal({{ $selectedUser->id }})"
+                    class="px-4 py-2
+                           bg-white
+                           text-[#000066]
+                           border-2 border-[#000066]
+                           rounded-xl
+                           hover:bg-[#000066]
+                           hover:text-white
+                           transition">
+                    Editar
+                </button>
+
+                <button
+                    wire:click="closeModal"
+                    class="w-full sm:w-auto
+                        px-5 py-2
+                        rounded-xl
+                        border-2 border-gray-400
+                        text-gray-600
+                        text-center
+                        text-xs sm:text-sm
+                        hover:bg-gray-100
+                        transition">
+                    Cerrar
+                </button>
+
+            </div>
+
+        </div>
+
     </div>
-@elseif($selectedUser->owner)
-    <p class="mt-4 text-gray-500">Este propietario no tiene mascotas registradas.</p>
-@endif
-        <button wire:click="closeModal"
-                class="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
-            Cerrar
-        </button>
-    </div>
+
 </div>
 @endif
 
 
 
+
+
 @if($showEditModal)
 <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div class="bg-white rounded-lg p-6 w-[500px] shadow-lg">
-        <h2 class="text-xl font-bold mb-4">Editar usuario</h2>
 
-        <div class="space-y-3">
+    <div class="bg-white rounded-3xl border-2 border-[#000066] shadow-lg
+                w-[700px] max-w-[90vw] overflow-hidden">
+
+        <div class="max-h-[85vh] overflow-y-auto p-6">
+
+            <img src="{{ asset('images/paw.png') }}"
+            alt="PetFinder"
+            class="w-10 h-10 mb-3">    
+
+            <h2 class="text-xl font-bold mb-4">Editar usuario</h2>
+
+            <div class="space-y-3">
             <div>
                 <label class="block text-sm font-medium">Email</label>
-                <input type="email" wire:model.live="editEmail" class="border p-2 w-full rounded">
+                <input type="email" wire:model.live="editEmail" class="w-full rounded-xl border border-gray-300 px-3 py-1.5
+       focus:ring-1 focus:ring-[#000066]
+       focus:border-[#000066]">
                 @error('editEmail') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
             </div>
 
             <div>
                 <label class="block text-sm font-medium">Teléfono</label>
-                <input type="text" wire:model.live="editPhone" class="border p-2 w-full rounded">
+                <input type="text" wire:model.live="editPhone" class="w-full rounded-xl border border-gray-300 px-3 py-1.5
+       focus:ring-1 focus:ring-[#000066]
+       focus:border-[#000066]">
                 @error('editPhone') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
             </div>
 
             <div>
     <label class="block text-sm font-medium">Tipo de documento</label>
-    <select wire:model.live="editDocType" class="border p-2 w-full rounded">
+    <select wire:model.live="editDocType" class="w-full rounded-xl border border-gray-300 px-3 py-1.5
+       focus:ring-1 focus:ring-[#000066]
+       focus:border-[#000066]">
         <option value="">Seleccione...</option>
         <option value="1">Cédula</option>
         <option value="2">Pasaporte</option>
@@ -240,71 +331,110 @@
 
 <div>
     <label class="block text-sm font-medium">Número de documento</label>
-    <input type="number" wire:model.live="editDocNum" class="border p-2 w-full rounded">
+    <input type="number" wire:model.live="editDocNum" class="w-full rounded-xl border border-gray-300 px-3 py-1.5
+       focus:ring-1 focus:ring-[#000066]
+       focus:border-[#000066]">
     @error('editDocNum') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
 </div>
             <div>
                 <label class="block text-sm font-medium">Primer nombre</label>
-                <input type="text" wire:model.live="editFName1" class="border p-2 w-full rounded">
+                <input type="text" wire:model.live="editFName1" class="w-full rounded-xl border border-gray-300 px-3 py-1.5
+       focus:ring-1 focus:ring-[#000066]
+       focus:border-[#000066]">
             </div>
 
             <div>
                 <label class="block text-sm font-medium">Segundo nombre</label>
-                <input type="text" wire:model.live="editFName2" class="border p-2 w-full rounded">
+                <input type="text" wire:model.live="editFName2" class="w-full rounded-xl border border-gray-300 px-3 py-1.5
+       focus:ring-1 focus:ring-[#000066]
+       focus:border-[#000066]">
             </div>
 
             <div>
                 <label class="block text-sm font-medium">Primer apellido</label>
-                <input type="text" wire:model.live="editSName1" class="border p-2 w-full rounded">
+                <input type="text" wire:model.live="editSName1" class="w-full rounded-xl border border-gray-300 px-3 py-1.5
+       focus:ring-1 focus:ring-[#000066]
+       focus:border-[#000066]">
             </div>
 
             <div>
                 <label class="block text-sm font-medium">Segundo apellido</label>
-                <input type="text" wire:model.live="editSName2" class="border p-2 w-full rounded">
+                <input type="text" wire:model.live="editSName2" class="w-full rounded-xl border border-gray-300 px-3 py-1.5
+       focus:ring-1 focus:ring-[#000066]
+       focus:border-[#000066]">
             </div>
         </div>
 
-        <div class="flex justify-end gap-2 mt-5">
-            <button wire:click="closeEditModal"
-                    class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
+        <div class="flex justify-end gap-3 mt-6">
+
+            <button
+                wire:click="closeEditModal"
+                class="w-full sm:w-auto
+                    px-5 py-2
+                    rounded-xl
+                    border-2 border-gray-400
+                    text-gray-600
+                    text-center
+                    text-xs sm:text-sm
+                    hover:bg-gray-100
+                    transition">
                 Cancelar
             </button>
 
-            <button wire:click="updateUser"
-                    class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+            <button
+                wire:click="updateUser"
+                class="px-4 py-2
+                    bg-white
+                    text-[#000066]
+                    border-2 border-[#000066]
+                    rounded-xl
+                    hover:bg-[#000066]
+                    hover:text-white
+                    transition">
                 Guardar
             </button>
+
         </div>
+
+        </div>
+
     </div>
+
 </div>
 @endif
 
 @if($showDeleteModal)
 <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div class="bg-white rounded-lg p-6 w-[400px] shadow-lg space-y-4">
+    <div class="bg-white rounded-3xl border-2 border-[#000066] shadow-lg w-[500px] max-w-[90vw] p-6">
 
-        <h2 class="text-xl font-bold text-gray-800">
+        <img
+        src="{{ asset('images/paw.png') }}"
+        alt="PetFinder"
+        class="w-10 h-10 mb-3">
+
+        <h2 class="text-2xl font-bold text-[#000066] mb-4">
             Confirmar eliminación
         </h2>
-
+        <div class="border-t border-b border-gray-200 py-4">
         <p>
             ¿Seguro que quieres eliminar al usuario
             <strong>{{ $deleteUserEmail }}</strong>?
         </p>
+        </div>
 
-        <div class="flex gap-3 justify-end">
 
+        <div class="flex gap-3 justify-end pt-2">
             <!-- Borrado lógico -->
             <button
                 wire:click="deleteUser"
-                class="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded">
+                class="px-5 py-2 rounded-xl border-2 border-[#000066]  text-[#000066] hover:bg-[#ff5555] hover:text-[#000066] transition">
                 Borrado lógico
             </button>
             <!-- No se hace borrado físico -->
             <!-- Cancelar -->
             <button
                 wire:click="closeDeleteModal"
-                class="bg-gray-400 hover:bg-gray-600 text-white py-2 px-4 rounded">
+                class="px-5 py-2 rounded-xl border-2 border-gray-400 text-gray-600 hover:bg-gray-100 transition">
                 Cancelar
             </button>
 

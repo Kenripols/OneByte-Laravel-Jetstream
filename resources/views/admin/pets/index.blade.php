@@ -6,12 +6,12 @@
 
             <section class="bg-[#F8FAFC] rounded-3xl border-2 border-[#000066] p-8">
 
-                <h1 class="text-3xl font-bold text-center text-[#000066]">
+                <h1 class="text-3xl font-bold text-center text-[rgb(0,0,102)]">
                     Mascotas
                 </h1>
 
                 <p class="mt-3 text-gray-500 text-center text-lg leading-relaxed">
-                    Administra las Mascotas del sistema
+                    Administra Mascotas del sistema
                 </p>
 
             </section>
