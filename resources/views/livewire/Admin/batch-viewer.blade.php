@@ -1,104 +1,146 @@
 <div>
 
-    <!-- selector -->
-    <select wire:model.live="selectedBatch" class="border p-2 w-full mb-4">
+    <!-- Selector -->
+    <div class="mb-6">
+        <select
+            wire:model.live="selectedBatch"
+            class="w-full rounded-xl border border-gray-300 px-4 py-2
+                   focus:ring-1 focus:ring-[#000066]
+                   focus:border-[#000066]">
 
-    
-   @foreach($batches as $batch)
-    <option value="{{ $batch }}">
-        @if($batch === 'disponibles')
-            Disponibles ({{ $this->disponiblesCount }})
-        @else
-            Lote {{ $batch }}
-        @endif
-    </option>
-@endforeach
+            @foreach($batches as $batch)
+                <option value="{{ $batch }}">
+                    @if($batch === 'disponibles')
+                        Disponibles ({{ $this->disponiblesCount }})
+                    @else
+                        Lote {{ $batch }}
+                    @endif
+                </option>
+            @endforeach
 
-    </select>
+        </select>
+    </div>
 
-    @if($selectedBatch)
+@if($selectedBatch)
 
-        <div class="mt-4">
+    <div>
 
-            <h3 class="text-lg font-semibold mb-4">
-                {{ $selectedBatch === 'disponibles' 
-                    ? 'QR disponibles' 
+        <h3 class="text-2xl sm:text-3xl font-bold text-[#000066] text-center mb-6">
+                {{ $selectedBatch === 'disponibles'
+                    ? 'QR disponibles'
                     : 'QR del lote ' . $selectedBatch }}
-            </h3>
+        </h3>
 
-            @if($qrs->isEmpty())
-                <div class="text-gray-500">
-                    No hay QR en este lote
-                </div>
-            @else
+@if($qrs->isEmpty())
 
-                <div class="overflow-x-auto">
-                    <table class="min-w-full border bg-white text-sm">
+    <div class="text-center text-gray-500 py-8">
+        No hay QR en este lote.
+    </div>
 
-                        <thead class="bg-gray-100">
-                            <tr>
-                                <th class="p-2 border text-left">ID</th>
-                                <th class="p-2 border text-left">Código</th>
-                                <th class="p-2 border text-left">Batch</th>
-                                <th class="p-2 border text-left">Estado</th>
-                                <th class="p-2 border text-center">Acciones</th>
-                            </tr>
-                        </thead>
+@else
 
-                       <tbody>
-                            @foreach($qrs as $qr)
-                                <tr class="border-t hover:bg-gray-50">
+    <div class="border-2 border-[#000066] rounded-2xl overflow-hidden">
 
-                                    <td class="p-2 border">
-                                        {{ $qr->id }}
-                                    </td>
+        <div class="overflow-x-auto">
 
-                                    <td class="p-2 border break-all">
-                                        {{ $qr->code }}
-                                    </td>
+            <table class="min-w-[900px] w-full divide-y divide-gray-200">
 
-                                    <td class="p-2 border">
-                                        {{ $qr->batch_id ?? 'Disponible' }}
-                                    </td>
+                <thead class="bg-[#F1F5F9] border-b-2 border-[#000066]">
+                    <tr>
 
-                                    <td class="p-2 border">
-                                        {{ $qr->status_label }}
-                                    </td>
+                        <th class="px-4 py-4 text-left text-xs font-semibold uppercase text-[#000066]">
+                            ID
+                        </th>
 
-                                    <td class="p-2 border text-center space-x-2">
-                                        <button onclick="copyLink('{{ url('/qr/' . $qr->code) }}', this)"
-                                            class="bg-blue-500 text-white px-2 py-1 rounded text-xs">
-                                            Copiar
-                                        </button>
+                        <th class="px-4 py-4 text-left text-xs font-semibold uppercase text-[#000066]">
+                            Código
+                        </th>
 
-                                        <!-- FUTURO: botón timeline, pendiente de implementación -->
-                                        <button disabled
-                                            class="bg-gray-400 text-white px-2 py-1 rounded text-xs cursor-not-allowed"
-                                            title="Próximamente">
-                                            Ver
-                                        </button>
-                                    </td>
+                        <th class="px-4 py-4 text-left text-xs font-semibold uppercase text-[#000066]">
+                            Lote
+                        </th>
 
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                        <th class="px-4 py-4 text-left text-xs font-semibold uppercase text-[#000066]">
+                            Estado
+                        </th>
 
-                <!-- paginación -->
-                <div class="mt-4">
-                    {{ $qrs->links() }}
-                </div>
+                        <th class="px-4 py-4 text-center text-xs font-semibold uppercase text-[#000066] w-64">
+                            Acciones
+                        </th>
 
-            @endif
+                    </tr>
+                </thead>
+
+                <tbody class="divide-y divide-gray-200">
+
+                @foreach($qrs as $qr)
+
+                    <tr class="hover:bg-[#F8FAFC] transition">
+
+                        <td class="px-4 py-2 text-sm whitespace-nowrap">
+                            {{ $qr->id }}
+                        </td>
+
+                        <td class="px-4 py-2 text-sm break-all">
+                            {{ $qr->code }}
+                        </td>
+
+                        <td class="px-4 py-2 text-sm whitespace-nowrap">
+                            {{ $qr->batch_id ?? 'Disponible' }}
+                        </td>
+
+                        <td class="px-4 py-2 text-sm whitespace-nowrap">
+                            {{ $qr->status_label }}
+                        </td>
+
+                        <td class="px-4 py-2">
+
+                        <div class="flex items-center justify-center gap-2">
+
+                            <button onclick="copyLink('{{ url('/qr/' . $qr->code) }}', this)"
+                                class="w-24 px-3 py-1 text-xs sm:text-sm border-2
+                                border-[#000066] text-[#000066] rounded-lg hover:bg-[#F1F5F9] 
+                                transition">
+                                Copiar
+                            </button>
+
+                            <button disabled class="w-24 px-3 py-1 text-xs sm:text-sm
+                                border-2 border-gray-400 text-gray-400 rounded-lg
+                                cursor-not-allowed">
+                                Ver
+                            </button>
+
+                        </div>
+
+                        </td>
+
+                    </tr>
+
+                @endforeach
+
+                </tbody>
+
+            </table>
+
         </div>
+
+    </div>
+
+    <div class="mt-6 border-2 border-[#000066] rounded-2xl p-4 bg-[#F8FAFC]">
+        {{ $qrs->links() }}
+    </div>
+
+    @endif
+
+    </div>
 
     @endif
 
 </div>
+
 <script>
 function copyLink(link, btn) {
-    // método fallback universal
+
     const input = document.createElement('input');
     input.value = link;
     document.body.appendChild(input);
@@ -106,12 +148,12 @@ function copyLink(link, btn) {
     document.execCommand('copy');
     document.body.removeChild(input);
 
-    // feedback visual
     const original = btn.innerText;
-    btn.innerText = "Copiado";
+    btn.innerText = 'Copiado';
 
     setTimeout(() => {
         btn.innerText = original;
-    }, 100000);
+    }, 1500);
+
 }
 </script>
