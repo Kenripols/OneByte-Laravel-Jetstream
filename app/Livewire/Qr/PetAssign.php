@@ -77,12 +77,14 @@ class PetAssign extends Component
             $pet = Pet::create($data);
         }
 
-        $qr = QrPlate::findOrFail(session('claimed_qr_id'));
+        $user = auth()->user();
+
+        $qr = QrPlate::findOrFail($user->claimed_qr_id);
 
         app(\App\Services\QrAssignmentService::class)
             ->assignToPet($qr, $pet);
 
-        session()->forget('claimed_qr_id');
+        $user->update(['claimed_qr_id' => null]);
 
         return redirect()->route('owner.dashboard')
             ->with('success', 'QR asociado correctamente');

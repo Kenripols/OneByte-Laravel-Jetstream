@@ -10,6 +10,7 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\QrPlate;
 
 class User extends Authenticatable
 {
@@ -76,6 +77,6 @@ class User extends Authenticatable
     }
     public function qrPending()
     {
-        return $this->belongsTo(QRPlate::class, 'claimed_qr_id');
+        return $this->belongsTo(QrPlate::class, 'claimed_qr_id');
     }
 }

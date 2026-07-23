@@ -80,7 +80,7 @@ class Pet extends Model
         return $this->hasOne(PetStateHistory::class)->latestOfMany();
     }
     public function qrPlate(){
-        return $this->hasOne(QRPlate::class);
+        return $this->hasOne(QrPlate::class);
     }
     public function currentState(){
         return $this->hasOne(PetStateHistory::class)->latestOfMany();

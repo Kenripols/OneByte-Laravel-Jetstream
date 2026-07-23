@@ -21,10 +21,10 @@ class QrAssignmentService
             // Reemplazar QR anterior de la mascota
             QrPlate::where('pet_id', $pet->id)
                 ->where('status', QrPlate::STATUS_ASSIGNED)
-                ->update([
-                    'status' => QrPlate::STATUS_REPLACED,
-                    'replaced_at' => now()
-                ]);
+                ->get()
+                ->each(fn($oldQr) => $oldQr->addEvent('replaced', now(), [
+                    'replaced_by_qr_id' => $qr->id,
+                ]));
 
             // Asignar el nuevo QR a la mascota
             $qr->update([

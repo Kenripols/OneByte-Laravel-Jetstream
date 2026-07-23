@@ -20,8 +20,9 @@ class PetStateHistoryObserver
                 ->exists();
 
             if (!$alreadyActive) {
+                $breedName = $pet->breed?->breedName ?? 'sin raza';
                 Post::create([
-                    'title' => "{$pet->name}, {$pet->breed->breedName}, perdido",
+                    'title' => "{$pet->name}, {$breedName}, perdido",
                     'type' => 'lost',
                     'pet_id' => $pet->id,
                     'is_active' => true,
@@ -56,6 +57,7 @@ class PetStateHistoryObserver
                 'pet_id' => $pet->id,
                 'is_active' => true,
                 'publish_at' => now(),
+                'expires_at' => now()->addDays(7),
             ]);
         }
     }

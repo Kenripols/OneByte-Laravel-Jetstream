@@ -3,7 +3,7 @@
 namespace App\Livewire\Admin;
 
 use Livewire\Component;
-use App\Models\QRPlate;
+use App\Models\QrPlate;
 use Livewire\WithPagination;
 
 
@@ -37,7 +37,7 @@ class BatchViewer extends Component
 
     public function render()
     {
-        $batchIds = QRPlate::query()
+        $batchIds = QrPlate::query()
             ->whereNotNull('batch_id')
             ->select('batch_id')
             ->distinct()
@@ -46,7 +46,7 @@ class BatchViewer extends Component
 
         $batches = collect(['disponibles'])->merge($batchIds);
 
-        $query = QRPlate::query();
+        $query = QrPlate::query();
 
         if (! $this->searchInAll) {
             if ($this->selectedBatch === 'disponibles') {
@@ -70,6 +70,6 @@ class BatchViewer extends Component
 
     public function getDisponiblesCountProperty()
     {
-        return QRPlate::whereNull('batch_id')->count();
+        return QrPlate::whereNull('batch_id')->count();
     }
 }
