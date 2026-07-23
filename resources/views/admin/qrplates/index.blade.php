@@ -52,10 +52,6 @@
                         Descargar lote
                         </button>
 
-                        <button type="submit" formaction="{{ route('admin.qrplates.generateAndDownload') }}"
-                        class="px-5 py-2 rounded-xl border-2 border-[#7c3aed] bg-white text-[#7c3aed] font-semibold hover:bg-purple-50 transition">
-                        Generar y descargar
-                        </button>
                     </div>
                 </form>
 
