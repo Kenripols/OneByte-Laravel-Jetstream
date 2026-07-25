@@ -69,12 +69,13 @@ $qr->addEvent('generated');
             return back()->with('error', "Solo hay $available QR disponibles");
         }
 
-        // busca el ultimo batch y le suma 1 para el nuevo.
-        $batchId = (QrPlate::max('batch_id') ?? 0) + 1;
-
         $files = [];
+        $batchId = null;
 
-        DB::transaction(function () use ($amount, $batchId, &$files) {
+        DB::transaction(function () use ($amount, &$batchId, &$files) {
+
+            // calcular batchId dentro de la transacción para evitar race condition
+            $batchId = (QrPlate::lockForUpdate()->max('batch_id') ?? 0) + 1;
 
             $qrs = QrPlate::where('status', QrPlate::STATUS_GENERATED)
                 ->lockForUpdate()

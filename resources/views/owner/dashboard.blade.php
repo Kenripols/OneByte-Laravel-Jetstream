@@ -28,7 +28,7 @@
                         x-text="pets[index].name + ' está perdida'">
                     </h2>
 
-                    <a :href="`/pet/${pets[index].id}`"
+                    <a :href="`{{ url('/owner/pets') }}/${pets[index].id}`"
                        class="inline-block mt-3 bg-red-600 text-white px-4 py-2 rounded-lg">
                        Ver detalle
                     </a>
