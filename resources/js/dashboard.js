@@ -1,6 +1,6 @@
 window.petViewer = function (petsData) {
     return {
-        pets: petsData,
+        pets: Object.values(petsData),
         index: 0,
 
        init() {
@@ -12,8 +12,6 @@ window.petViewer = function (petsData) {
         this.renderMap();
     });
 
-
-            this.renderMap();
         },
 
         renderMap() {
@@ -22,5 +20,5 @@ window.petViewer = function (petsData) {
 
             renderPetMap('map', pet.points);
         }
-    }
-}
+    };
+};
