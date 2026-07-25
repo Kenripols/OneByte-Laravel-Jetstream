@@ -86,6 +86,7 @@ class QrPlate extends Model
         return [
             self::STATUS_GENERATED  => 'Generado',
             self::STATUS_DOWNLOADED => 'Descargado',
+            self::STATUS_CLAIMED    => 'Reclamado',
             self::STATUS_REGISTERED => 'Registrado',
             self::STATUS_ASSIGNED   => 'Asignado',
             self::STATUS_EXPIRED    => 'Caducado',
@@ -123,6 +124,10 @@ class QrPlate extends Model
         }
         // no disponible
         if ($this->status === self::STATUS_GENERATED) {
+            return false;
+        }
+        // reclamado por otro usuario
+        if ($this->status === self::STATUS_CLAIMED && $this->owner_user_id !== $user->id) {
             return false;
         }
         // estados inválidos

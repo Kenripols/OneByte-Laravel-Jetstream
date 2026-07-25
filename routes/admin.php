@@ -38,7 +38,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     //Rutas para placas QR admin
     Route::post('qrplates/generate',[QRPlateController::class,'generate'])->name('qrplates.generate');
     Route::post('qrplates/download', [QRPlateController::class, 'download'])->name('qrplates.download');
-    Route::resource('qrplates', QRPlateController::class)
+Route::resource('qrplates', QRPlateController::class)
     ->only(['index', 'show'])
     ->names('qrplates');
 

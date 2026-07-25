@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Breed;
 use App\Models\QrPlate;
 use App\Models\Pet;
-use App\Services\QrAssignmentService;
-
 class QrPlateController extends Controller
 {
     public function index()
@@ -91,26 +89,7 @@ class QrPlateController extends Controller
 
         $qr = QrPlate::where('code', $request->code)->firstOrFail();
 
-        // mascota
-        if ($request->pet_id) {
-            $pet = Pet::where('id', $request->pet_id)
-                ->whereHas('owner', fn($q) => $q->where('user_id', $user->id))
-                ->firstOrFail();
-        } else {
-            $photoPath = $request->hasFile('new_photo')
-                ? $request->file('new_photo')->store('pets', 'public')
-                : null;
-
-            $pet = Pet::create([
-                'name' => $request->new_name,
-                'bDate' => $request->new_bDate,
-                'breed_id' => $request->new_breed_id,
-                'owner_id' => $user->id,
-                'photo' => $photoPath,
-            ]);
-        }
-
-        // validaciones QR
+        // validaciones QR primero, antes de crear nada
         if ($qr->pet_id !== null) {
             return back()->with('error', 'El QR ya está asignado.');
         }
@@ -128,9 +107,27 @@ class QrPlateController extends Controller
             }
         }
 
-        DB::transaction(function () use ($qr, $pet, $user) {
+        // foto fuera de la transaction (operación de filesystem)
+        $photoPath = (!$request->pet_id && $request->hasFile('new_photo'))
+            ? $request->file('new_photo')->store('pets', 'public')
+            : null;
 
-            // Si la mascota ya tiene un QR activo, marcarlo como reemplazado
+        DB::transaction(function () use ($request, $qr, $user, $photoPath) {
+
+            if ($request->pet_id) {
+                $pet = Pet::where('id', $request->pet_id)
+                    ->whereHas('owner', fn($q) => $q->where('user_id', $user->id))
+                    ->firstOrFail();
+            } else {
+                $pet = Pet::create([
+                    'name' => $request->new_name,
+                    'bDate' => $request->new_bDate,
+                    'breed_id' => $request->new_breed_id,
+                    'owner_id' => $user->id,
+                    'photo' => $photoPath,
+                ]);
+            }
+
             $oldQr = QrPlate::where('pet_id', $pet->id)
                 ->where('status', QrPlate::STATUS_ASSIGNED)
                 ->first();
@@ -157,7 +154,6 @@ class QrPlateController extends Controller
             $user->update(['claimed_qr_id' => null]);
         });
 
-        // Asegurar que el objeto esté sincronizado
         $qr->refresh();
 
         return redirect()
@@ -189,6 +185,15 @@ class QrPlateController extends Controller
             return back()->with('error', 'Este QR ya está en uso.');
         }
 
+        if (in_array($qr->status, [
+            QrPlate::STATUS_GENERATED,
+            QrPlate::STATUS_EXPIRED,
+            QrPlate::STATUS_REPLACED,
+            QrPlate::STATUS_ASSIGNED,
+        ])) {
+            return back()->with('error', 'Este QR no está disponible para reclamar.');
+        }
+
         DB::transaction(function () use ($qr, $user) {
 
             $qr->addEvent('claimed', now(), [
@@ -205,16 +210,5 @@ class QrPlateController extends Controller
         return redirect()->route('owner.qrplates.create', [
             'qr' => $qr->code
         ]);
-    }
-    public function forget($userId = null)
-    {
-        return DB::transaction(function () use ($userId) {
-
-            $this->addEvent('forgotten', now(), [
-                'user_id' => $userId
-            ]);
-
-            return $this;
-        });
     }
 }
