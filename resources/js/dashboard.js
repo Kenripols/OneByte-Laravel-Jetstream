@@ -3,22 +3,21 @@ window.petViewer = function (petsData) {
         pets: Object.values(petsData),
         index: 0,
 
-       init() {
-    this.$watch('index', () => {
-        this.renderMap();
-    });
+        init() {
+            this.$watch('index', () => {
+                this.renderMap();
+            });
 
-    this.$nextTick(() => {
-        this.renderMap();
-    });
-
+            this.$nextTick(() => {
+                this.renderMap();
+            });
         },
 
         renderMap() {
             const pet = this.pets[this.index];
             if (!pet || !pet.points) return;
 
-            renderPetMap('map', pet.points);
+            window.renderPetMap('map', pet.points);
         }
     };
 };
