@@ -13,9 +13,9 @@
                 <div class="pt-2 lg:py-8 space-y-8">
 
                     
-                   {{-- ========================= --}}
-                    {{-- BIENVENIDA ESCRITORIO --}}
-                    {{-- ========================= --}}
+              
+                    <!-- BIENVENIDA ESCRITORIO -->
+
                     <div class="hidden lg:block max-w-6xl mx-auto">
 
                         <div class="relative bg-[#F8FAFC] border-2 border-[#000066] rounded-3xl overflow-hidden shadow-lg">
@@ -48,24 +48,23 @@
 
                                 </div>
 
-
-                                {{-- ========================= --}}
-                                {{-- PANEL DECORATIVO --}}
-                                {{-- ========================= --}}
+        
+                                <!-- PANEL DECORATIVO -->
+    
                                 <div class="hidden lg:block relative overflow-hidden">
 
-                                    {{-- Fondo azul --}}
+                                    <!-- Fondo azul claro -->
                                     <div class="absolute inset-0 bg-[#EEF5FF]"></div>
 
 
-                                    {{-- Curva SVG --}}
+                                    <!-- Curva SVG -->
                                     <svg
                                         class="absolute left-[-1px] top-0 h-full w-56"
                                         viewBox="0 0 240 600"
                                         preserveAspectRatio="none"
                                         xmlns="http://www.w3.org/2000/svg">
 
-                                        {{-- Relleno blanco --}}
+                                        <!-- Relleno blanco -->
                                         <path
                                             d="
                                             M240 0
@@ -77,7 +76,7 @@
                                         />
 
 
-                                        {{-- Línea azul de la curva --}}
+                                        <!-- Línea azul de la curva -->
                                         <path
                                             d="
                                             M240 0
@@ -92,7 +91,7 @@
                                     </svg>
 
 
-                                    {{-- Halo --}}
+                                    <!-- Halo -->
                                     <div
                                         class="absolute
                                             w-80
@@ -106,7 +105,7 @@
                                     </div>
 
 
-                                    {{-- Huella --}}
+                                    <!-- Huella -->
                                     <img
                                         src="{{ asset('images/paw.png') }}"
                                         alt=""
@@ -128,14 +127,14 @@
                     </div>
 
 
-                    {{-- ========================= --}}
-                    {{-- BIENVENIDA CELULAR --}}
-                    {{-- ========================= --}}
+    
+                    <!-- BIENVENIDA CELULAR -->
+ 
                     <div class="block lg:hidden max-w-6xl mx-auto">
 
                         <div class="relative bg-[#EEF5FF] border-2 border-[#000066] rounded-3xl overflow-hidden shadow-lg">
 
-                            {{-- Huella --}}
+                            <!-- Huella -->
                             <img
                                 src="{{ asset('images/paw.png') }}"
                                 alt=""
@@ -149,7 +148,7 @@
                                     select-none">
 
 
-                            {{-- Contenido --}}
+                            <!-- Contenido -->
                             <div class="relative z-10 px-6 py-10 text-center">
 
                                 <h1 class="text-3xl font-bold text-[#000066] leading-tight">
@@ -183,23 +182,23 @@
 
                     </div>
 
-                    {{-- ========================= --}}
-                    {{-- ¿Cómo están tus mascotas hoy? --}}
-                    {{-- ========================= --}}
+
+                    <!-- ¿Cómo están tus mascotas hoy? -->
+  
                     <div class="max-w-6xl mx-auto mt-10">
 
                         <div class="relative overflow-hidden rounded-3xl border-2 border-[#000066] bg-[#EEF5FF] lg:bg-[#F8FAFC] shadow-lg">
 
-                            {{-- ========================= --}}
-                            {{-- PANEL DECORATIVO --}}
-                            {{-- ========================= --}}
+  
+                            <!-- PANEL DECORATIVO -->
+   
                             <div class="hidden lg:block absolute inset-y-0 right-0 w-[34%]">
 
-                                {{-- Fondo azul completo --}}
+                                <!-- Fondo azul completo -->
                                 <div class="absolute inset-0 bg-[#EEF5FF]"></div>
 
 
-                                {{-- Curva SVG --}}
+                                <!-- Curva SVG -->
                                 <svg
                                     class="absolute left-[-160px] top-0 h-full w-[calc(100%+160px)]"
                                     viewBox="0 0 600 600"
@@ -207,7 +206,7 @@
                                     xmlns="http://www.w3.org/2000/svg">
 
 
-                                    {{-- Zona blanca de transición --}}
+                                    <!-- Zona blanca de transición -->
                                     <path
                                         d="
                                         M110 0
@@ -220,7 +219,7 @@
                                     />
 
 
-                                    {{-- Línea curva --}}
+                                    <!-- Línea curva -->
                                     <path
                                         d="
                                         M110 0
@@ -236,12 +235,12 @@
 
                             </div>
 
-                            {{-- ========================= --}}
-                            {{-- CONTENIDO --}}
-                            {{-- ========================= --}}
+                         
+                            <!-- CONTENIDO -->
+                           
                             <div class="relative z-10 p-8">
 
-                                {{-- Encabezado --}}
+                                <!-- Encabezado -->
                                 <div class="text-center">
 
                                     <h2 class="text-3xl font-bold text-[#000066]">
@@ -254,14 +253,14 @@
 
                                 </div>
 
-                                {{-- Tarjetas --}}
+                                <!-- Tarjetas -->
                                 <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                                     
-                                    {{-- Mascotas --}}
+                                    <!-- Mascotas -->
 
                                         @forelse($myPets as $pet)
 
-                                            {{-- Tarjeta mascota --}}
+                                            <!-- Tarjeta mascota -->
                                             @php
                                                 $photoRing = match($pet->currentState) {
                                                     \App\Enums\PetState::NORMAL => 'ring-[#A7D7B5]',
@@ -273,7 +272,7 @@
                                             @endphp
                                             <div class="relative pt-10">
 
-                                                {{-- Foto --}}
+                                                <!-- Foto -->
                                                 <div class="absolute left-1/2 -translate-x-1/2 top-0 z-10">
              
 
@@ -285,7 +284,7 @@
                                                 </div>
 
 
-                                                {{-- Tarjeta --}}
+                                                <!-- Tarjeta -->
                                                 @php
                                                     $styles = match($pet->currentState) {
                                                         \App\Enums\PetState::NORMAL => [
@@ -366,7 +365,7 @@
 
                     </div>
 
-                    {{-- Mascotas perdidas --}}
+                    <!-- Mascotas perdidas -->
                     <div
                         x-data="petViewer(@js($lostPetsData))"
                         x-init="init()"
@@ -381,19 +380,19 @@
 
                                 <div class="grid grid-cols-1 lg:grid-cols-[45%_55%]">
 
-                                    {{-- ====================================================== --}}
-                                    {{-- Columna izquierda - Información --}}
-                                    {{-- ====================================================== --}}
+                                    
+                                    <!-- Columna izquierda - Información -->
+                                   
                                     <div>
 
-                                        {{-- ======================= --}}
-                                        {{-- ESCRITORIO --}}
-                                        {{-- ======================= --}}
+                                        
+                                        <!-- ESCRITORIO -->
+                                       
                                         <div class="hidden lg:block pt-7 px-6 pb-6">
 
                                             <div class="flex items-start justify-between gap-3">
 
-                                                {{-- Flecha izquierda --}}
+                                                <!-- Flecha izquierda -->
                                                 <button
                                                     @click="index = (index === 0 ? pets.length - 1 : index - 1)"
                                                     type="button"
@@ -402,7 +401,7 @@
                                                     <span class="carousel-arrow">❮</span>
                                                 </button>
 
-                                                {{-- Contenido --}}
+                                                <!-- Contenido -->
                                                 <div class="flex flex-col items-center text-center w-full">
 
                                                     <img
@@ -430,7 +429,7 @@
 
                                                 </div>
 
-                                                {{-- Flecha derecha --}}
+                                                <!-- Flecha derecha -->
                                                 <button
                                                     @click="index = (index === pets.length - 1 ? 0 : index + 1)"
                                                     type="button"
@@ -444,9 +443,9 @@
                                         </div>
 
 
-                                        {{-- ======================= --}}
-                                        {{-- CELULAR --}}
-                                        {{-- ======================= --}}
+                                        
+                                        <!-- CELULAR -->
+                                       
                                         <div class="block lg:hidden p-6">
 
                                             <div class="text-center">
@@ -463,7 +462,7 @@
                                             </div>
 
 
-                                            {{-- Flechas --}}
+                                            <!-- Flechas -->
                                             <div class="flex justify-between items-center mt-5 mb-3">
 
                                                 <button
@@ -483,14 +482,14 @@
                                             </div>
 
 
-                                            {{-- Imagen --}}
+                                            <!-- Imagen -->
                                             <img
                                                 :src="pets[index].photo_url || 'https://via.placeholder.com/150'"
                                                 class="w-full h-40 object-cover rounded-3xl border-2 border-[#000066] shadow-md"
                                             >
 
 
-                                            {{-- Botón --}}
+                                            <!-- Botón -->
                                             <div class="mt-6">
 
                                                 <a
@@ -509,9 +508,9 @@
                                     </div>
 
 
-                                    {{-- ====================================================== --}}
-                                    {{-- Mapa (ÚNICO) --}}
-                                    {{-- ====================================================== --}}
+                                    
+                                    <!-- Mapa -->
+                                    
                                     <div class="p-6 pt-0 lg:pt-6">
 
                                         <div
@@ -532,19 +531,18 @@
                     </div>
 
 
-                    {{-- Tips y Novedades --}}
+                    <!-- Tips y Novedades -->
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-                    {{-- Tips --}}
+                    <!-- Tips -->
                     @if(isset($tips) && count($tips))
 
                         <div class="relative overflow-hidden bg-[#EEF5FF] lg:bg-[#F8FAFC] border-2 border-[#000066] rounded-3xl
                         shadow-lg transition-all duration-300 h-[300px] flex flex-col p-6">
 
-
-                            {{-- ========================= --}}
-                            {{-- DECORACIÓN ESCRITORIO --}}
-                            {{-- ========================= --}}
+                   
+                            <!-- DECORACIÓN ESCRITORIO -->
+                            
                             <div class="hidden lg:block absolute inset-0 pointer-events-none">
 
                                 <svg
@@ -583,12 +581,9 @@
                                 </svg>
 
                             </div>
-
-
-
-                            {{-- ========================= --}}
-                            {{-- CONTENIDO --}}
-                            {{-- ========================= --}}
+                          
+                            <!-- CONTENIDO -->
+                           
                             <div class="relative z-10 flex flex-col h-full">
 
 
@@ -655,16 +650,16 @@
                     @endif
 
 
-                    {{-- Novedades --}}
+                    <!-- Novedades -->
                     @if(isset($news) && count($news))
 
                         <div class="relative overflow-hidden bg-[#EEF5FF] lg:bg-[#F8FAFC] border-2 border-[#000066] rounded-3xl
                         shadow-lg transition-all duration-300 h-[300px] flex flex-col p-6">
 
 
-                            {{-- ========================= --}}
-                            {{-- DECORACIÓN ESCRITORIO --}}
-                            {{-- ========================= --}}
+                          
+                            <!-- DECORACIÓN ESCRITORIO -->
+                            
                             <div class="hidden lg:block absolute inset-0 pointer-events-none">
 
                                 <svg
@@ -674,7 +669,7 @@
                                     xmlns="http://www.w3.org/2000/svg">
 
 
-                                    {{-- Fondo decorativo --}}
+                                    <!-- Fondo decorativo -->
                                     <path
                                         d="
                                         M0 0
@@ -687,7 +682,7 @@
                                     />
 
 
-                                    {{-- Línea límite --}}
+                                    <!-- Línea límite -->
                                     <path
                                         d="
                                         M0 0
@@ -706,7 +701,7 @@
 
 
 
-                            {{-- Contenido --}}
+                            <!-- Contenido -->
                             <div class="relative z-10 flex flex-col h-full">
 
 
@@ -776,7 +771,7 @@
 
                 
 
-                    {{-- Cambios de estado --}}
+                    <!-- Cambios de estado -->
                     @if(isset($statusPosts) && count($statusPosts))
 
                         <div class="bg-[#FFF6F6] border-2 border-[#000066] rounded-3xl

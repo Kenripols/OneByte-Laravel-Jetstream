@@ -5,15 +5,15 @@
 @endif
 <div>
     <!-- Filtros -->
-    {{-- <div class="flex space-x-4 mb-4">
+    <!-- <div class="flex space-x-4 mb-4">
         <input type="text" wire:model.live="searchId" placeholder="Buscar por ID" class="border p-2" />
         <input type="text" wire:model.live="searchEmail" placeholder="Buscar por email" class="border p-2" />
-        <!-- Botón para ver usuarios borrados lógicamente -->
+        Botón para ver usuarios borrados lógicamente 
             <a href="{{ route('admin.users.trashed') }}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
                 Ver Usuarios Eliminados
             </a>
         
-    </div> --}}
+    </div> -->
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
 
     <div class="flex flex-wrap gap-3">
