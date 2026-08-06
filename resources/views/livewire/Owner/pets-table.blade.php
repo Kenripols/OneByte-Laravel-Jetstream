@@ -16,6 +16,22 @@
             class="w-full sm:w-72 rounded-xl border border-gray-300 px-3 py-2 text-sm
                 focus:ring-1 focus:ring-[#000066] focus:border-[#000066]" />
     </div>
+    
+    <!-- Acción -->
+    <a href="{{ route('owner.qrplates.create') }}"
+        class="inline-flex items-center justify-center
+            h-[38px]
+            px-4
+            rounded-xl
+            border-2 border-[#000066]
+            bg-white
+            text-sm font-medium text-[#000066]
+            transition
+            hover:bg-[#F1F5F9]
+            whitespace-nowrap">
+        Asociar QR a Mascota
+    </a>
+
 </div>
 
 <!-- Tabla -->
@@ -23,35 +39,35 @@
 
     <div class="overflow-x-auto">
 
-        <table class="min-w-[1050px] w-full divide-y divide-gray-200">
+        <table class="min-w-[900px] w-full divide-y divide-gray-200">
             <thead class="bg-[#F1F5F9] border-b-2 border-[#000066]">
                 <tr>
-                    <th class="px-3 sm:px-6 py-3 sm:py-4 text-left text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider">
+                    <th class="px-2 sm:px-3 py-2.5 text-center text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider">
                         ID
                     </th>
 
-                    <th class="px-3 sm:px-6 py-3 sm:py-4 text-left text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider">
+                    <th class="px-2 sm:px-3 py-2.5 text-center text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider">
                         Nombre
                     </th>
 
-                    <th class="px-3 sm:px-6 py-3 sm:py-4 text-left text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider">
-                        Estado
+                    <th class="px-2 sm:px-3 py-2.5 text-center text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider">
+                        Estado Actual
                     </th>
 
-                    <th class="px-3 sm:px-6 py-3 sm:py-4 text-left text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider">
+                    <th class="px-2 sm:px-3 py-2.5 text-center text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider">
                         QR
                     </th>
 
-                    <th class="px-3 sm:px-6 py-3 sm:py-4 text-left text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider">
+                    <th class="px-2 sm:px-3 py-2.5 text-center text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider">
                         Nacimiento
                     </th>
 
-                    <th class="px-3 sm:px-6 py-3 sm:py-4 text-left text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider">
-                        Historial de ubicación
+                    <th class="px-2 sm:px-3 py-2.5 text-center text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider">
+                        Seguimiento
                     </th>
 
-                    <th class="px-3 sm:px-6 py-3 sm:py-4 text-center text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider">
-                        Acciones
+                    <th class="px-2 sm:px-3 py-2.5 text-center text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider">
+                        ¿Que pasó?
                     </th>
                 </tr>
             </thead>
@@ -72,7 +88,8 @@
                         </td>
 
                         <!-- Estado -->
-                        <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
+                        <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-center">
+                            <div class="flex justify-center">
                             <span class="inline-block px-2 py-1 text-xs rounded-full font-medium
                                 @if($pet->isLost()) bg-red-100 text-red-600
                                 @elseif($pet->current_state === \App\Enums\PetState::DEAD) bg-gray-200 text-gray-600
@@ -82,32 +99,40 @@
                                 {{ $pet->current_state?->label() ?? 'Sin estado' }}
 
                             </span>
+                            </div>
                         </td>
 
                         <!-- QR -->
-                        <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
+                        <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-center">
                             @if($pet->hasQR())
+                                <div class="flex justify-center">
                                 <span class="inline-block px-2 py-1 text-xs rounded-full font-medium bg-green-100 text-green-600">
                                     Activo
                                 </span>
+                                </div>
                             @elseif($pet->isExpired())
+                                <div class="flex justify-center">
                                 <span class="inline-block px-2 py-1 text-xs rounded-full font-medium bg-gray-200 text-gray-600">
                                     Caducado
                                 </span>
+                                </div>
                             @else
+                                <div class="flex justify-center">
                                 <span class="inline-block px-2 py-1 text-xs rounded-full font-medium bg-yellow-100 text-yellow-600">
                                     Pendiente
                                 </span>
+                                </div>
                             @endif
                         </td>
 
                         <!-- Fecha -->
-                        <td class="px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm text-gray-600 whitespace-nowrap">
+                        <td class="px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm text-gray-600 text-center whitespace-nowrap">
                             {{ $pet->bDate?->format('d/m/Y') ?? '-' }}
                         </td>
 
                         <!-- Historial -->
-                        <td class="px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm text-gray-600 whitespace-nowrap">
+                        <td class="px-2 sm:px-3 py-2.5 whitespace-nowrap">
+                            <div class="flex justify-center">
                             @if($pet->hasQR())
                                 <button
                                     wire:click.stop="showReadings({{ $pet->id }})"
@@ -124,8 +149,11 @@
                                     @endif
                                 </button>
                             @else
+                            <div class="flex justify-center">
                                 <span class="text-gray-400">-</span>
+                            </div>
                             @endif
+                            </div>
                         </td>
 
                         <!-- Acciones -->
@@ -141,7 +169,7 @@
                                             rounded-lg
                                             hover:bg-green-50
                                             transition">
-                                        Encontrada
+                                        Fue Encontrada
                                     </button>
                                 @else
                                     <button
@@ -152,7 +180,7 @@
                                             rounded-lg
                                             hover:bg-red-50
                                             transition">
-                                        Está perdida
+                                        Se ha Perdido
                                     </button>
                                 @endif
 

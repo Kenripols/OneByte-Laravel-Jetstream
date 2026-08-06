@@ -792,7 +792,7 @@
                                 @foreach($statusPosts as $post)
 
 
-                                    <div class="bg-white/50 rounded-2xl p-4 border border-[#000066]/10
+                                    <div class="bg-white/50 rounded-2xl p-4 border-2 border-[#000066]
                                     flex flex-col items-center text-center">
 
 

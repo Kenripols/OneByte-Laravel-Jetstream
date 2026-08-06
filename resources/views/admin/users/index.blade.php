@@ -2,11 +2,11 @@
     <!-- Opté por no utilizar el x-slot name='header' para poder utilizar un encabezado
     mas acorde al que venimos utilizando y porque me pareció mas fácil así sin tanto
     llamar cosas de otro lado -->
-    <!-- <x-slot name="header">
+    {{-- <x-slot name="header">
         <h2 class="text-3xl text-center font-bold text-[#000066]">
         Usuarios
         </h2>
-    </x-slot> -->
+    </x-slot> --}}
 
     <div class="py-8 px-4 sm:px-6 lg:px-8">
 

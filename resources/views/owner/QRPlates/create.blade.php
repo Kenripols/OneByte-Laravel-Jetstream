@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-slot name="header">
+    {{-- <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Asociar Placa QR a Mascota') }}
         </h2>
@@ -104,6 +104,167 @@
 
             </div>
         </div>
+    </div> --}}
+
+
+    <div class="py-12 bg-[#F5F8FF] min-h-screen">
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <div class="space-y-6">
+
+
+                <!-- ENCABEZADO -->
+
+                <div class="max-w-6xl mx-auto">
+
+                    <div class="bg-[#F8FAFC] border-2 border-[#000066] rounded-3xl shadow-lg p-8">
+
+                        <div class="text-center">
+
+                            <h1 class="text-3xl font-bold text-[#000066]">
+                                Asociar placa QR
+                            </h1>
+
+                            <p class="mt-3 text-lg text-gray-500">
+                                Escanea una placa QR y vincúlala a una mascota existente
+                                o registra una nueva mascota para comenzar a utilizarla.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- MENSAJES -->
+
+                @if ($errors->any())
+
+                    <div class="max-w-6xl mx-auto">
+
+                        <div class="bg-red-50 border-2 border-red-200 rounded-3xl p-4">
+
+                            <ul class="text-red-600">
+
+                                @foreach ($errors->all() as $error)
+
+                                    <li>{{ $error }}</li>
+
+                                @endforeach
+
+                            </ul>
+
+                        </div>
+
+                    </div>
+
+                @endif
+
+
+
+                @if(isset($qr))
+
+                    <div class="max-w-6xl mx-auto">
+
+                        <div class="bg-[#EEF5FF] border-2 border-[#000066] rounded-3xl p-4 text-[#000066]">
+
+                            Estás asignando el QR:
+                            <strong>{{ $qr->code }}</strong>
+
+                        </div>
+
+                    </div>
+
+                @endif
+
+
+
+                <!-- CONTENIDO QR -->
+
+                <div class="max-w-6xl mx-auto">
+
+                    <div class="bg-[#F8FAFC] border-2 border-[#000066] rounded-3xl p-8">
+
+                        
+                        @if(!$qr)
+
+                            <div class="text-center mb-8">
+
+                                <h2 class="text-2xl font-bold text-[#000066]">
+                                    Escanear placa QR
+                                </h2>
+
+                                <p class="mt-3 text-lg text-gray-500">
+                                    Acercá la placa o el código y esperá a que se detecte.
+                                </p>
+
+                            </div>
+
+
+                            <div class="mb-4" wire:ignore>
+
+                                <div class="flex justify-center">
+
+                                    <div class="bg-white border-2 border-[#000066] rounded-3xl p-6 shadow-sm">
+
+                                        <div id="reader"></div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div id="qr-result" class="mt-4 text-green-600 font-bold text-center"></div>
+
+
+                                <div id="qr-action" class="mt-4 flex justify-center"></div>
+
+                            </div>
+
+
+                            @if(request()->has('qr'))
+
+                                <div class="bg-red-50 border-2 border-red-200 p-4 rounded-2xl text-red-700">
+
+                                    No se encontró un QR válido con el código cargado.
+
+                                    <span class="font-semibold">
+                                        {{ request()->query('qr') }}
+                                    </span>
+
+                                </div>
+
+                            @endif
+
+
+                        @else
+
+
+                            <form action="{{ route('owner.qrplates.store') }}" method="POST" enctype="multipart/form-data">
+
+                                @csrf
+
+                                <!-- acá queda exactamente tu formulario actual -->
+
+
+                            </form>
+
+
+                        @endif
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
     </div>
 
     <script src="https://unpkg.com/html5-qrcode"></script>
