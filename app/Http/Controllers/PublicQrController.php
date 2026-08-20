@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use App\Models\QrPlate;
+use App\Models\Reading;
+use App\Models\QrMessage;
 
 class PublicQrController extends Controller
 {
@@ -46,6 +48,26 @@ class PublicQrController extends Controller
         $lat = $data['lat'];
         $lng = $data['lng'];
         $msg = $data['message'] ?? 'Sin mensaje';
+
+        // Registrar la lectura aunque el envío del correo falle.
+        $reading = Reading::create([
+            'qr_plate_id' => $qr->id,
+            'user_id' => $request->user()?->id,
+            'ip' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+            'lat' => $lat,
+            'lng' => $lng,
+        ]);
+
+        if ($request->filled('message') || $photoPath) {
+            QrMessage::create([
+                'qr_plate_id' => $qr->id,
+                'reading_id' => $reading->id,
+                'user_id' => $request->user()?->id,
+                'message' => $msg,
+                'photo_path' => $photoPath,
+            ]);
+        }
 
         // 5) Armar mail
         $body = "Tu mascota fue encontrada\n\n";
