@@ -98,10 +98,14 @@
             })
             .then(res => res.json())
             .then(data => {
-                status.textContent = "Ubicación enviada correctamente ✅";
+                if (!data.ok) {
+                    throw new Error(data.error || "No se pudo procesar la lectura");
+                }
+
+                status.textContent = "Ubicación enviada correctamente";
             })
-            .catch(() => {
-                status.textContent = "Error al enviar ❌";
+            .catch(error => {
+                status.textContent = error.message || "Error al enviar";
             });
 
         }, () => {
