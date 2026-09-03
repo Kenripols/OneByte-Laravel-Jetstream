@@ -1,45 +1,93 @@
 <x-app-layout>
-    <div class="max-w-xl mx-auto p-6">
 
-        <h1 class="text-2xl font-bold mb-6">
-            Asociar QR a una mascota
-        </h1>
+<div class="min-h-screen bg-[#F5F8FF] pt-0 pb-12 lg:py-12 px-4">
 
-        @if($pets->count())
+    <div class="max-w-2xl mx-auto">
 
-            <form method="POST" action="{{ route('owner.qrplates.store') }}">
-                @csrf
+        {{-- ENCABEZADO --}}
+        <div class="bg-[#F8FAFC] border-2 border-[#000066] rounded-3xl p-8 sm:p-10 text-center shadow-sm">
 
-                <!-- Seleccionar mascota -->
-                <div class="mb-4">
-                    <label class="block font-bold mb-2">Elegir mascota</label>
+            <h1 class="text-3xl font-bold text-[#000066]">
+                Asociar QR a una mascota
+            </h1>
 
-                    <select name="pet_id" class="w-full border rounded p-2">
-                        @foreach($pets as $pet)
-                            <option value="{{ $pet->id }}">
-                                {{ $pet->name }}
-                            </option>
-                        @endforeach
-                    </select>
+            <p class="mt-4 text-gray-500 text-base sm:text-lg leading-relaxed">
+                Seleccioná una de tus mascotas para asociarla con el código QR.
+            </p>
+
+        </div>
+
+        {{-- CONTENIDO --}}
+        <div class="mt-8 bg-[#F8FAFC] border-2 border-[#000066] rounded-3xl p-6 sm:p-8 shadow-sm">
+
+            @if($pets->count())
+
+                <form method="POST" action="{{ route('owner.qrplates.store') }}">
+                    @csrf
+
+                    {{-- MASCOTA --}}
+                    <div>
+
+                        <label
+                            for="pet_id"
+                            class="block text-gray-700 font-semibold mb-2"
+                        >
+                            Elegir mascota
+                        </label>
+
+                        <select
+                            name="pet_id"
+                            id="pet_id"
+                            class="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 focus:ring-1 focus:ring-[#000066] focus:border-[#000066]"
+                            required
+                        >
+                            @foreach($pets as $pet)
+                                <option value="{{ $pet->id }}">
+                                    {{ $pet->name }}
+                                </option>
+                            @endforeach
+                        </select>
+
+                    </div>
+
+                    {{-- QR --}}
+                    <input
+                        type="hidden"
+                        name="qr_id"
+                        value="{{ session('claimed_qr_id') }}"
+                    >
+
+                    {{-- BOTÓN --}}
+                    <div class="mt-8">
+
+                        <button
+                            type="submit"
+                            class="w-full bg-white text-[#000066] border-2 border-[#000066] rounded-xl px-5 py-3 font-semibold shadow-sm transition hover:bg-[#F1F5F9]"
+                        >
+                            Asociar QR
+                        </button>
+
+                    </div>
+
+                </form>
+
+            @else
+
+                <div class="bg-[#EEF5FF] border border-[#000066]/20 rounded-2xl px-5 py-5 text-center">
+
+                    <p class="text-gray-600 leading-relaxed">
+                        No tenés mascotas registradas.
+                        Podés crear una luego de escanear un QR.
+                    </p>
+
                 </div>
 
-                <!-- QR oculto -->
-                <input type="hidden" name="qr_id" value="{{ session('claimed_qr_id') }}">
+            @endif
 
-                <button class="bg-blue-500 text-white px-4 py-2 rounded">
-                    Asociar
-                </button>
-            </form>
-
-            <hr class="my-6">
-
-        @else
-
-            <div class="bg-yellow-100 p-3 mb-4 rounded">
-                No tenés mascotas registradas. Podés crear una luego de escanear un QR.
-            </div>
-
-        @endif
+        </div>
 
     </div>
+
+</div>
+
 </x-app-layout>
