@@ -135,7 +135,7 @@ class PostController extends Controller
             }
             $data['image'] = $request->file('image')->store('posts', 'public');
         } elseif (!$request->expectsJson()) {
-            // Keep existing image if admin did not upload a new one.
+            // Conserva la imagen existente si el administrador no cargó una nueva.
             unset($data['image']);
         }
         if ($data['type'] === 'tip') {

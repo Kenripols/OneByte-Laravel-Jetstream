@@ -16,6 +16,11 @@ class DashboardController extends Controller
         // pets.owner_id apunta a owners.user_id (mismo valor que users.id), no al id de la fila owners
         $ownerId = $user->id;
 
+        // Lean Agregué esto para mostrar todas las Mascotas del dueño
+        $myPets = Pet::where('owner_id', $ownerId)
+            ->with('currentState')
+            ->get();
+
         // Datos para el mapa / carrusel de mascotas perdidas del dueño
         $lostPetsList = Pet::where('owner_id', $ownerId)
             ->whereHas('currentState', function ($q) {$q->where('state', 'LOST');})
@@ -85,6 +90,8 @@ class DashboardController extends Controller
         ->take(10)
         ->get();
 
-        return view('owner.dashboard', compact('lostPetsData', 'tips', 'news', 'statusPosts'));
+        
+        // Agregué myPets por lo agregado mas arriba
+        return view('owner.dashboard', compact('lostPetsData', 'myPets', 'tips', 'news', 'statusPosts'));
         }
 }

@@ -1,26 +1,23 @@
 window.petViewer = function (petsData) {
     return {
-        pets: petsData,
+        pets: Object.values(petsData),
         index: 0,
 
-       init() {
-    this.$watch('index', () => {
-        this.renderMap();
-    });
+        init() {
+            this.$watch('index', () => {
+                this.renderMap();
+            });
 
-    this.$nextTick(() => {
-        this.renderMap();
-    });
-
-
-            this.renderMap();
+            this.$nextTick(() => {
+                this.renderMap();
+            });
         },
 
         renderMap() {
             const pet = this.pets[this.index];
             if (!pet || !pet.points) return;
 
-            renderPetMap('map', pet.points);
+            window.renderPetMap('map', pet.points);
         }
-    }
-}
+    };
+};

@@ -7,6 +7,8 @@ use App\Http\Controllers\Qr\QrAssignmentController;
 use App\Http\Controllers\Owner\QRPlateController;
 use App\Http\Controllers\PublicQrController;
 
+
+
 Route::get('/', function () {
     return view('welcome');
 });

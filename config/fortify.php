@@ -6,12 +6,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Fortify Guard
+    | Guardia fortificada
     |--------------------------------------------------------------------------
     |
-    | Here you may specify which authentication guard Fortify will use while
-    | authenticating users. This value should correspond with one of your
-    | guards that is already present in your "auth" configuration file.
+    | Aquí puedes especificar qué guardián de autenticación utilizará Fortify al
+    | autenticar a los usuarios. Este valor debe corresponder a uno de los
+    | guardianes ya definidos en tu archivo de configuración "auth".
     |
     */
 
@@ -19,12 +19,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Fortify Password Broker
+    | Agente de contraseñas Fortify
     |--------------------------------------------------------------------------
     |
-    | Here you may specify which password broker Fortify can use when a user
-    | is resetting their password. This configured value should match one
-    | of your password brokers setup in your "auth" configuration file.
+    | Aquí puede especificar qué gestor de contraseñas puede utilizar Fortify cuando un usuario
+    | restablece su contraseña. Este valor configurado debe coincidir con uno
+    | de los gestores de contraseñas definidos en su archivo de configuración "auth".
     |
     */
 
@@ -32,16 +32,16 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Username / Email
+    | Nombre de usuario / Correo electrónico
     |--------------------------------------------------------------------------
     |
-    | This value defines which model attribute should be considered as your
-    | application's "username" field. Typically, this might be the email
-    | address of the users but you are free to change this value here.
+    | Este valor define qué atributo del modelo debe considerarse como el campo
+    | de "nombre de usuario" de tu aplicación. Por lo general, suele ser la
+    | dirección de correo electrónico de los usuarios, pero puedes cambiar este valor aquí.
     |
-    | Out of the box, Fortify expects forgot password and reset password
-    | requests to have a field named 'email'. If the application uses
-    | another name for the field you may define it below as needed.
+    | Por defecto, Fortify espera que las solicitudes de recuperación y
+    | restablecimiento de contraseña incluyan un campo llamado 'email'. Si la
+    | aplicación utiliza otro nombre para dicho campo, puedes definirlo a continuación según sea necesario.
     |
     */
 
@@ -51,12 +51,13 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Lowercase Usernames
+    | Nombres de usuario en minúsculas
     |--------------------------------------------------------------------------
     |
-    | This value defines whether usernames should be lowercased before saving
-    | them in the database, as some database system string fields are case
-    | sensitive. You may disable this for your application if necessary.
+    | Este valor determina si los nombres de usuario deben convertirse a minúsculas 
+    | antes de guardarlos en la base de datos, ya que algunos campos de texto de los 
+    | sistemas de bases de datos distinguen entre mayúsculas y minúsculas. Puede desactivar 
+    | esta opción para su aplicación si es necesario.
     |
     */
 
@@ -64,12 +65,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Home Path
+    | Ruta de inicio
     |--------------------------------------------------------------------------
     |
-    | Here you may configure the path where users will get redirected during
-    | authentication or password reset when the operations are successful
-    | and the user is authenticated. You are free to change this value.
+    | Aquí puede configurar la ruta a la que se redirigirá a los usuarios durante
+    | la autenticación o el restablecimiento de contraseña cuando las operaciones tengan éxito
+    | y el usuario esté autenticado. Puede modificar este valor libremente.
     |
     */
 
@@ -77,12 +78,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Fortify Routes Prefix / Subdomain
+    | Prefijo/Subdominio de rutas de Fortify
     |--------------------------------------------------------------------------
     |
-    | Here you may specify which prefix Fortify will assign to all the routes
-    | that it registers with the application. If necessary, you may change
-    | subdomain under which all of the Fortify routes will be available.
+    | Aquí puedes especificar qué prefijo asignará Fortify a todas las rutas
+    | que registre en la aplicación. Si es necesario, puedes cambiar
+    | el subdominio bajo el cual estarán disponibles todas las rutas de Fortify.
     |
     */
 
@@ -95,9 +96,10 @@ return [
     | Fortify Routes Middleware
     |--------------------------------------------------------------------------
     |
-    | Here you may specify which middleware Fortify will assign to the routes
-    | that it registers with the application. If necessary, you may change
-    | these middleware but typically this provided default is preferred.
+    | Aquí puedes especificar qué middleware asignará Fortify a las rutas
+    | que registra en la aplicación. Si es necesario, puedes cambiar
+    | estos middleware, pero por lo general se prefiere la opción predeterminada 
+    | proporcionada.
     |
     */
 
@@ -105,12 +107,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Rate Limiting
+    | Tasa de Limitación 
     |--------------------------------------------------------------------------
     |
-    | By default, Fortify will throttle logins to five requests per minute for
-    | every email and IP address combination. However, if you would like to
-    | specify a custom rate limiter to call then you may specify it here.
+    | Por defecto, Fortify limitará los inicios de sesión a cinco solicitudes por minuto para
+    | cada combinación de dirección de correo electrónico y dirección IP. Sin embargo, si deseas
+    | especificar un limitador de tasa personalizado, puedes hacerlo aquí.
     |
     */
 
@@ -121,12 +123,13 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Register View Routes
+    | Registrarse / Ver rutas
     |--------------------------------------------------------------------------
     |
-    | Here you may specify if the routes returning views should be disabled as
-    | you may not need them when building your own application. This may be
-    | especially true if you're writing a custom single-page application.
+    | Aquí puedes especificar si se deben deshabilitar las rutas que devuelven vistas,
+    | ya que es posible que no las necesites al desarrollar tu propia aplicación. 
+    | Esto puede ser especialmente cierto si estás creando una aplicación de página
+    | única (SPA) personalizada.
     |
     */
 
@@ -134,12 +137,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Features
+    | Características
     |--------------------------------------------------------------------------
     |
-    | Some of the Fortify features are optional. You may disable the features
-    | by removing them from this array. You're free to only remove some of
-    | these features or you can even remove all of these if you need to.
+    | Algunas de las funcionalidades de Fortify son opcionales. Puedes deshabilitarlas
+    | eliminándolas de este array. Puedes optar por eliminar solo algunas de
+    | estas funcionalidades o incluso eliminarlas todas si lo necesitas.
     |
     */
 

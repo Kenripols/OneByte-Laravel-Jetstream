@@ -10,7 +10,7 @@ use Laravel\Jetstream\Jetstream;
 class JetstreamServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application services.
+     * Registra cualquier servicio de aplicación.
      */
     public function register(): void
     {
@@ -30,7 +30,7 @@ class JetstreamServiceProvider extends ServiceProvider
     }
 
     /**
-     * Configure the permissions that are available within the application.
+     * Configure los permisos disponibles dentro de la aplicación.
      */
     protected function configurePermissions(): void
     {

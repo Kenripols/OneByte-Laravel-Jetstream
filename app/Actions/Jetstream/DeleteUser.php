@@ -8,7 +8,7 @@ use Laravel\Jetstream\Contracts\DeletesUsers;
 class DeleteUser implements DeletesUsers
 {
     /**
-     * Delete the given user.
+     * Elimina el usuario especificado.
      */
     public function delete(User $user): void
     {

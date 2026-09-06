@@ -10,9 +10,9 @@ return [
     | Jetstream Stack
     |--------------------------------------------------------------------------
     |
-    | This configuration value informs Jetstream which "stack" you will be
-    | using for your application. In general, this value is set for you
-    | during installation and will not need to be changed after that.
+    | Este valor de configuración indica a Jetstream qué "stack" utilizarás
+    | para tu aplicación. Por lo general, este valor se establece automáticamente
+    | durante la instalación y no será necesario modificarlo posteriormente.
     |
     */
 
@@ -23,9 +23,9 @@ return [
     | Jetstream Route Middleware
     |--------------------------------------------------------------------------
     |
-    | Here you may specify which middleware Jetstream will assign to the routes
-    | that it registers with the application. When necessary, you may modify
-    | these middleware; however, this default value is usually sufficient.
+    | Aquí puedes especificar qué middleware asignará Jetstream a las rutas
+    | que registra en la aplicación. Cuando sea necesario, puedes modificar
+    | estos middleware; sin embargo, este valor predeterminado suele ser suficiente.
     |
     */
 
@@ -38,9 +38,9 @@ return [
     | Jetstream Guard
     |--------------------------------------------------------------------------
     |
-    | Here you may specify the authentication guard Jetstream will use while
-    | authenticating users. This value should correspond with one of your
-    | guards that is already present in your "auth" configuration file.
+    | Aquí puedes especificar el guardián de autenticación que Jetstream utilizará al
+    | autenticar a los usuarios. Este valor debe corresponder a uno de los
+    | guardianes ya definidos en tu archivo de configuración "auth".
     |
     */
 
@@ -48,12 +48,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Features
+    | Características
     |--------------------------------------------------------------------------
     |
-    | Some of Jetstream's features are optional. You may disable the features
-    | by removing them from this array. You're free to only remove some of
-    | these features or you can even remove all of these if you need to.
+    | Algunas de las características de Jetstream son opcionales. Puedes deshabilitarlas
+    | eliminándolas de este array. Eres libre de eliminar solo algunas de
+    | estas características o incluso todas ellas, si lo necesitas.
     |
     */
 
@@ -67,12 +67,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Profile Photo Disk
+    | Disco de foto de perfil
     |--------------------------------------------------------------------------
     |
-    | This configuration value determines the default disk that will be used
-    | when storing profile photos for your application's users. Typically
-    | this will be the "public" disk but you may adjust this if needed.
+    | Este valor de configuración determina el disco predeterminado que se utilizará
+    | al almacenar las fotos de perfil de los usuarios de tu aplicación. Por lo general,
+    | será el disco "public", pero puedes ajustarlo si es necesario.
     |
     */
 
