@@ -81,7 +81,7 @@ class QrAssignmentController extends Controller
             ->with('success', 'QR asignado correctamente.');
     }
 
-    // crear mascota + asignar
+    // crear mascota y asignar
     public function createAndAssign(Request $request)
     {
         $request->validate([

@@ -5,15 +5,15 @@
 @endif
 <div>
     <!-- Filtros -->
-    {{-- <div class="flex space-x-4 mb-4">
+    <!-- <div class="flex space-x-4 mb-4">
         <input type="text" wire:model.live="searchId" placeholder="Buscar por ID" class="border p-2" />
         <input type="text" wire:model.live="searchEmail" placeholder="Buscar por email" class="border p-2" />
-        <!-- Botón para ver usuarios borrados lógicamente -->
+        Botón para ver usuarios borrados lógicamente 
             <a href="{{ route('admin.users.trashed') }}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
                 Ver Usuarios Eliminados
             </a>
         
-    </div> --}}
+    </div> -->
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
 
     <div class="flex flex-wrap gap-3">
@@ -31,7 +31,7 @@
             wire:model.live="searchEmail"
             placeholder="Correo electrónico"
             class="w-full sm:w-72 rounded-xl border border-gray-300 px-3 py-2
-                   focus:ring-1 focus:ring-[#000066] focus:border-[#000066]"
+            focus:ring-1 focus:ring-[#000066] focus:border-[#000066]"
         />
 
     </div>
@@ -137,7 +137,10 @@
 <!-- Cambios de pagina con reborde azul -->
     <div class="mt-6 border-2 border-[#000066] rounded-2xl p-4 bg-[#F8FAFC]">
         {{ $users->links() }}
-    </div>  
+    </div> 
+    
+    
+<!-- Modal -->    
 @if($showModal && $selectedUser)
 <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
 

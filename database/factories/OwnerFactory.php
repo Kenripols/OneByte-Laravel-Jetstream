@@ -12,7 +12,7 @@ use App\Models\Owner;
 class OwnerFactory extends Factory
 {
     /**
-     * Define the model's default state.
+     * Define el estado predeterminado del modelo.
      *
      * @return array<string, mixed>
      */

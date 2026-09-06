@@ -12,7 +12,7 @@ class PetStateHistoryObserver
 
         if (!$pet) return;
 
-        // LOST
+        // Perdida
         if ($state->state === 'LOST') {
 
             $alreadyActive = Post::where('pet_id', $pet->id)
@@ -45,7 +45,7 @@ class PetStateHistoryObserver
             }
         }
 
-        // FOUND
+        // Encontrada
         if ($state->state === 'NORMAL') {
 
             Post::where('pet_id', $pet->id)

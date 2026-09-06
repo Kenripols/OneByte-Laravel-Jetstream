@@ -7,9 +7,9 @@ return [
     | Class Namespace
     |---------------------------------------------------------------------------
     |
-    | This value sets the root class namespace for Livewire component classes in
-    | your application. This value will change where component auto-discovery
-    | finds components. It's also referenced by the file creation commands.
+    | Este valor establece el espacio de nombres raíz para las clases de componentes de Livewire en
+    | tu aplicación. Este valor modificará la ubicación donde el sistema de detección automática
+    | busca los componentes. También es utilizado por los comandos de creación de archivos.
     |
     */
 
@@ -20,9 +20,9 @@ return [
     | View Path
     |---------------------------------------------------------------------------
     |
-    | This value is used to specify where Livewire component Blade templates are
-    | stored when running file creation commands like `artisan make:livewire`.
-    | It is also used if you choose to omit a component's render() method.
+    | Este valor se utiliza para especificar dónde se almacenan las plantillas Blade de los componentes Livewire
+    | al ejecutar comandos de creación de archivos como `artisan make:livewire`.
+    | También se utiliza si decides omitir el método `render()` de un componente.
     |
     */
 
@@ -32,9 +32,9 @@ return [
     |---------------------------------------------------------------------------
     | Layout
     |---------------------------------------------------------------------------
-    | The view that will be used as the layout when rendering a single component
-    | as an entire page via `Route::get('/post/create', CreatePost::class);`.
-    | In this case, the view returned by CreatePost will render into $slot.
+    | La vista que se utilizará como diseño (layout) al renderizar un único componente
+    | como una página completa mediante `Route::get('/post/create', CreatePost::class);`.
+    | En este caso, la vista devuelta por CreatePost se renderizará dentro de `$slot`.
     |
     */
 
@@ -44,9 +44,9 @@ return [
     |---------------------------------------------------------------------------
     | Lazy Loading Placeholder
     |---------------------------------------------------------------------------
-    | Livewire allows you to lazy load components that would otherwise slow down
-    | the initial page load. Every component can have a custom placeholder or
-    | you can define the default placeholder view for all components below.
+    | Livewire te permite cargar de forma diferida (*lazy load*) aquellos componentes que, de otro modo, ralentizarían
+    | la carga inicial de la página. Cada componente puede tener un marcador de posición personalizado o
+    | puedes definir la vista de marcador de posición predeterminada para todos los componentes a continuación.
     |
     */
 
@@ -57,9 +57,9 @@ return [
     | Temporary File Uploads
     |---------------------------------------------------------------------------
     |
-    | Livewire handles file uploads by storing uploads in a temporary directory
-    | before the file is stored permanently. All file uploads are directed to
-    | a global endpoint for temporary storage. You may configure this below:
+    | Livewire gestiona la carga de archivos almacenándolos en un directorio temporal
+    | antes de que se guarden de forma permanente. Todas las cargas de archivos se dirigen a
+    | un endpoint global para el almacenamiento temporal. Puedes configurarlo a continuación:
     |
     */
 
@@ -82,9 +82,9 @@ return [
     | Render On Redirect
     |---------------------------------------------------------------------------
     |
-    | This value determines if Livewire will run a component's `render()` method
-    | after a redirect has been triggered using something like `redirect(...)`
-    | Setting this to true will render the view once more before redirecting
+    | Este valor determina si Livewire ejecutará el método `render()` de un componente
+    | después de que se haya iniciado una redirección mediante algo como `redirect(...)`.
+    | Establecerlo en `true` hará que la vista se renderice una vez más antes de redirigir.
     |
     */
 
@@ -95,9 +95,10 @@ return [
     | Eloquent Model Binding
     |---------------------------------------------------------------------------
     |
-    | Previous versions of Livewire supported binding directly to eloquent model
-    | properties using wire:model by default. However, this behavior has been
-    | deemed too "magical" and has therefore been put under a feature flag.
+    | Las versiones anteriores de Livewire permitían vincular directamente propiedades 
+    | de modelos Eloquent mediante `wire:model` por defecto. Sin embargo, este 
+    | comportamiento se ha considerado demasiado "mágico" y, por ello, se ha condicionado 
+    | a una bandera de funcionalidad (*feature flag*).
     |
     */
 
@@ -108,9 +109,9 @@ return [
     | Auto-inject Frontend Assets
     |---------------------------------------------------------------------------
     |
-    | By default, Livewire automatically injects its JavaScript and CSS into the
-    | <head> and <body> of pages containing Livewire components. By disabling
-    | this behavior, you need to use @livewireStyles and @livewireScripts.
+    | Por defecto, Livewire inyecta automáticamente su JavaScript y CSS en el
+    | <head> y el <body> de las páginas que contienen componentes de Livewire. Si se deshabilita
+    | este comportamiento, es necesario utilizar @livewireStyles y @livewireScripts.
     |
     */
 
@@ -121,9 +122,9 @@ return [
     | Navigate (SPA mode)
     |---------------------------------------------------------------------------
     |
-    | By adding `wire:navigate` to links in your Livewire application, Livewire
-    | will prevent the default link handling and instead request those pages
-    | via AJAX, creating an SPA-like effect. Configure this behavior here.
+    | Al añadir `wire:navigate` a los enlaces de tu aplicación Livewire, Livewire
+    | evitará el manejo predeterminado de los enlaces y, en su lugar, solicitará dichas páginas
+    | mediante AJAX, creando un efecto similar al de una SPA. Configura este comportamiento aquí.
     |
     */
 
@@ -137,9 +138,9 @@ return [
     | HTML Morph Markers
     |---------------------------------------------------------------------------
     |
-    | Livewire intelligently "morphs" existing HTML into the newly rendered HTML
-    | after each update. To make this process more reliable, Livewire injects
-    | "markers" into the rendered Blade surrounding @if, @class & @foreach.
+    | Livewire «transforma» de forma inteligente el HTML existente en el HTML recién renderizado
+    | tras cada actualización. Para hacer este proceso más fiable, Livewire inyecta
+    | «marcadores» en el código Blade renderizado, rodeando las directivas @if, @class y @foreach.
     |
     */
 
@@ -150,9 +151,9 @@ return [
     | Smart Wire Keys
     |---------------------------------------------------------------------------
     |
-    | Livewire uses loops and keys used within loops to generate smart keys that
-    | are applied to nested components that don't have them. This makes using
-    | nested components more reliable by ensuring that they all have keys.
+    | Livewire utiliza bucles y las claves empleadas en ellos para generar claves inteligentes que
+    | se aplican a los componentes anidados que carecen de ellas. Esto hace que el uso de
+    | componentes anidados sea más fiable, al garantizar que todos cuenten con claves.
     |
     */
 
@@ -163,9 +164,9 @@ return [
     | Pagination Theme
     |---------------------------------------------------------------------------
     |
-    | When enabling Livewire's pagination feature by using the `WithPagination`
-    | trait, Livewire will use Tailwind templates to render pagination views
-    | on the page. If you want Bootstrap CSS, you can specify: "bootstrap"
+    | Al habilitar la funcionalidad de paginación de Livewire mediante el trait `WithPagination`,
+    | Livewire utilizará plantillas de Tailwind para renderizar las vistas de paginación
+    | en la página. Si prefieres utilizar Bootstrap CSS, puedes especificar: "bootstrap"
     |
     */
 
@@ -176,9 +177,10 @@ return [
     | Release Token
     |---------------------------------------------------------------------------
     |
-    | This token is stored client-side and sent along with each request to check
-    | a users session to see if a new release has invalidated it. If there is
-    | a mismatch it will throw an error and prompt for a browser refresh.
+    | Este token se almacena en el lado del cliente y se envía con cada solicitud para 
+    | verificar la sesión del usuario y comprobar si una nueva versión la ha invalidado. 
+    | Si existe una discrepancia, se producirá un error y se solicitará actualizar el 
+    | navegador.
     |
     */
 

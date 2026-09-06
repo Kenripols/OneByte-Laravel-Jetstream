@@ -15,12 +15,12 @@ use Laravel\Jetstream\Features;
 class UserFactory extends Factory
 {
     /**
-     * The current password being used by the factory.
+     * La contraseña actual utilizada por la factory.
      */
     protected static ?string $password;
 
     /**
-     * Define the model's default state.
+     * Define el estado predeterminado del modelo.
      *
      * @return array<string, mixed>
      */
@@ -40,7 +40,7 @@ class UserFactory extends Factory
     }
 
     /**
-     * Indicate that the model's email address should be unverified.
+     * Indique que la dirección de correo electrónico del modelo debe quedar sin verificar.
      */
     public function unverified(): static
     {
@@ -50,7 +50,7 @@ class UserFactory extends Factory
     }
 
     /**
-     * Indicate that the user should have a personal team.
+     * Indique que el usuario debe tener un personal team.
      */
     public function withPersonalTeam(?callable $callback = null): static
     {

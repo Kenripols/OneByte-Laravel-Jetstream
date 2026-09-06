@@ -11,7 +11,7 @@ use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
 class UpdateUserProfileInformation implements UpdatesUserProfileInformation
 {
     /**
-     * Validate and update the given user's profile information.
+     * Valida y actualiza la información de perfil del usuario especificado.
      *
      * @param  array<string, mixed>  $input
      */
@@ -37,7 +37,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
     }
 
     /**
-     * Update the given verified user's profile information.
+     * Actualiza la información de perfil del usuario verificado indicado.
      *
      * @param  array<string, string>  $input
      */
