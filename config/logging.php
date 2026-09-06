@@ -12,9 +12,9 @@ return [
     | Default Log Channel
     |--------------------------------------------------------------------------
     |
-    | This option defines the default log channel that is utilized to write
-    | messages to your logs. The value provided here should match one of
-    | the channels present in the list of "channels" configured below.
+    | Esta opción define el canal de registro predeterminado que se utiliza para escribir
+    | mensajes en sus registros. El valor aquí indicado debe coincidir con uno de
+    | los canales presentes en la lista de "channels" configurada a continuación.
     |
     */
 
@@ -25,9 +25,9 @@ return [
     | Deprecations Log Channel
     |--------------------------------------------------------------------------
     |
-    | This option controls the log channel that should be used to log warnings
-    | regarding deprecated PHP and library features. This allows you to get
-    | your application ready for upcoming major versions of dependencies.
+    | Esta opción controla el canal de registro que se utilizará para registrar las advertencias
+    | relativas a características obsoletas de PHP y de las bibliotecas. Esto le permite preparar
+    | su aplicación para las próximas versiones principales de las dependencias.
     |
     */
 
@@ -41,12 +41,12 @@ return [
     | Log Channels
     |--------------------------------------------------------------------------
     |
-    | Here you may configure the log channels for your application. Laravel
-    | utilizes the Monolog PHP logging library, which includes a variety
-    | of powerful log handlers and formatters that you're free to use.
+    | Aquí puedes configurar los canales de registro para tu aplicación. Laravel
+    | utiliza la biblioteca de registro Monolog para PHP, la cual incluye una variedad
+    | de controladores y formateadores de registro potentes que puedes utilizar libremente.
     |
-    | Available drivers: "single", "daily", "slack", "syslog",
-    |                    "errorlog", "monolog", "custom", "stack"
+    | Controladores disponibles: "single", "daily", "slack", "syslog",
+    |                            "errorlog", "monolog", "custom", "stack"
     |
     */
 

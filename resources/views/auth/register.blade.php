@@ -24,7 +24,7 @@
             </div>
 
             <div class="mt-4">
-                <x-label for="docNum" value="{{ __('Numero de documento') }}" />
+                <x-label for="docNum" value="{{ __('Número de documento') }}" />
                 <x-input id="docNum" class="block mt-1 w-full" type="text" name="docNum" :value="old('docNum')" required />
             </div>
 
@@ -64,7 +64,7 @@
                             <x-checkbox name="terms" id="terms" required />
 
                             <div class="ms-2">
-                                {!! __('I agree to the :terms_of_service and :privacy_policy', [
+                                {!! __('Acepto los :terms_of_service y la :privacy_policy', [
                                         'terms_of_service' => '<a target="_blank" href="'.route('terms.show').'" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">'.__('Terms of Service').'</a>',
                                         'privacy_policy' => '<a target="_blank" href="'.route('policy.show').'" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">'.__('Privacy Policy').'</a>',
                                 ]) !!}

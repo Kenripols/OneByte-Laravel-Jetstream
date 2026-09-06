@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Mostrar una lista del recurso.
      */
     public function index()
     {
@@ -21,7 +21,7 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Muestra el formulario para crear un nuevo recurso.
      */
     public function create()
     {
@@ -29,7 +29,7 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Almacena un recurso recién creado en el almacenamiento.
      */
     public function store(Request $request)
     {
@@ -37,7 +37,7 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Muestra el recurso especificado.
      */
     public function show(User $user)
     {
@@ -47,7 +47,7 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Muestra el formulario para editar el recurso especificado.
      */
     public function edit(User $user)
     {
@@ -56,7 +56,7 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualice el recurso especificado en el almacenamiento.
      */
     public function update(UpdateUserRequest $request, User $user)
 {
@@ -83,7 +83,7 @@ class UserController extends Controller
         ->with('success', 'Dueño actualizado correctamente');
 }
     /**
-     * Remove the specified resource from storage (borrado lógico).
+     * Elimina el recurso especificado del almacenamiento. (borrado lógico).
      */
     public function destroy(User $user)
     {

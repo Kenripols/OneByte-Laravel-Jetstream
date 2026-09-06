@@ -45,7 +45,7 @@ class Pet extends Model
     // 16-12-25 Especifico la relacion de una mascota en un único historial, el mas reciente
     public function currentStateModel(): HasOne{
         return $this->hasOne(PetStateHistory::class)
-            ->whereNull('ended_at') //como es estado no terminó es el actal
+            ->whereNull('ended_at') //como es estado no terminó es el actual
             ->latestOfMany('started_at');
     }
     public function getCurrentStateAttribute(): ?PetState{

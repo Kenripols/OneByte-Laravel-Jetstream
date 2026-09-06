@@ -31,7 +31,7 @@
             wire:model.live="searchEmail"
             placeholder="Correo electrónico"
             class="w-full sm:w-72 rounded-xl border border-gray-300 px-3 py-2
-                   focus:ring-1 focus:ring-[#000066] focus:border-[#000066]"
+            focus:ring-1 focus:ring-[#000066] focus:border-[#000066]"
         />
 
     </div>
@@ -158,7 +158,10 @@
 <!-- Cambios de pagina con reborde azul -->
     <div class="mt-6 border-2 border-[#000066] rounded-2xl p-4 bg-[#F8FAFC]">
         {{ $users->links() }}
-    </div>  
+    </div> 
+    
+    
+<!-- Modal -->    
 @if($showModal && $selectedUser)
 <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
 

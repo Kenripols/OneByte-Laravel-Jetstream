@@ -24,7 +24,7 @@
                 <img src="{{ asset('storage/' . $pet->photo) }}" alt="Foto de {{ $pet->name }}" class="w-48 h-48 object-cover rounded">
             </div>
         @endif
-<!-- OPCIONES DE OWNER para Editar/ Eliminar Logicamente Mascota -->
+<!-- Opciones de owner para Editar / Eliminar Logicamente Mascota -->
         @role('owner')
             <div class="mt-6">
                 <a href="{{ route('owner.pets.edit', $pet) }}" class="text-blue-600 hover:text-blue-900">Editar Mascota</a>

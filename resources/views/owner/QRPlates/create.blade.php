@@ -114,7 +114,7 @@
             <div class="space-y-6">
 
 
-                <!-- ENCABEZADO -->
+                <!-- Encabezado -->
 
                 <div class="max-w-6xl mx-auto">
 
@@ -139,7 +139,7 @@
 
 
 
-                <!-- MENSAJES -->
+                <!-- Mensajes -->
 
                 @if ($errors->any())
 
@@ -182,7 +182,7 @@
 
 
 
-                <!-- CONTENIDO QR -->
+                <!-- Contenido QR -->
 
                 <div class="max-w-6xl mx-auto">
 
@@ -322,101 +322,261 @@
 
     </div>
 
+    <!-- Este style modifica los textos automaticos de seleccionar archivo e imagen 
+    de html5-qrcode -->
+    <style>
+        #html5-qrcode-anchor-scan-type-change {
+            font-size: 0;
+            text-decoration: none !important;
+        }
+
+        #html5-qrcode-anchor-scan-type-change::after {
+            content: 'Escanear una imagen';
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #000066;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        #html5-qrcode-button-file-selection {
+            font-size: 0;
+        }
+
+        #html5-qrcode-button-file-selection::after {
+            content: 'Seleccionar imagen';
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #000066;
+        }
+
+        #html5-qrcode-button-file-selection
+            + div {
+            font-size: 0;
+        }
+
+        #html5-qrcode-button-file-selection
+            + div::after {
+            content: 'O soltá una imagen para escanear';
+            font-size: 0.875rem;
+            font-weight: 400;
+            color: #6b7280;
+        }
+    </style>
+
     <script src="https://unpkg.com/html5-qrcode"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            @unless($qr)
-                const qrResult = document.getElementById('qr-result');
-                const qrAction = document.getElementById('qr-action');
 
-                if (!qrResult || !qrAction) {
+    document.addEventListener('DOMContentLoaded', function () {
+
+        @unless($qr)
+
+            const qrResult = document.getElementById('qr-result');
+            const qrAction = document.getElementById('qr-action');
+            const reader = document.getElementById('reader');
+
+            if (!qrResult || !qrAction || !reader) {
+                return;
+            }
+
+            const scanner = new Html5QrcodeScanner('reader', {
+                fps: 10,
+                qrbox: { width: 250, height: 250 }
+            });
+
+            const customizeCameraPermissionButton = () => {
+
+                const buttons = Array.from(
+                    reader.querySelectorAll('button')
+                );
+
+                const cameraPermissionButton = buttons.find((button) =>
+                    button.textContent
+                        .trim()
+                        .toLowerCase()
+                        .includes('request camera permissions')
+                );
+
+                if (!cameraPermissionButton) {
                     return;
                 }
 
-                const scanner = new Html5QrcodeScanner('reader', {
-                    fps: 10,
-                    qrbox: { width: 250, height: 250 }
-                });
+                cameraPermissionButton.textContent =
+                    'Permitir acceso a la cámara';
 
-                scanner.render((decodedText) => {
-                    let trimmed = decodedText.trim();
+                cameraPermissionButton.className =
+                    'inline-flex items-center justify-center rounded-xl border-2 border-[#000066] bg-white px-5 py-2.5 text-sm font-semibold text-[#000066] transition hover:bg-[#F1F5F9] focus:outline-none focus:ring-2 focus:ring-[#000066] focus:ring-offset-2 mx-4';
 
-                    if (/^https?:\/\//i.test(trimmed)) {
-                        try {
-                            const url = new URL(trimmed);
-                            const path = url.pathname.replace(/\/$/, '');
-                            const matched = path.match(/\/qr\/(.+)$/);
-                            if (matched) {
-                                trimmed = matched[1];
-                            }
-                        } catch (e) {
-                            // no es una URL válida, conservar el texto original
+
+                /*
+                 * "Scan an image file"
+                 *
+                 * html5-qrcode en realidad genera:
+                 * "Choose Image - No image choosen"
+                 *
+                 * No modificamos el botón ni su comportamiento.
+                 * Solo modificamos el texto una vez que existe.
+                 */
+
+                const fileSelectionButton =
+                    reader.querySelector(
+                        '#html5-qrcode-button-file-selection'
+                    );
+
+            };
+
+
+            scanner.render((decodedText) => {
+
+                let trimmed = decodedText.trim();
+
+                if (/^https?:\/\//i.test(trimmed)) {
+
+                    try {
+
+                        const url = new URL(trimmed);
+
+                        const path =
+                            url.pathname.replace(/\/$/, '');
+
+                        const matched =
+                            path.match(/\/qr\/(.+)$/);
+
+                        if (matched) {
+                            trimmed = matched[1];
                         }
-                    }
 
-                    
-                    qrResult.innerHTML = `
-                        <h3 class="text-base font-bold text-[#000066]">
-                            QR detectado correctamente
-                        </h3>
-
-                        <p class="mt-2 text-gray-600">
-                            Código:
-                            <span class="font-semibold text-[#000066]">
-                                ${trimmed}
-                            </span>
-                        </p>
-                    `;
-
-                    qrResult.className = 'mt-6 bg-[#EEF5FF] border-2 border-[#000066] rounded-2xl p-5 text-center';
-
-                    scanner.clear();
-
-                    const continueButton = document.createElement('button');
-                    continueButton.type = 'button';
-                    continueButton.className = 'bg-white border-2 border-[#000066] text-[#000066] font-semibold px-5 py-2 rounded-xl hover:bg-[#F1F5F9] transition';
-                    continueButton.textContent = 'Continuar con este QR';
-                    continueButton.addEventListener('click', function () {
-                        window.location.href = `/qr/${encodeURIComponent(trimmed)}`;
-                    });
-
-                    qrAction.innerHTML = '';
-                    qrAction.appendChild(continueButton);
-                }, (errorMessage) => {
-                    // Ignorar errores de escaneo menores mientras busca un QR válido.
-                });
-            @endunless
-
-            const petSelect = document.getElementById('pet_id');
-            const newPetFields = document.getElementById('new-pet-fields');
-            const newName = document.getElementById('new_name');
-            const newBreed = document.getElementById('new_breed_id');
-            const newPhoto = document.getElementById('new_photo');
-
-            if (petSelect && newPetFields) {
-                function toggleNewPetFields() {
-                    const creatingNew = petSelect.value === '';
-
-                    newPetFields.style.display = creatingNew ? 'block' : 'none';
-
-                    [newName, newBreed, newPhoto].forEach((field) => {
-                        if (!field) {
-                            return;
-                        }
-                        field.disabled = !creatingNew;
-                        if (!creatingNew) {
-                            field.value = field.tagName.toLowerCase() === 'select' ? '' : field.value;
-                        }
-                    });
-
-                    if (newBreed) {
-                        newBreed.required = creatingNew;
+                    } catch (e) {
+                        // no es una URL válida, conservar el texto original
                     }
                 }
 
-                petSelect.addEventListener('change', toggleNewPetFields);
-                toggleNewPetFields();
-            }
-        });
-    </script>
+                qrResult.innerHTML = `
+                    <h3 class="text-base font-bold text-[#000066]">
+                        QR detectado correctamente
+                    </h3>
+
+                    <p class="mt-2 text-gray-600">
+                        Código:
+                        <span class="font-semibold text-[#000066]">
+                            ${trimmed}
+                        </span>
+                    </p>
+                `;
+
+                qrResult.className =
+                    'mt-6 bg-[#EEF5FF] border-2 border-[#000066] rounded-2xl p-5 text-center';
+
+                scanner.clear();
+
+                const continueButton =
+                    document.createElement('button');
+
+                continueButton.type = 'button';
+
+                continueButton.className =
+                    'bg-white border-2 border-[#000066] text-[#000066] font-semibold px-5 py-2 rounded-xl hover:bg-[#F1F5F9] transition';
+
+                continueButton.textContent =
+                    'Continuar con este QR';
+
+                continueButton.addEventListener(
+                    'click',
+                    function () {
+
+                        window.location.href =
+                            `/qr/${encodeURIComponent(trimmed)}`;
+                    }
+                );
+
+                qrAction.innerHTML = '';
+
+                qrAction.appendChild(continueButton);
+
+            }, (errorMessage) => {
+
+                // Ignorar errores de escaneo menores mientras busca un QR válido.
+
+            });
+
+            const scannerObserver =
+                new MutationObserver(() => {
+
+                    customizeCameraPermissionButton();
+
+                });
+
+            scannerObserver.observe(reader, {
+                childList: true,
+                subtree: true
+            });
+
+            customizeCameraPermissionButton();
+
+                @endunless
+
+
+                const petSelect =
+                    document.getElementById('pet_id');
+
+                const newPetFields =
+                    document.getElementById('new-pet-fields');
+
+                const newName =
+                    document.getElementById('new_name');
+
+                const newBreed =
+                    document.getElementById('new_breed_id');
+
+                const newPhoto =
+                    document.getElementById('new_photo');
+
+
+                if (petSelect && newPetFields) {
+
+                    function toggleNewPetFields() {
+
+                        const creatingNew =
+                            petSelect.value === '';
+
+                        newPetFields.style.display =
+                            creatingNew ? 'block' : 'none';
+
+                        [newName, newBreed, newPhoto].forEach((field) => {
+
+                            if (!field) {
+                                return;
+                            }
+
+                            field.disabled = !creatingNew;
+
+                            if (!creatingNew) {
+
+                                field.value =
+                                    field.tagName.toLowerCase() === 'select'
+                                        ? ''
+                                        : field.value;
+                            }
+
+                        });
+
+                        if (newBreed) {
+                            newBreed.required = creatingNew;
+                        }
+
+                    }
+
+
+                    petSelect.addEventListener(
+                        'change',
+                        toggleNewPetFields
+                    );
+
+                    toggleNewPetFields();
+
+                }
+
+            });
+
+</script>
 </x-app-layout>

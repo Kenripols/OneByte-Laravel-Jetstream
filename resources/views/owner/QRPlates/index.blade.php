@@ -4,7 +4,7 @@
 
         <div class="max-w-7xl mx-auto">
 
-            {{-- ENCABEZADO --}}
+            {{-- Encabezado --}}
             <div class="text-center mb-8">
 
                 <div class="bg-[#F8FAFC] border-2 border-[#000066] rounded-3xl p-8 sm:p-10 text-center shadow-sm mb-8">
@@ -19,7 +19,7 @@
 
             </div>
 
-            {{-- MENSAJE DE ERROR --}}
+            {{-- Mensaje de error --}}
             @if(session('error'))
                 <div class="mb-6 bg-red-50 border-2 border-red-200 rounded-3xl px-6 py-4">
                     <p class="text-red-600 text-sm">
@@ -28,7 +28,7 @@
                 </div>
             @endif
 
-            {{-- TABLA --}}
+            {{-- Tabla --}}
             <div class="bg-[#F8FAFC] border-2 border-[#000066] rounded-3xl shadow-sm overflow-hidden">
 
                 <div class="w-full overflow-hidden">
@@ -130,7 +130,7 @@
 
                 </div>
 
-                {{-- PAGINACIÓN --}}
+                {{-- Paginación --}}
                 <div class="px-4 sm:px-6 py-5 border-t border-gray-200">
                     {{ $QrPlates->links() }}
                 </div>

@@ -5,7 +5,7 @@
     </x-section-title>
 
     <div class="mt-5 md:mt-0 md:col-span-2">
-        <div class="px-4 py-5 sm:p-6 bg-white shadow sm:rounded-lg">
+        <div class="px-6 py-6 bg-[#F8FAFC] border-2 border-[#000066] rounded-3xl">
             {{ $content }}
         </div>
     </div>

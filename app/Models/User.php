@@ -16,7 +16,7 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, HasProfilePhoto, Notifiable, TwoFactorAuthenticatable, HasRoles, SoftDeletes;
 
     /**
-     * The attributes that are mass assignable.
+     * Los atributos que se pueden asignar masivamente.
      *
      * @var array<int, string>
      */
@@ -28,7 +28,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * Los atributos que deben ocultarse para la serialización.
      *
      * @var array<int, string>
      */
@@ -40,7 +40,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be cast to native types.
+     * Los atributos que deben convertirse a tipos nativos.
      *
      * @var array<string, string>
      */
@@ -50,7 +50,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * The accessors to append to the model's array form.
+     * Los acesores que se añadirán a la representación en forma de array del modelo.
      *
      * @var array<int, string>
      */
@@ -59,8 +59,8 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be treated as dates.
-     * Including deleted_at for soft deletes.
+     * Los atributos que deben tratarse como fechas.
+     * Incluyendo `deleted_at` para eliminaciones lógicas.
      *
      * @var array
      */

@@ -4,7 +4,7 @@
 
     <div class="max-w-2xl mx-auto">
 
-        {{-- ENCABEZADO --}}
+        {{-- Encabezado --}}
         <div class="bg-[#F8FAFC] border-2 border-[#000066] rounded-3xl p-8 sm:p-10 text-center shadow-sm">
 
             <h1 class="text-3xl font-bold text-[#000066]">
@@ -17,7 +17,7 @@
 
         </div>
 
-        {{-- CONTENIDO --}}
+        {{-- Contenido --}}
         <div class="mt-8 bg-[#F8FAFC] border-2 border-[#000066] rounded-3xl p-6 sm:p-8 shadow-sm">
 
             @if($pets->count())
@@ -25,7 +25,7 @@
                 <form method="POST" action="{{ route('owner.qrplates.store') }}">
                     @csrf
 
-                    {{-- MASCOTA --}}
+                    {{-- Mascota --}}
                     <div>
 
                         <label
@@ -57,7 +57,7 @@
                         value="{{ session('claimed_qr_id') }}"
                     >
 
-                    {{-- BOTÓN --}}
+                    {{-- Botón --}}
                     <div class="mt-8">
 
                         <button

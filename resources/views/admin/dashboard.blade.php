@@ -650,7 +650,7 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Doughnut chart
+    // Gráfico de anillos
     const ctx = document.getElementById('petsChart');
 
             new Chart(ctx, {
@@ -696,7 +696,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
 
-    // Bar chart
+    // Gráfico de Barras
     const monthlyCtx = document.getElementById('monthlyPetsChart');
 
             new Chart(monthlyCtx, {

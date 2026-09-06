@@ -13,7 +13,7 @@ class PetController extends Controller
 {
     
     /**
-     * Display a listing of the resource.
+     * Muestra una lista del recurso.
      */
     public function index()
     { //Quedaría obsoleto al utilizar livewire con modal
@@ -29,7 +29,7 @@ class PetController extends Controller
 }
 
     /**
-     * Show the form for creating a new resource.
+     * Muestra el formulario para crear un nuevo recurso.
      */
     public function create()
     {
@@ -40,7 +40,7 @@ class PetController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Almacena un recurso recién creado en el almacenamiento.
      */
     public function store(StorePetRequest $request)
     {
@@ -75,11 +75,11 @@ class PetController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Mostrar el recurso especificado.
      */
     public function show(Pet $pet)
     {
-        //policy poar aque no rompa 403
+        //politica que no rompa 403
         $this->authorize('view', $pet);
         $pet->load(['breed','owner','qrPlate.readings'=> function ($q) {$q->orderBy('created_at');}]);
         $readings = $pet->qrPlate?->readings ?? collect();
@@ -91,7 +91,7 @@ class PetController extends Controller
     
 
     /**
-     * Show the form for editing the specified resource.
+     * Muestra el formulario para editar el recurso especificado.
      */
     public function edit(Pet $pet)
     {
@@ -101,7 +101,7 @@ class PetController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza el recurso especificado en el almacenamiento.
      */
     public function update(StorePetRequest $request, Pet $pet)
     {
@@ -118,7 +118,7 @@ class PetController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina el recurso especificado del almacenamiento.
      */
     public function destroy(Pet $pet)
     {

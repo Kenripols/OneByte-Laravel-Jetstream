@@ -14,7 +14,7 @@
 
                     
               
-                    <!-- BIENVENIDA ESCRITORIO -->
+                    <!-- Bienvenida vista Escritorio -->
 
                     <div class="hidden lg:block max-w-6xl mx-auto">
 
@@ -25,7 +25,7 @@
                                 <div class="px-10 py-10 lg:px-12 flex flex-col justify-center">
 
                                     <h1 class="text-4xl font-bold text-[#000066]">
-                                        Bienvenido a PetFinder
+                                        Bienvenido a PetFindr
                                     </h1>
 
                                     <p class="mt-3 text-xl font-semibold text-[#000066]">
@@ -49,7 +49,7 @@
                                 </div>
 
         
-                                <!-- PANEL DECORATIVO -->
+                                <!-- Panel decoratvio con lineas svg -->
     
                                 <div class="hidden lg:block relative overflow-hidden">
 
@@ -57,7 +57,7 @@
                                     <div class="absolute inset-0 bg-[#EEF5FF]"></div>
 
 
-                                    <!-- Curva SVG -->
+                                    <!-- Linea SVG -->
                                     <svg
                                         class="absolute left-[-1px] top-0 h-full w-56"
                                         viewBox="0 0 240 600"
@@ -128,7 +128,7 @@
 
 
     
-                    <!-- BIENVENIDA CELULAR -->
+                    <!-- Bienvenida vista Celular -->
  
                     <div class="block lg:hidden max-w-6xl mx-auto">
 
@@ -190,7 +190,7 @@
                         <div class="relative overflow-hidden rounded-3xl border-2 border-[#000066] bg-[#EEF5FF] lg:bg-[#F8FAFC] shadow-lg">
 
   
-                            <!-- PANEL DECORATIVO -->
+                            <!-- Panel decoratvio con lineas svg -->
    
                             <div class="hidden lg:block absolute inset-y-0 right-0 w-[34%]">
 
@@ -236,7 +236,7 @@
                             </div>
 
                          
-                            <!-- CONTENIDO -->
+                            <!-- Contenido -->
                            
                             <div class="relative z-10 p-8">
 
@@ -386,7 +386,7 @@
                                     <div>
 
                                         
-                                        <!-- ESCRITORIO -->
+                                        <!-- Vista Escritorio -->
                                        
                                         <div class="hidden lg:block pt-7 px-6 pb-6">
 
@@ -419,7 +419,37 @@
                                                     </p>
 
                                                     <a
-                                                        :href="`/pet/${pets[index].id}`"
+                                                        href="#cambios-estado"
+                                                        @click.prevent="
+                                                            const section = document.getElementById('cambios-estado');
+                                                            const petId = pets[index].id;
+
+                                                            if (section) {
+                                                                const posts = section.querySelectorAll('[data-pet-id]');
+                                                                const post = Array.from(posts).find(
+                                                                    element => element.dataset.petId == petId
+                                                                );
+
+                                                                if (post) {
+                                                                    post.scrollIntoView({
+                                                                        behavior: 'smooth',
+                                                                        block: 'center'
+                                                                    });
+
+                                                                    post.style.backgroundColor = '#E8F0FF';
+                                                                    post.style.transition = 'background-color 0.3s ease';
+
+                                                                    setTimeout(() => {
+                                                                        post.style.backgroundColor = '';
+                                                                    }, 2000);
+                                                                } else {
+                                                                    section.scrollIntoView({
+                                                                        behavior: 'smooth',
+                                                                        block: 'start'
+                                                                    });
+                                                                }
+                                                            }
+                                                        "
                                                         class="mt-8 inline-flex items-center justify-center px-5 py-2 rounded-xl
                                                         border-2 border-[#000066] text-[#000066] bg-[#FFEAEA] font-semibold
                                                         hover:bg-[#f8aaaa] transition"
@@ -444,7 +474,7 @@
 
 
                                         
-                                        <!-- CELULAR -->
+                                        <!-- Vista Celular -->
                                        
                                         <div class="block lg:hidden p-6">
 
@@ -493,13 +523,41 @@
                                             <div class="mt-6">
 
                                                 <a
-                                                    :href="`/pet/${pets[index].id}`"
-                                                    class="w-full h-10 inline-flex items-center justify-center rounded-xl
+                                                    href="#cambios-estado"
+                                                    @click.prevent="
+                                                        const section = document.getElementById('cambios-estado');
+                                                        const petId = pets[index].id;
+
+                                                        if (section) {
+                                                            const posts = section.querySelectorAll('[data-pet-id]');
+                                                            const post = Array.from(posts).find(
+                                                                element => element.dataset.petId == petId
+                                                            );
+
+                                                            if (post) {
+                                                                post.scrollIntoView({
+                                                                    behavior: 'smooth',
+                                                                    block: 'center'
+                                                                });
+
+                                                                post.style.backgroundColor = '#E8F0FF';
+                                                                post.style.transition = 'background-color 0.3s ease';
+
+                                                                setTimeout(() => {
+                                                                    post.style.backgroundColor = '';
+                                                                }, 2000);
+                                                            } else {
+                                                                section.scrollIntoView({
+                                                                    behavior: 'smooth',
+                                                                    block: 'start'
+                                                                });
+                                                            }
+                                                        }"
+                                                    class="mt-8 inline-flex items-center justify-center px-5 py-2 rounded-xl
                                                     border-2 border-[#000066] text-[#000066] bg-[#FFEAEA] font-semibold
-                                                    hover:bg-[#F8aaaa] transition"
-                                                >
-                                                    Ver detalle
-                                                </a>
+                                                    hover:bg-[#f8aaaa] transition">
+                                                        Ver detalle
+                                                    </a>
 
                                             </div>
 
@@ -541,7 +599,7 @@
                         shadow-lg transition-all duration-300 h-[300px] flex flex-col p-6">
 
                    
-                            <!-- DECORACIÓN ESCRITORIO -->
+                            <!-- Decoracion con lineas svg en vista Escritorio -->
                             
                             <div class="hidden lg:block absolute inset-0 pointer-events-none">
 
@@ -582,7 +640,7 @@
 
                             </div>
                           
-                            <!-- CONTENIDO -->
+                            <!-- Contenido -->
                            
                             <div class="relative z-10 flex flex-col h-full">
 
@@ -658,7 +716,7 @@
 
 
                           
-                            <!-- DECORACIÓN ESCRITORIO -->
+                            <!-- Decoracion con lineas svg en vista Celular -->
                             
                             <div class="hidden lg:block absolute inset-0 pointer-events-none">
 
@@ -774,7 +832,7 @@
                     <!-- Cambios de estado -->
                     @if(isset($statusPosts) && count($statusPosts))
 
-                        <div class="bg-[#FFF6F6] border-2 border-[#000066] rounded-3xl
+                        <div id="cambios-estado" class="bg-[#FFF6F6] border-2 border-[#000066] rounded-3xl
                         shadow-lg transition-all duration-300 p-6 h-[385px] flex flex-col">
 
 
@@ -792,8 +850,10 @@
                                 @foreach($statusPosts as $post)
 
 
-                                    <div class="bg-white/50 rounded-2xl p-4 border-2 border-[#000066]
-                                    flex flex-col items-center text-center">
+                                    <div
+                                        data-pet-id="{{ $post->pet?->id }}" 
+                                        class="bg-white/50 rounded-2xl p-4 border-2 border-[#000066]
+                                        flex flex-col items-center text-center">
 
 
                                         @if($post->pet?->photo_url)

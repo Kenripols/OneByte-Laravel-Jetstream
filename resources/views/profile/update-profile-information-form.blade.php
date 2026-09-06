@@ -1,5 +1,5 @@
-<div class="w-full lg:w-1/2">
-    <div class="bg-[#F8FAFC] border-2 border-[#000066] rounded-3xl p-8 shadow-sm">
+<div class="w-full">
+    <div class="h-full bg-[#F8FAFC] border-2 border-[#000066] rounded-3xl p-8 shadow-sm">
         <form wire:submit="updateProfileInformation">
 
             <div>
@@ -7,7 +7,7 @@
                     Información de perfil
                 </h3>
 
-                <p class="mt-2 text-gray-500 leading-relaxed">
+                <p class="mt-2 min-h-[3.5rem] text-gray-500 leading-relaxed">
                     Actualiza tu dirección de correo electrónico.
                 </p>
             </div>
@@ -33,8 +33,7 @@
                         <button
                             type="button"
                             class="underline text-sm text-gray-600 hover:text-[#000066]"
-                            wire:click.prevent="sendEmailVerification"
-                        >
+                            wire:click.prevent="sendEmailVerification">
                             {{ __('Haz clic aquí para reenviar el correo de verificación.') }}
                         </button>
                     </p>
@@ -52,9 +51,15 @@
                     Guardado.
                 </x-action-message>
 
-                <x-button wire:loading.attr="disabled">
+                <button
+                    type="submit"
+                    wire:loading.attr="disabled"
+                    class="inline-flex items-center justify-center rounded-xl border-2 
+                    border-[#000066] bg-white px-5 py-2 text-sm font-semibold 
+                    text-[#000066] transition hover:bg-[#F1F5F9] focus:outline-none 
+                    focus:ring-2 focus:ring-[#000066] focus:ring-offset-2 disabled:opacity-50">
                     Guardar
-                </x-button>
+                </button>
             </div>
 
         </form>

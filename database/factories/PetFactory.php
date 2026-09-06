@@ -13,7 +13,7 @@ use App\Models\User;
 class PetFactory extends Factory
 {
     /**
-     * Define the model's default state.
+     * Define el estado predeterminado del modelo.
      *
      * @return array<string, mixed>
      */

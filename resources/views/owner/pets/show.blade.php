@@ -29,13 +29,13 @@
             </div>
         @endif
 
-        {{-- MAPA --}}
+        {{-- Mapa --}}
         <div class="mt-6">
             <h3 class="text-lg font-semibold mb-2"> Últimas ubicaciones</h3>
             <div id="map" style="height: 400px; border-radius: 10px;"></div>
         </div>
 
-        {{-- OPCIONES OWNER --}}
+        {{-- Opciones del owner --}}
         @role('owner')
         <div class="mt-6">
             <a href="{{ route('owner.pets.edit', $pet) }}" 

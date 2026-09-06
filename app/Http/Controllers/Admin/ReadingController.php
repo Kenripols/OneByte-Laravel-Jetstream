@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class ReadingController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Muestra una lista del recurso.
      */
     public function index()
     {
