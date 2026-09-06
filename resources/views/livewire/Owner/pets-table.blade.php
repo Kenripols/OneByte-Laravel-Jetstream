@@ -48,6 +48,10 @@
                     </th>
 
                     <th class="px-2 sm:px-3 py-2.5 text-center text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider">
+                        QR
+                    </th>
+
+                    <th class="px-2 sm:px-3 py-2.5 text-center text-[11px] sm:text-xs font-semibold text-[#000066] uppercase tracking-wider">
                         Nacimiento
                     </th>
 
@@ -69,7 +73,10 @@
             <tbody class="bg-white divide-y divide-gray-200">
                 @forelse ($pets as $pet)
                     <tr class="hover:bg-[#F8FAFC] transition-all duration-200">
-
+                        <!-- ID -->
+                        <td class="px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm text-gray-600 text-center whitespace-nowrap">
+                            {{ $pet->id }}
+                        </td>
                         <!-- Nombre -->
                         <td wire:click="openModal({{ $pet->id }})"
                             class="px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-semibold text-blue-600 cursor-pointer whitespace-nowrap">

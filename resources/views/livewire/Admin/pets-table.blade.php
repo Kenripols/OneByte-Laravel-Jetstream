@@ -95,16 +95,7 @@
                                     Editar
                                 </button>
 
-                                <button
-                                    wire:click="openDeleteModal({{ $pet->id }})"
-                                    class="w-24 px-3 py-1 text-xs sm:text-sm
-                                        border-2 border-[#000066]
-                                        text-[#000066]
-                                        rounded-lg
-                                        hover:bg-[#ff5555]
-                                        transition">
-                                    Eliminar
-                                </button>
+                                
 
                             </div>
                         </td>
