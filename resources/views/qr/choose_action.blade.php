@@ -15,7 +15,7 @@
             <div class="bg-[#F8FAFC] border-2 border-[#000066] rounded-3xl p-8 sm:p-10 shadow-sm text-center">
 
                 <h1 class="text-3xl font-bold text-[#000066]">
-                    ¿Qué querés hacer con el QR?
+                    ¿Desea usar este QR?
                 </h1>
 
                 <p class="mt-4 text-gray-500 text-base leading-relaxed">
