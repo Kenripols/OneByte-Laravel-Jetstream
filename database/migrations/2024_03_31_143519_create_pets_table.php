@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('pets', function (Blueprint $table) {
             $table->id();
-            $table->string('photo')->nullable();
+            $table->string('photo')->default('pets/imagen-no-disponible.png');
             $table->string('name');
             $table->date('bDate')->nullable();
             

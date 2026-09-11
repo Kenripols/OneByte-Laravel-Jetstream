@@ -20,7 +20,6 @@ class PetFactory extends Factory
     public function definition(): array
     {
         return [
-            'photo' => $this->faker->imageUrl(),
             'name' => $this->faker->firstName(),
             'bDate' => $this->faker->date(),
             'breed_id'=>Breed::factory(), //Aqui se asocia una raza a la Mascota
