@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
+    <title>Petfindr</title>
 
     <!-- Fonts -->
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
@@ -86,7 +86,7 @@
                 <!-- Titulo Movil -->
                 <div class="col-9 d-sm-none text-center">
                     <h1 class="titulo-movil">
-                        PetFinder
+                        PetFindr
                     </h1>
 
                     <p class="subtitulo-movil">
@@ -115,7 +115,7 @@
                 <!-- Titulo Escritorio -->
                 <div class="col-sm-8 d-none d-sm-block text-center">
                     <h1 class="titulo-escritorio">
-                        PetFinder
+                        PetFindr
                     </h1>
 
                     <p class="subtitulo-escritorio">

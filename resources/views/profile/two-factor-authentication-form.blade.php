@@ -71,8 +71,7 @@
                                 autofocus
                                 autocomplete="one-time-code"
                                 wire:model.live="code"
-                                wire:keydown.enter="confirmTwoFactorAuthentication"
-                            />
+                                wire:keydown.enter="confirmTwoFactorAuthentication"/>
 
                             <x-input-error for="code" class="mt-2" />
                         </div>
@@ -106,8 +105,11 @@
                         <button
                             type="button"
                             wire:loading.attr="disabled"
-                            class="inline-flex items-center justify-center rounded-xl border-2 border-[#000066] bg-white px-5 py-2 text-sm font-semibold text-[#000066] transition hover:bg-[#F1F5F9] focus:outline-none focus:ring-2 focus:ring-[#000066] focus:ring-offset-2 disabled:opacity-50"
-                        >
+                            class="inline-flex items-center justify-center rounded-xl 
+                            border-2 border-[#000066] bg-white px-5 py-2 text-sm 
+                            font-semibold text-[#000066] transition hover:bg-[#F1F5F9] 
+                            focus:outline-none focus:ring-2 focus:ring-[#000066] 
+                            focus:ring-offset-2 disabled:opacity-50">
                             Habilitar
                         </button>
                     </x-confirms-password>
@@ -128,8 +130,7 @@
                             <x-button
                                 type="button"
                                 class="me-3"
-                                wire:loading.attr="disabled"
-                            >
+                                wire:loading.attr="disabled">
                                 Confirmar
                             </x-button>
                         </x-confirms-password>
